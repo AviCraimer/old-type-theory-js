@@ -6,7 +6,7 @@ import WelcomePage from 'components/WelcomePage';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import {simpleTypeTheory} from "../libraries/simpleTypeTheory";
 
-
+window.simpleTypeTheory = simpleTypeTheory;
 
 class App extends React.PureComponent {
   render() {
