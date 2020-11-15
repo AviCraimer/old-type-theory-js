@@ -1,17 +1,11 @@
 {
-  "name": "react-webpack-babel-starter",
+  "name": "type-theory-js",
   "version": "0.1.0",
-  "description": "Starter kit for React, Webpack (with Hot Module Replacement) and Babel.",
+  "description": "Experimental Implementations of Type Theories in Javascript",
   "keywords": [
-    "react",
-    "webpack",
-    "babel",
-    "sass",
-    "hmr",
-    "starter",
-    "boilerplate"
+
   ],
-  "author": "Viktor Persson",
+  "author": "Richard Southwell and Avi Craimer",
   "license": "MIT",
   "repository": {
     "type": "git",

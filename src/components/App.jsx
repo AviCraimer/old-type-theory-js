@@ -4,9 +4,14 @@ import 'assets/scss/App.scss';
 import AboutPage from 'components/AboutPage';
 import WelcomePage from 'components/WelcomePage';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import {simpleTypeTheory} from "../libraries/simpleTypeTheory";
+
+
 
 class App extends React.PureComponent {
   render() {
+    console.log("Simple Type Theory Object: \n",  simpleTypeTheory);
+
     return (
       <BrowserRouter>
         <div className="app">
