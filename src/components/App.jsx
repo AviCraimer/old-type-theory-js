@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import {simpleTypeTheory} from "../libraries/simpleTypeTheory";
 
 window.simpleTypeTheory = simpleTypeTheory;
+window.avi = simpleTypeTheory.avi;
+window.richard = simpleTypeTheory.richard;
 
 class App extends React.PureComponent {
   render() {
