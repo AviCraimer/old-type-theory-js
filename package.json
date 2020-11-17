@@ -2,9 +2,7 @@
   "name": "type-theory-js",
   "version": "0.1.0",
   "description": "Experimental Implementations of Type Theories in Javascript",
-  "keywords": [
-
-  ],
+  "keywords": [],
   "author": "Richard Southwell and Avi Craimer",
   "license": "MIT",
   "repository": {
@@ -62,6 +60,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "lodash": "^4.17.20"
   }
 }
