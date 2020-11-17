@@ -12,12 +12,12 @@
 
 ## Installation
 1. Clone/download repo
-2. `yarn install` (or `npm install` for npm)
+2. `npm install` (or `npm install` for npm)
 
 ## Usage
 **Development**
 
-`yarn run start-dev`
+`npm run start-dev`
 
 * Build app continously (HMR enabled)
 * App served @ `http://localhost:8080`
