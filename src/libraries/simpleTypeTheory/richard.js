@@ -115,7 +115,7 @@ function MembershipAssertion(value, type) {
     this.type = type;
     this.label = "MembershipAssertion";
 }
-
+ 
 richard.MembershipAssertionExample1 = new MembershipAssertion("a", "A");
 richard.MembershipAssertionExample2 = new MembershipAssertion("b", "B");
 
@@ -130,11 +130,26 @@ function Hypothetical(context, assertion){
 richard.MembershipHypotheticalExample1 = new Hypothetical([], richard.MembershipAssertionExample1);
 richard.MembershipHypotheticalExample2 = new Hypothetical([], richard.MembershipAssertionExample2);
 
-function ProductIntroduction(hyp1, hyp2) {
-    if (!(_.isEqual(hyp1.context,hyp2.context))) {throw new Error("im an error message")}
-    this.context = hyp1.context;
+/*
 
+Below wants debugging
+
+function ProductIntroduction(hyp1, hyp2) {
+    if (!(_.isEqual(hyp1.context,hyp2.context))) {throw new Error("Contexts should be the same")}
+    this.context = hyp1.context;
+    const valuePair = {first: hyp1.assertion.value, second: hyp2.assertion.value};
+    const typePair = {first: hyp1.assertion.type, second: hyp2.assertion.type};    
+    this.assertion = MembershipAssertion(valuePair, typePair)
 }
+
+*/
+
+
+// need to make sure both hyps are membership assertions
+
+//richard.ProductObjectExample = new ProductIntroduction(richard.MembershipHypotheticalExample1,richard.MembershipHypotheticalExample2);
+
+
 
 // does _.isEqual work for lists of objects ?
 
