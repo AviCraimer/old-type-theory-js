@@ -61,7 +61,16 @@ richdone.universeIntro = (inputContext, level) =>  {
 
 richdone.myUniverseSequent = richdone.universeIntro(richdone.emptyContext, 0);
 
-// below implements ctx-Ext, from page 554 of the HoTT book
+/* below implements ctx-Ext, from page 554 of the HoTT book.
+Basically, if the input sequent has a consequent that is a judgement that 
+a term is a member of a universe, then we can make a variable with a type 
+the same as that of the term. We output such a membership judgement appended to the 
+end of the context of the input sequent.
+
+It would be nice to record the types of terms as they are made, but this seems to 
+cause issues when we have an infinite stack of universes. 
+*/
+
 richdone.contextExtension = (inputSequent, variableName) =>  {
     if (!inputSequent.kind == "sequent") {
         throw new Error("Argument must be a sequent");
@@ -95,30 +104,26 @@ richdone.contextExtension = (inputSequent, variableName) =>  {
 
 richdone.myFirstGoodContext = richdone.contextExtension(richdone.myUniverseSequent,"AA")
 
-// try
-// simpleTypeTheory.richdone.myFirstGoodContext.entries[0].value
-
-
-// for now there are just two universes, the basic one, and the "parentUniverse"
-
-
-/*
-richdone.universeIntro = (inputContext) =>  {
-    if (!entries in inputContext) {
+// not sure what to call this inference rule. It is Vble from page 554 of the HoTT book.
+richdone.vble = (inputContext, index) => {
+    if (!inputContext.kind == "context") {
         throw new Error("First argument must be a context");
     }
-    return {
-        kind: "term",
-        name: "universe 0",
-        label: "universe",
-        hasType: "universe 1"
-    }
-
-if (!expressionKey in expression) {
-    throw new Error("Type judgements need an expression, or no argument");
+    // HAVE to check inputContext.entries is not empty, and index is in 0..(inputContext.entries.length - 1)
+    const outputConsequent = inputContext.entries[index];
+    const outputSequent = {
+        kind: "sequent",
+        context: inputContext,
+        consequent: outputConsequent
+    };
+    return outputSequent;
 }
 
-*/
+// "AA is of type universe0 entails AA is of type universe0"
+richdone.AAisEntailsAAis = richdone.vble(richdone.myFirstGoodContext,0);
+// try
+// simpleTypeTheory.richdone.AAisEntailsAAis.consequent.value
+
 
 
 export default richdone;
