@@ -1,7 +1,7 @@
 const richob = {}
 
 //A symbol is like a string, but it is guarenteed to be unique
-//The code below is an object. 
+//The code below is an object.
 richob.expressionKinds = {
     variable: Symbol("a variable"),
     product: Symbol("a product"),
@@ -28,9 +28,10 @@ richob.judgementKinds = {
 const {judgementKinds, expressionKinds} = richob;
 
 
-// Below returns the string which is the expression's name, wrapped in brackets iff the 
+// Below returns the string which is the expression's name, wrapped in brackets iff the
 // expression is not a variable
 // what's the use ?
+    //AVI: It allows the toString methods to output strings for nested expressions and put brackets around compound expressions but not around atomic variables. e.g., see the tests: (T_O x T_1) x T_1
 richob.bracketedExpressionString = (expression) => {
     if (! expressionKey in expression) {
         throw new Error("Not an expression");
@@ -41,18 +42,21 @@ richob.bracketedExpressionString = (expression) => {
     } else {
         return `(${expression.toString()})`
         // what does the syntax in the previous line mean ?
-        // `(${"dog"})` 
+        // `(${"dog"})`
         // is "(dog)"
-        // `cat` 
+        // `cat`
         // is "cat"
+
+            //Avi: Yes. Using the backticks `` you can insert any javascript expression inside ${} and it will execute and concatente the results into the string. This is called a "string template literal"
     }
 }
 
 //No to be called directly
 let  termVariableCounter = 0;
 let  typeVariableCounter = 0;
-// WE SHOULD MAYBE HAVE A STACK OF UNIVERSES EVENTUALLY 
-// if no inputs are given, the function below makes a new variable, otherwise it makes a new type
+// WE SHOULD MAYBE HAVE A STACK OF UNIVERSES EVENTUALLY
+// if no inputs are given, the function below makes a new variable, if the typeVar is set to true it makes that variable name a T_n
+
 richob.makeVariable = (name, typeVar) => {
     if (!name) {
         if (typeVar === true) {
@@ -63,7 +67,7 @@ richob.makeVariable = (name, typeVar) => {
             typeVariableCounter++;
         } else {
             name = "x_" + termVariableCounter;
-            
+
 
             //Increment the term variable counter
             termVariableCounter++;
@@ -75,13 +79,13 @@ richob.makeVariable = (name, typeVar) => {
         // name is a string
         [expressionKey]: expressionKinds.variable,
 
-        /* x = richob.makeVariable 
+        /* x = richob.makeVariable
          x[expressionKey] says the kind of the expression is a variable,
-         but how to display this in the console ? For example, if I do 
-         mv = simpleTypeTheory.avi.makeVariable("bob",false) 
+         but how to display this in the console ? For example, if I do
+         mv = simpleTypeTheory.avi.makeVariable("bob",false)
          Then how can I see mv[expressionKey] in the console ?
          since expressionKey is not in the console */
-
+            //Avi: it goes on the expression object, so you if you log that object to the console you will see it as one of the properties fo the object.
         toString: () => name
     }
 }
