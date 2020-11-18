@@ -1,7 +1,5 @@
 const avi = {}
 
-let  termVariableCounter = 0;
-let  typeVariableCounter = 0;
 
 //A symbol is like a string, but it is guarenteed to be unique
 avi.expressionKinds = {
@@ -21,6 +19,10 @@ avi.judgementKinds = {
 const {judgementKinds, expressionKinds} = avi;
 
 avi.bracketedExpressionString = (expression) => {
+    if (! expressionKey in expression) {
+        throw new Error("Not an expression");
+    }
+
     if (expression[expressionKey] === expressionKinds.variable) {
         return expression.toString();
     } else {
@@ -29,6 +31,8 @@ avi.bracketedExpressionString = (expression) => {
 }
 
 //No to be called directly
+let  termVariableCounter = 0;
+let  typeVariableCounter = 0;
 avi.makeVariable = (name, typeVar) => {
     if (!name) {
         if (typeVar === true) {
@@ -72,7 +76,7 @@ avi.typeJudgement = (expression) => {
 }
 
 avi.membershipJudgement = (typeJudgement) => {
-    const termVariable = avi.makeVariable()
+    const termExpression = avi.makeVariable()
 
     if (!typeJudgement.judgement === judgementKinds.type ) {
         throw new Error("Membership judgement was called without a type Judgement.\n Instead " + typeJudgement + "was provided");
@@ -80,8 +84,9 @@ avi.membershipJudgement = (typeJudgement) => {
 
     return {
         judgement: judgementKinds.membership,
-        term: termVariable,
-        ofType: typeJudgement.expression
+        term: termExpression,
+        ofType: typeJudgement.expression,
+        toString: () => `${termExpression.toString()} : ${typeJudgement.expression.toString()}`
     }
 }
 
