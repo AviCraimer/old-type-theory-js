@@ -28,6 +28,67 @@ richob.judgementKinds = {
 const {judgementKinds, expressionKinds} = richob;
 
 
+// Below returns the string which is the expression's name, wrapped in brackets iff the 
+// expression is not a variable
+// what's the use ?
+richob.bracketedExpressionString = (expression) => {
+    if (! expressionKey in expression) {
+        throw new Error("Not an expression");
+    }
+
+    if (expression[expressionKey] === expressionKinds.variable) {
+        return expression.toString();
+    } else {
+        return `(${expression.toString()})`
+        // what does the syntax in the previous line mean ?
+        // `(${"dog"})` 
+        // is "(dog)"
+        // `cat` 
+        // is "cat"
+    }
+}
+
+//No to be called directly
+let  termVariableCounter = 0;
+let  typeVariableCounter = 0;
+// WE SHOULD MAYBE HAVE A STACK OF UNIVERSES EVENTUALLY 
+// if no inputs are given, the function below makes a new variable, otherwise it makes a new type
+richob.makeVariable = (name, typeVar) => {
+    if (!name) {
+        if (typeVar === true) {
+            name = "T_" + typeVariableCounter;
+            // if the variable made is a type, should that be recorded in the object information ?
+
+            //Increment the type variable counter
+            typeVariableCounter++;
+        } else {
+            name = "x_" + termVariableCounter;
+            
+
+            //Increment the term variable counter
+            termVariableCounter++;
+        }
+    }
+
+    return  {
+        name: name,
+        // name is a string
+        [expressionKey]: expressionKinds.variable,
+
+        /* x = richob.makeVariable 
+         x[expressionKey] says the kind of the expression is a variable,
+         but how to display this in the console ? For example, if I do 
+         mv = simpleTypeTheory.avi.makeVariable("bob",false) 
+         Then how can I see mv[expressionKey] in the console ?
+         since expressionKey is not in the console */
+
+        toString: () => name
+    }
+}
+
+
+
+
 
 
 
