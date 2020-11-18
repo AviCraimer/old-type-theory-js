@@ -110,14 +110,50 @@ richard.productIntro = (s1, s2) => {
 
 richard.productExample = richard.productIntro([[],["a","A"]],[[],["b","B"]])
 
-/* 
-richard.Car = (make, model, year) => {
-    this.make = make;
-    this.model = model;
-    this.year = year;
-  }
+function MembershipAssertion(value, type) {
+    this.value = value;
+    this.type = type;
+    this.label = "MembershipAssertion";
+}
+ 
+richard.MembershipAssertionExample1 = new MembershipAssertion("a", "A");
+richard.MembershipAssertionExample2 = new MembershipAssertion("b", "B");
 
-  */
+function Hypothetical(context, assertion){
+    this.context = context;
+    this.assertion = assertion;
+}
+//how to make sure the assertion is a membership assertion or an equality assertion ?
+//how to make sure the context is an array of membership assertions ?
+
+
+richard.MembershipHypotheticalExample1 = new Hypothetical([], richard.MembershipAssertionExample1);
+richard.MembershipHypotheticalExample2 = new Hypothetical([], richard.MembershipAssertionExample2);
+
+/*
+
+Below wants debugging
+
+function ProductIntroduction(hyp1, hyp2) {
+    if (!(_.isEqual(hyp1.context,hyp2.context))) {throw new Error("Contexts should be the same")}
+    this.context = hyp1.context;
+    const valuePair = {first: hyp1.assertion.value, second: hyp2.assertion.value};
+    const typePair = {first: hyp1.assertion.type, second: hyp2.assertion.type};    
+    this.assertion = MembershipAssertion(valuePair, typePair)
+}
+
+*/
+
+
+// need to make sure both hyps are membership assertions
+
+//richard.ProductObjectExample = new ProductIntroduction(richard.MembershipHypotheticalExample1,richard.MembershipHypotheticalExample2);
+
+
+
+// does _.isEqual work for lists of objects ?
+
+//////////////////////////// toy examples
 
 richard.carExample = new Car ('Eagle', 'Talon TSi', 1993);
 
@@ -127,13 +163,28 @@ function Car(make, model, year) {
     this.year = year;
   }
 
-function MembershipAssertion(value, type) {
-    this.value = value;
-    this.type = type;
-    this.label = "MembershipAssertion";
+/*
+richard.Carrr = (make, model, year) => {
+    some.make = make;
+    some.model = model;
+    some.year = year;
+    return(some);
+  }
+
+richard.carExample2 = richard.Carrr ('Eagle', 'Talon TSi', 1993);
+
+*/
+
+function AddCars(car1, car2) {
+    this.car1 = car1.make + car2.make;
+    this.model = car1.model + car2.model;
+    this.year = car1.year + car2.year;
 }
 
-richard.MembershipAssertionExample1 = new MembershipAssertion("b", "B");
+richard.carExample3 = new AddCars (richard.carExample,richard.carExample);
+// can use similar idea to do Times intro
+
+
 
 
 /* try this
