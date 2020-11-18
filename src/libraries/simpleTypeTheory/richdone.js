@@ -119,11 +119,22 @@ richdone.vble = (inputContext, index) => {
     return outputSequent;
 }
 
-// "AA is of type universe0 entails AA is of type universe0"
+// "AA has type universe0 entails AA has type universe0"
 richdone.AAisEntailsAAis = richdone.vble(richdone.myFirstGoodContext,0);
 // try
 // simpleTypeTheory.richdone.AAisEntailsAAis.consequent.value
 
+// ("AA has type universe0", "xx has type AA") is a context  
+richdone.AAandxxCTX = richdone.contextExtension(richdone.AAisEntailsAAis,"xx");
 
+// ("AA has type universe0", "xx has type AA" entails "xx has type AA")
+richdone.gotVariable = richdone.vble(richdone.AAandxxCTX,1);
+// try
+// simpleTypeTheory.richdone.gotVariable.context.entries[0].value
+// simpleTypeTheory.richdone.gotVariable.context.entries[0].type
+// simpleTypeTheory.richdone.gotVariable.context.entries[1].value
+// simpleTypeTheory.richdone.gotVariable.context.entries[1].type
+// simpleTypeTheory.richdone.gotVariable.consequent.value
+// simpleTypeTheory.richdone.gotVariable.consequent.type
 
 export default richdone;
