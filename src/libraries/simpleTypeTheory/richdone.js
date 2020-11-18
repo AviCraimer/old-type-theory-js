@@ -2,12 +2,7 @@ import richard from "./richard";
 
 const richdone = {}
 
-// best version goes here
-
-richdone.emptyContext = {
-    kind: "context",
-    entries: []
-}
+// my best version goes here
 
 
 /*
@@ -25,9 +20,13 @@ A "context" -a list of membership judgements
 
 A "sequent" -a context followed by a membership or equality judgement
 
-
-
 */
+
+richdone.emptyContext = {
+    kind: "context",
+    entries: []
+}
+
 
 richdone.universeIntro = (inputContext, level) =>  {
     if (!inputContext.kind == "context") {
@@ -60,8 +59,44 @@ richdone.universeIntro = (inputContext, level) =>  {
     return outputSequent
 }
 
-richdone.myFirstUniverse = richdone.universeIntro(richdone.emptyContext, 0);
+richdone.myUniverseSequent = richdone.universeIntro(richdone.emptyContext, 0);
 
+// below implements ctx-Ext, from page 554 of the HoTT book
+richdone.contextExtension = (inputSequent, variableName) =>  {
+    if (!inputSequent.kind == "sequent") {
+        throw new Error("Argument must be a sequent");
+    }
+    if (!inputSequent.consequent.kind == "membership judgement") {
+        throw new Error("Consequent of sequent must be a membership judgement")
+    }
+    if (!inputSequent.consequent.type.label == "universe") {
+        throw new Error("Consequent of sequent must refer to a member of a universe")
+    }
+    var inputContextEntries = inputSequent.context.entries;
+    // HAVE to check none of the values of the input context entries have the same name as variableName
+    // Should also check variableName is a string, and add default with counter, if it's missing.
+    const newTerm = {
+        kind: "term",
+        label: "variable",
+        name: variableName
+    };
+    const newMembershipJudgement = {
+        kind: "membership judgement",
+        value: newTerm,
+        type: inputSequent.consequent.value
+    };
+    inputContextEntries.push(newMembershipJudgement);
+    const outputContext = {
+        kind: "context",
+        entries: inputContextEntries
+    };
+    return outputContext;
+}
+
+richdone.myFirstGoodContext = richdone.contextExtension(richdone.myUniverseSequent,"AA")
+
+// try
+// simpleTypeTheory.richdone.myFirstGoodContext.entries[0].value
 
 
 // for now there are just two universes, the basic one, and the "parentUniverse"
