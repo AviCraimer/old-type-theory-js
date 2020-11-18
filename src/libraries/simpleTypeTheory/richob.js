@@ -7,7 +7,7 @@ richob.expressionKinds = {
     product: Symbol("a product"),
     coproduct: Symbol("a coproduct")
 }
-// ADD UNIT AND EMPTY TYPES
+// ADD UNIT TYPE, STAR, EMPTY TYPES, PAIRS, FUNCTIONS, LAMBDA'S ETC.
 // example:
 // simpleTypeTheory.richob.expressionKinds.product
 
