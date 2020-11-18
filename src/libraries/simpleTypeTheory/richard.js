@@ -185,6 +185,19 @@ richard.carExample3 = new AddCars (richard.carExample,richard.carExample);
 // can use similar idea to do Times intro
 
 
+richard.expressionKey2 = Symbol("Is an expression of kind: ")
+
+richard.objectExample = {
+    name: "hi",
+    [richard.expressionKey2]: "hello"
+}
+
+/*
+y = simpleTypeTheory.richard.objectExample
+e = simpleTypeTheory.richard.expressionKey2
+y[e]
+mv = simpleTypeTheory.avi.makeVariable("bob",false) 
+*/
 
 
 /* try this
