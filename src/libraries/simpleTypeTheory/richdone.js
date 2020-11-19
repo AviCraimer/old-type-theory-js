@@ -149,21 +149,75 @@ richdone.addVariableTypeToContext = (inputContext, variableName) => {
     return outputContext;
 }
 
-// The next rule comes from HoTT page 554, but I guess it is also required for simple type theory 
+richdone.takeBackElements = (theArray, n) => {
+    return theArray.slice(-n);
+}
 
-richdone.weakening = (inputSequent1, inputSequent2) => {
+// The next rule comes from the HoTT book, page 554 (Wkg1), but I guess it is also required for simple type theory 
+richdone.weakening = (inputSequent1, inputSequent2, variableName) => {
     // HAVE to check inputs really are sequents
+    // check consequent of first sequent is a universe membership judgement
+    // check consequent of second sequent is a membership judgement
     if (inputSequent1.context.entries.length > inputSequent2.context.entries.length) {
         throw new Error("The context of the first sequent cannot be longer than the context of the second")
     }
     if (!_.isEqual(inputSequent1.context.entries,inputSequent2.context.entries.slice(0,inputSequent1.context.entries.length))) {
         throw new Error("First sequent's context must be a prefix of second sequent's context")
     }
-
-    
-    
-
+    // Below is Delta from the book
+    const residueContextEntries = inputSequent2.context.entries.slice(-(inputSequent1.context.entries.length));
+    const newTerm = {
+        kind: "term",
+        label: "variable",
+        name: variableName
+    };
+    const newMembershipJudgement = {
+        kind: "membership judgement",
+        value: newTerm,
+        type: inputSequent1.consequent.value
+    };
+    const outputContextEntries = inputSequent1.context.entries.concat([newMembershipJudgement]).concat(residueContextEntries);
+    const outputContext = {
+        kind: "context",
+        entries: outputContextEntries
+    };
+    const outputSequent = {
+        kind: "sequent",
+        context: outputContext,
+        consequent: inputSequent2.consequent
+    };
+return outputSequent; 
 }
+
+// test weakening
+
+// we should maybe also implement the substitution rule and the equality rules from pages 554 and 555 of the book
+// also U-CUMUL could be implemented
+
+richdone.productIntro = (inputSequent1, inputSequent2) => {
+// test sequents are proper, with same contexts, and both have consequents as membership judgements 
+// about the same level universe
+const productTerm = {
+    kind: "term",
+    label: "product",
+    name: "product " + inputSequent1.consequent.value.name + inputSequent2.consequent.value.name,
+    first: inputSequent1.consequent.value,
+    second: inputSequent2.consequent.value 
+};
+const outputConsequent = {
+    kind: "membership judgement",
+    value: productTerm,
+    type: inputSequent1.consequent.type
+};
+const outputSequent = {
+    kind: "sequent",
+    context: inputSequent1.context,
+    consequent: outputConsequent
+};
+return outputSequent 
+}
+
+//warnings and tests need adding above
 
 export default richdone;
 
