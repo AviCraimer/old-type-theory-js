@@ -90,6 +90,32 @@ richob.makeVariable = (name, typeVar) => {
     }
 }
 
+//Produces a variable and judges it to be a type
+//I'm doing it this way since we haven't introduced universes yet
+
+// function below judges an expression to be a type, or makes a new type 
+// if no expression is supplied.
+richob.typeJudgement = (expression) => {
+
+    //If expression is falsey, form a new atomic type variable
+    if (!expression) {
+        expression = richob.makeVariable("", true)
+
+    } //If expression is truthy check that it is an expression
+    else if (!expressionKey in expression) {
+        throw new Error("Type judgements need an expression, or no argument");
+    }
+
+    return  {
+        expression,
+        // does this make the same object as expression, but with the judgement
+        // and toString slots appended/rewritten ?
+        judgement: judgementKinds.type,
+        toString: () => expression.toString() + " type"
+    }
+}
+
+
 
 
 

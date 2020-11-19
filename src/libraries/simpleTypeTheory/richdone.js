@@ -1,3 +1,4 @@
+import _ from "lodash"
 import richard from "./richard";
 
 const richdone = {}
@@ -137,4 +138,33 @@ richdone.gotVariable = richdone.vble(richdone.AAandxxCTX,1);
 // simpleTypeTheory.richdone.gotVariable.consequent.value
 // simpleTypeTheory.richdone.gotVariable.consequent.type
 
+// Below proves the theoem that we can introduce a variable type (of universe level 0) 
+// into any context. This can be taken as an axiom, together with vble and contextExtension
+// to initialize the simple type theory.
+richdone.addVariableTypeToContext = (inputContext, variableName) => {
+    // HAVE to check input really is a context
+    // variableName must be new to the context
+    const universeSequent = richdone.universeIntro(inputContext, 0);
+    const outputContext = richdone.contextExtension(universeSequent,variableName);
+    return outputContext;
+}
+
+// The next rule comes from HoTT page 554, but I guess it is also required for simple type theory 
+
+richdone.weakening = (inputSequent1, inputSequent2) => {
+    // HAVE to check inputs really are sequents
+    if (inputSequent1.context.entries.length > inputSequent2.context.entries.length) {
+        throw new Error("The context of the first sequent cannot be longer than the context of the second")
+    }
+    if (!_.isEqual(inputSequent1.context.entries,inputSequent2.context.entries.slice(0,inputSequent1.context.entries.length))) {
+        throw new Error("First sequent's context must be a prefix of second sequent's context")
+    }
+
+    
+    
+
+}
+
 export default richdone;
+
+
