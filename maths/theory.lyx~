@@ -75,6 +75,38 @@ Simple Type Theory
 \end_layout
 
 \begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+In this document we describe typed lambda calculus with sums.
+ This is a formalization of the type theory described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+, but so that well formed contexts and types are generated following explicit
+ inference rules, like in the appendix A2 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HoTT book"
+
+\end_inset
+
+.
+ The terminology is mostly taken from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ncatlab"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
 Basics
 \end_layout
 
@@ -376,10 +408,17 @@ The base type
 \begin_inset Formula $\Gamma.$
 \end_inset
 
- Here we assume we have some list of base types If we are trying to model
- a paricular system we may have specific base types ready, but for now let
- ud just think of base types as variable types (although in this document
- we reserve the phrase 
+ Here we assume we have some list of base types 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+.
+ If we are trying to model a paricular system we may have specific base
+ types ready, but for now let us just think of base types as variable types
+ (although in this document we reserve the phrase 
 \begin_inset Quotes eld
 \end_inset
 
@@ -405,7 +444,7 @@ ons using the following:
 \begin{equation}
 \begin{array}{c}
 \Gamma::(A\hspace{1em}\text{type})::\Delta\hspace{1em}\text{ctx}\\
-\overline{\Gamma::(A\hspace{1em}\text{type})::\Delta\vdash(A\hspace{1em}\text{type})}
+\overline{\Gamma::(A\hspace{1em}\text{type})::\Delta\vdash A\hspace{1em}\text{type}}
 \end{array}\text{Vble1}
 \end{equation}
 
@@ -424,6 +463,11 @@ where
 \end_inset
 
  are contexts.
+\end_layout
+
+\begin_layout Standard
+All the rules we have discussed could be derived in homotopy type theory
+ (HoTT).
 \end_layout
 
 \begin_layout Subsection
@@ -445,7 +489,7 @@ Here is an example of how we derive the judgement
 \\
 \overline{.\hspace{1em}\text{ctx}}\\
 \overline{(A\hspace{1em}\text{type})\hspace{1em}\text{ctx}}\\
-\overline{(A\hspace{1em}\text{type})\vdash(A\hspace{1em}\text{type})}
+\overline{(A\hspace{1em}\text{type})\vdash A\hspace{1em}\text{type}}
 \end{array}
 \end{equation}
 
@@ -463,7 +507,182 @@ Forming Other Types
 \end_layout
 
 \begin_layout Standard
-The 
+This rule lets us form the unit type
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash1\hspace{1em}\text{type}}
+\end{array}\text{Unit-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, product types 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\hspace{1em}\text{type}\hspace{1em}\Gamma\vdash B\hspace{1em}\text{type}}\\
+\Gamma\vdash A\times B\hspace{1em}\text{type}
+\end{array}\text{Prod-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+EMPTY
+\end_layout
+
+\begin_layout Standard
+COPRODUCT
+\end_layout
+
+\begin_layout Section
+Forming Variables
+\end_layout
+
+\begin_layout Standard
+We make a variable 
+\begin_inset Formula $x$
+\end_inset
+
+ of type 
+\begin_inset Formula $A$
+\end_inset
+
+ using the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash A\hspace{1em}\text{type}\\
+\overline{\Gamma::(x:A)\hspace{1em}\text{ctx}}
+\end{array}\text{ctx-EXT2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $x$
+\end_inset
+
+ must be distinct from each term in the context 
+\begin_inset Formula $\Gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Judgments about variables can be formed with the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::(x:A)::\Delta\hspace{1em}\text{ctx}\\
+\overline{\Gamma::(x:A)::\Delta\vdash x:A}
+\end{array}\text{Vble2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Example
+\end_layout
+
+\begin_layout Standard
+The following picture shows how we derive the rule 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\\
+\overline{(A\hspace{1em}\text{type},B\hspace{1em}\text{type},p:A\times B)\vdash p:A\times B}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "lambdasums"
+
+\end_inset
+
+
+\emph on
+Extensional Normalisation and Type-Directed Partial Evaluation for Typed
+ Lambda Calculus with Sums
+\emph default
+ Vincent Balat, Roberto Di Cosmo, Marcelo Fiore
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "HoTT book"
+
+\end_inset
+
+Homotopy Type Theory Book
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "ncatlab"
+
+\end_inset
+
+ncatlab type theory page 
+\begin_inset CommandInset href
+LatexCommand href
+name "ncatlab type theory"
+target "https://ncatlab.org/nlab/show/type+theory"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-5"
+
+\end_inset
+
+
 \end_layout
 
 \end_body
