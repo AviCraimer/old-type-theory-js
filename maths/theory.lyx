@@ -125,7 +125,15 @@ type
 variables
 \series default
  (as we explain later).
- Each term has a set/list of 
+ Each term 
+\begin_inset Formula $t$
+\end_inset
+
+ has a set 
+\begin_inset Formula $FV(t)$
+\end_inset
+
+ of 
 \series bold
 free variables
 \series default
@@ -516,7 +524,7 @@ This rule lets us form the unit type
 \begin{array}{c}
 \Gamma\hspace{1em}\text{ctx}\\
 \overline{\Gamma\vdash1\hspace{1em}\text{type}}
-\end{array}\text{Unit-Intro}
+\end{array}\text{Unit-Form}
 \end{equation}
 
 \end_inset
@@ -534,7 +542,7 @@ Next, product types
 \begin{array}{c}
 \underline{\Gamma\vdash A\hspace{1em}\text{type}\hspace{1em}\Gamma\vdash B\hspace{1em}\text{type}}\\
 \Gamma\vdash A\times B\hspace{1em}\text{type}
-\end{array}\text{Prod-Intro}
+\end{array}\text{Product-Form}
 \end{equation}
 
 \end_inset
@@ -570,7 +578,7 @@ Next, sum types
 \begin{array}{c}
 \underline{\Gamma\vdash A\hspace{1em}\text{type}\hspace{1em}\Gamma\vdash B\hspace{1em}\text{type}}\\
 \Gamma\vdash A+B\hspace{1em}\text{type}
-\end{array}\text{Sum-Intro}
+\end{array}\text{Sum-Form}
 \end{equation}
 
 \end_inset
@@ -621,6 +629,27 @@ Note that
 \end_layout
 
 \begin_layout Standard
+Note the ctx-EXT2 is the first time we have made a term (the variable 
+\begin_inset Formula $x$
+\end_inset
+
+ is a term of type 
+\begin_inset Formula $A$
+\end_inset
+
+).
+ The set of free variables of this newly made 
+\begin_inset Formula $x$
+\end_inset
+
+ is 
+\begin_inset Formula $FV(x)=\left\{ x\right\} .$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Judgments about variables can be formed with the following rule
 \end_layout
 
@@ -663,10 +692,120 @@ The following picture shows how we derive the rule
 \begin_layout Standard
 \begin_inset Graphics
 	filename productJudgment.jpg
-	scale 50
+	scale 10
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Section
+The Other Typing Rules
+\end_layout
+
+\begin_layout Subsection
+Products
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash\ast:1}
+\end{array}\text{Unit-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $\ast$
+\end_inset
+
+ has the empty set 
+\begin_inset Formula $FV(\ast)=\left\{ \right\} $
+\end_inset
+
+ of free variables.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B}\\
+\Gamma\vdash\left\langle a,b\right\rangle :A\times B
+\end{array}\text{Product-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $FV\left(\left\langle a,b\right\rangle \right)=FV(a)\cup FV(b)$
+\end_inset
+
+ where 
+\begin_inset Formula $\cup$
+\end_inset
+
+ denotes the set theoretic union.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash p:A\times B}\\
+\Gamma\vdash\text{fst}(p):A
+\end{array}\text{Product-Elim1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{fst}(p))=FV(p).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash p:A\times B}\\
+\Gamma\vdash\text{snd}(p):B
+\end{array}\text{Product-Elim2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{snd}(p))=FV(p).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sums
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
