@@ -171,7 +171,7 @@ A
 universal declaration
 \series default
  
-\begin_inset Formula $A\hspace{1em}\text{type}$
+\begin_inset Formula $A\_\text{type}$
 \end_inset
 
  says that 
@@ -192,7 +192,7 @@ An
 equality declaration
 \series default
  
-\begin_inset Formula $x=y:A$
+\begin_inset Formula $x\equiv y:A$
 \end_inset
 
  says values 
@@ -398,7 +398,7 @@ The next rule allows a well formed context to be extended by introducing
 \begin{equation}
 \begin{array}{c}
 \Gamma\hspace{1em}\text{ctx}\\
-\overline{\Gamma::(A\hspace{1em}\text{type})\hspace{1em}\text{ctx}}
+\overline{\Gamma::(A\_\text{type})\hspace{1em}\text{ctx}}
 \end{array}\text{ctx-EXT1}
 \end{equation}
 
@@ -451,8 +451,8 @@ ons using the following:
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\Gamma::(A\hspace{1em}\text{type})::\Delta\hspace{1em}\text{ctx}\\
-\overline{\Gamma::(A\hspace{1em}\text{type})::\Delta\vdash A\hspace{1em}\text{type}}
+\Gamma::(A\_\text{type})::\Delta\hspace{1em}\text{ctx}\\
+\overline{\Gamma::(A\_\text{type})::\Delta\vdash A\_\text{type}}
 \end{array}\text{Vble1}
 \end{equation}
 
@@ -496,8 +496,8 @@ Here is an example of how we derive the judgement
 \begin{array}{c}
 \\
 \overline{.\hspace{1em}\text{ctx}}\\
-\overline{(A\hspace{1em}\text{type})\hspace{1em}\text{ctx}}\\
-\overline{(A\hspace{1em}\text{type})\vdash A\hspace{1em}\text{type}}
+\overline{(A\_\text{type})\hspace{1em}\text{ctx}}\\
+\overline{(A\_\text{type})\vdash A\_\text{type}}
 \end{array}
 \end{equation}
 
@@ -523,7 +523,7 @@ This rule lets us form the unit type
 \begin{equation}
 \begin{array}{c}
 \Gamma\hspace{1em}\text{ctx}\\
-\overline{\Gamma\vdash1\hspace{1em}\text{type}}
+\overline{\Gamma\vdash1\_\text{type}}
 \end{array}\text{Unit-Form}
 \end{equation}
 
@@ -540,8 +540,8 @@ Next, product types
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash A\hspace{1em}\text{type}\hspace{1em}\Gamma\vdash B\hspace{1em}\text{type}}\\
-\Gamma\vdash A\times B\hspace{1em}\text{type}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash B\_\text{type}}\\
+\Gamma\vdash A\times B\_\text{type}
 \end{array}\text{Product-Form}
 \end{equation}
 
@@ -559,7 +559,7 @@ Next the empty type
 \begin{equation}
 \begin{array}{c}
 \Gamma\hspace{1em}\text{ctx}\\
-\overline{\Gamma\vdash0\hspace{1em}\text{type}}
+\overline{\Gamma\vdash0\_\text{type}}
 \end{array}\text{Empty-Intro}
 \end{equation}
 
@@ -576,8 +576,8 @@ Next, sum types
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash A\hspace{1em}\text{type}\hspace{1em}\Gamma\vdash B\hspace{1em}\text{type}}\\
-\Gamma\vdash A+B\hspace{1em}\text{type}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash B\_\text{type}}\\
+\Gamma\vdash A+B\_\text{type}
 \end{array}\text{Sum-Form}
 \end{equation}
 
@@ -606,7 +606,7 @@ We make a variable
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\Gamma\vdash A\hspace{1em}\text{type}\\
+\Gamma\vdash A\_\text{type}\\
 \overline{\Gamma::(x:A)\hspace{1em}\text{ctx}}
 \end{array}\text{ctx-EXT2}
 \end{equation}
@@ -680,7 +680,7 @@ The following picture shows how we derive the rule
 \begin{equation}
 \begin{array}{c}
 \\
-\overline{(A\hspace{1em}\text{type},B\hspace{1em}\text{type},p:A\times B)\vdash p:A\times B}
+\overline{(A:\text{type},B:\text{type},p:A\times B)\vdash p:A\times B}
 \end{array}
 \end{equation}
 
@@ -806,7 +806,237 @@ Sums
 \end_layout
 
 \begin_layout Standard
+The following elimination rule for the empty type is like that described
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "harper"
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash e:0}\\
+\Gamma\vdash\text{abort}_{A}(e):A
+\end{array}\text{Empty-Elim}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{abort}_{A}(x))=\left\{ \right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, we have introduction rules for sum types
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash x:A\hspace{1em}\Gamma\vdash B\_\text{type}\\
+\overline{\Gamma\vdash\text{inl}_{A+B}(x):A+B}
+\end{array}\text{Sum-Intro1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{inl}_{A+B}(x))=FV(x)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash y:B\\
+\overline{\Gamma\vdash\text{inr}_{A+B}(y):A+B}
+\end{array}\text{Sum-Intro2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{inr}_{A+B}(x))=FV(x)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma,x:A\vdash u:C\hspace{1em}\Gamma,y:B\vdash v:C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right):C
+\end{array}\text{Sum-Elim}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV\left(\text{match}\left(s,x.u,y.v\right)\right)=FV(s)\cup FV(u)\cup FV(v)-\left[\left\{ x\right\} \cup\left\{ y\right\} \right]$
+\end_inset
+
+ where 
+\begin_inset Formula $L-R$
+\end_inset
+
+ denotes the set of members of set 
+\begin_inset Formula $A$
+\end_inset
+
+ that are not in set 
+\begin_inset Formula $B.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $x.u$
+\end_inset
+
+ denotes that variable 
+\begin_inset Formula $x$
+\end_inset
+
+ is bound to 
+\begin_inset Formula $u$
+\end_inset
+
+ in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right).$
+\end_inset
+
+ And so 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ bounds free occurances of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Functions
+\end_layout
+
+\begin_layout Subsection
+Extra Optional Rules
+\end_layout
+
+\begin_layout Standard
+Wkg1
+\end_layout
+
+\begin_layout Standard
+Subst
+\end_layout
+
+\begin_layout Section
+Equational Theory
+\end_layout
+
+\begin_layout Subsection
+Sums
+\end_layout
+
+\begin_layout Standard
+For the equational rule of the empty type 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stack exchange"
+
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash e:0\hspace{1em}\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash x:A}\\
+\Gamma\vdash\text{abort}_{A}(e)\equiv x:A
+\end{array}\text{Empty-Comp}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Further Directions
+\end_layout
+
+\begin_layout Standard
+It may help to add natural number objects.
+ Representing terms as W types (keep track of free variables and dependencies).
+ The terms can be tracked, by just recording their names, their parent types,
+ their dependencies (<a,b> depends on a and b), and their lists of free
+ variables.
+ Hence the terms could probabably be modelled by some kinds of presheafs
+ or algebras, opening up the possibility of categorical analysis of the
+ meta theory.
+ 
+\end_layout
+
+\begin_layout Standard
+The theory above allows us to model any bicartesian closed category 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+.
+ By adding equalizers and subobject classifiers to the above framework,
+ we can model toposes.
+ Also, we can model 
+\begin_inset Formula $\textbf{Cat}$
+\end_inset
+
+ by adding appropriate axioms, as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mclarty"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Bibliography
@@ -855,7 +1085,47 @@ target "https://ncatlab.org/nlab/show/type+theory"
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-key "key-5"
+key "harper"
+
+\end_inset
+
+Robert Haper Video 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.youtube.com/watch?v=KHteAK7GSRY&list=PLt7hcIEdZLAnbUxKaG7XIynEWrozOBtXU&index=6"
+target "YouTube"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "mclarty"
+
+\end_inset
+
+
+\emph on
+Elementary categories, elementary toposes
+\emph default
+ Colin McLarty
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "stack exchange"
+
+\end_inset
+
+stack exchange website 
+\begin_inset CommandInset href
+LatexCommand href
+name "math stack exchange"
+target "https://math.stackexchange.com/questions/3915482/type-theory-rules-for-the-empty-type/3915535#3915535"
 
 \end_inset
 
