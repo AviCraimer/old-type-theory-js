@@ -1651,39 +1651,9 @@ I guess the
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right)
-\end{array}\text{Sum-alpha conversion1}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-provided 
-\begin_inset Formula $x'$
-\end_inset
-
- is free for 
-\begin_inset Formula $x$
-\end_inset
-
- in 
-\begin_inset Formula $u.$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':A\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/u\right]\equiv v:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right)
-\end{array}\text{Sum-alpha conversion1}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
+\Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
+\end{array}\text{Function-alpha conversion}
 \end{equation}
 
 \end_inset
