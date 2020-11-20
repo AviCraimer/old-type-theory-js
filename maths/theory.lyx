@@ -111,7 +111,7 @@ key "HoTT book"
  The terminology is mostly taken from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "ncatlab"
+key "ncatlab1"
 
 \end_inset
 
@@ -191,18 +191,7 @@ universal declaration
 \end_inset
 
  is a type.
- When we have a stack of universes, this is equivalent to saying 
-\begin_inset Formula $A:\mathbb{U}_{0}$
-\end_inset
-
- in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "HoTT book"
-
-\end_inset
-
-.
+ 
 \end_layout
 
 \begin_layout Enumerate
