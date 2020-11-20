@@ -1681,11 +1681,27 @@ provided
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':A\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/u\right]\equiv v:C}\\
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v:C}\\
 \Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right)
-\end{array}\text{Sum-alpha conversion1}
+\end{array}\text{Sum-alpha conversion2}
 \end{equation}
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided 
+\begin_inset Formula $y'$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v.$
 \end_inset
 
 
