@@ -83,7 +83,9 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-In this document we describe typed lambda calculus with sums.
+In this document we describe typed lambda calculus with sums, except that
+ we explicity keep track of contexts and all other parts of the theory using
+ inference rules.
  This is the simple type theory described in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -111,7 +113,7 @@ key "HoTT book"
  The terminology is mostly taken from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "ncatlab"
+key "ncatlab1"
 
 \end_inset
 
@@ -191,18 +193,7 @@ universal declaration
 \end_inset
 
  is a type.
- When we have a stack of universes, this is equivalent to saying 
-\begin_inset Formula $A:\mathbb{U}_{0}$
-\end_inset
-
- in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "HoTT book"
-
-\end_inset
-
-.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -492,18 +483,13 @@ where
  are contexts.
 \end_layout
 
-\begin_layout Standard
-All the rules we have discussed could be derived in homotopy type theory
- (HoTT).
-\end_layout
-
 \begin_layout Subsection
 Example
 \end_layout
 
 \begin_layout Standard
 Here is an example of how we derive the judgment 
-\begin_inset Formula $A\hspace{1em}\text{type}\vdash A\hspace{1em}\text{type}.$
+\begin_inset Formula $A\_\text{type}\vdash A\_\text{type}.$
 \end_inset
 
 
@@ -1607,7 +1593,7 @@ Finally, if there is an
 \begin{array}{c}
 \underline{\Gamma::\left(x:A\right)\vdash b:B\hspace{1em}\Gamma::\left(y:A\right)\vdash b':B\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
 \Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
-\end{array}\text{Function-alpha conversion}
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1651,9 +1637,9 @@ I guess the
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right)
-\end{array}\text{Sum-alpha conversion1}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right):C
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1681,9 +1667,9 @@ provided
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right)
-\end{array}\text{Sum-alpha conversion2}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right):C
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1711,38 +1697,54 @@ provided
 Further Directions
 \end_layout
 
-\begin_layout Standard
-What about 
-\begin_inset Formula $\alpha$
-\end_inset
-
- reduction of function types ?
-\end_layout
-
-\begin_layout Standard
-Should call them constructors and descructors like in ncatlab.
-\end_layout
-
-\begin_layout Standard
+\begin_layout Enumerate
 It would be good to show that we can prove all the categorical machinery
  (terminal object, products, initial object, coproducts, exponential objects)
  can be produced, and that rules expressing their universal properties can
  be derived.
 \end_layout
 
-\begin_layout Standard
-It may help to add natural number objects.
- Representing terms as W types (keep track of free variables and dependencies).
- The terms can be tracked, by just recording their names, their parent types,
- their dependencies (<a,b> depends on a and b), and their lists of free
- variables.
- Hence the terms could probably be modeled by some kinds of presheafs or
- algebras, opening up the possibility of categorical analysis of the meta
- theory.
+\begin_layout Enumerate
+If we code up the above theory, we just seem to have to keep track of dependenci
+es (like how 
+\begin_inset Formula $\left\langle a,b\right\rangle $
+\end_inset
+
+ depends on 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+), and some label, and the lists of free and bound variables, and which
+ type a term has.
+ We could imagine all this as part of the data structure of the term, and
+ then terms start to look a lot more like objects in a category of presheaves,
+ or like algebras (W types).
+ This suggests we could abstract this theory, and open up the possibility
+ of categorical analysis of the meta theory.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Enumerate
+We may want to add natural number types, like in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lambek"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+We may want to add equalizers, subobject classifiers and reference to monomorphi
+sms, so we can do topos theory.
+\end_layout
+
+\begin_layout Enumerate
 The theory above allows us to model any bicartesian closed category 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1751,9 +1753,7 @@ key "lambdasums"
 \end_inset
 
 .
- By adding equalizers and subobject classifiers to the above framework,
- we can model toposes.
- Also, we can model 
+ We can model 
 \begin_inset Formula $\textbf{Cat}$
 \end_inset
 
@@ -1820,7 +1820,7 @@ key "harper"
 Video 
 \begin_inset CommandInset href
 LatexCommand href
-name "https://www.youtube.com/watch?v=KHteAK7GSRY&list=PLt7hcIEdZLAnbUxKaG7XIynEWrozOBtXU&index=6"
+name "https://www.youtube.com/watch?v=KHteAK7GSRY"
 target "YouTube"
 
 \end_inset
@@ -1886,6 +1886,20 @@ key "alpha"
 \end_inset
 
 FUNCTIONAL PEARLS alpha-conversion is easy THORSTEN ALTENKIRCH
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Lambek"
+
+\end_inset
+
+
+\emph on
+Introduction to higher order categorical logic 
+\emph default
+Lambek and Scott
 \end_layout
 
 \end_body

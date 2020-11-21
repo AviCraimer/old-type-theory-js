@@ -191,19 +191,7 @@ universal declaration
 \end_inset
 
  is a type.
- If we were workinhen we have a stack of universes, this is equivalent to
- saying 
-\begin_inset Formula $A:\mathbb{U}_{0}$
-\end_inset
-
- in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "HoTT book"
-
-\end_inset
-
-.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -493,18 +481,13 @@ where
  are contexts.
 \end_layout
 
-\begin_layout Standard
-All the rules we have discussed could be derived in homotopy type theory
- (HoTT).
-\end_layout
-
 \begin_layout Subsection
 Example
 \end_layout
 
 \begin_layout Standard
 Here is an example of how we derive the judgment 
-\begin_inset Formula $A\hspace{1em}\text{type}\vdash A\hspace{1em}\text{type}.$
+\begin_inset Formula $A\_\text{type}\vdash A\_\text{type}.$
 \end_inset
 
 
@@ -1608,7 +1591,7 @@ Finally, if there is an
 \begin{array}{c}
 \underline{\Gamma::\left(x:A\right)\vdash b:B\hspace{1em}\Gamma::\left(y:A\right)\vdash b':B\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
 \Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
-\end{array}\text{Function-alpha conversion}
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1652,9 +1635,9 @@ I guess the
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right)
-\end{array}\text{Sum-alpha conversion1}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right):C
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1682,9 +1665,9 @@ provided
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v:C}\\
-\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right)
-\end{array}\text{Sum-alpha conversion2}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right):C
+\end{array}
 \end{equation}
 
 \end_inset
@@ -1712,23 +1695,31 @@ provided
 Further Directions
 \end_layout
 
-\begin_layout Standard
-What about 
-\begin_inset Formula $\alpha$
-\end_inset
-
- reduction of function types ?
-\end_layout
-
-\begin_layout Standard
-Should call them constructors and descructors like in ncatlab.
-\end_layout
-
-\begin_layout Standard
+\begin_layout Enumerate
 It would be good to show that we can prove all the categorical machinery
  (terminal object, products, initial object, coproducts, exponential objects)
  can be produced, and that rules expressing their universal properties can
  be derived.
+\end_layout
+
+\begin_layout Enumerate
+
+\end_layout
+
+\begin_layout Enumerate
+We may want to add natural number types, like in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lambek"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+We may want to add equalizers, subobject classifiers and reference to monomorphi
+sms, so we can do topos theory.
 \end_layout
 
 \begin_layout Standard
@@ -1821,7 +1812,7 @@ key "harper"
 Video 
 \begin_inset CommandInset href
 LatexCommand href
-name "https://www.youtube.com/watch?v=KHteAK7GSRY&list=PLt7hcIEdZLAnbUxKaG7XIynEWrozOBtXU&index=6"
+name "https://www.youtube.com/watch?v=KHteAK7GSRY"
 target "YouTube"
 
 \end_inset
@@ -1887,6 +1878,20 @@ key "alpha"
 \end_inset
 
 FUNCTIONAL PEARLS alpha-conversion is easy THORSTEN ALTENKIRCH
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Lambek"
+
+\end_inset
+
+
+\emph on
+Introduction to higher order categorical logic 
+\emph default
+Lambek and Scott
 \end_layout
 
 \end_body
