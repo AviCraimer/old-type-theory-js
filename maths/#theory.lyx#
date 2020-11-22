@@ -83,7 +83,9 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-In this document we describe typed lambda calculus with sums.
+In this document we describe typed lambda calculus with sums, except that
+ we explicitly keep track of contexts and all other parts of the theory
+ using inference rules.
  This is the simple type theory described in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -724,6 +726,26 @@ The following picture shows how we derive the rule
 The Other Typing Rules
 \end_layout
 
+\begin_layout Standard
+We write 
+\begin_inset Formula $FV(t)$
+\end_inset
+
+ to denote the set of free variables of a term 
+\begin_inset Formula $t.$
+\end_inset
+
+ We also write 
+\begin_inset Formula $BV(t)$
+\end_inset
+
+ to denote the set of bound variables of a term 
+\begin_inset Formula $t$
+\end_inset
+
+ (the meaning of which will become clear later).
+\end_layout
+
 \begin_layout Subsection
 Products
 \end_layout
@@ -763,6 +785,11 @@ Here
 \end_inset
 
  of free variables.
+ Also 
+\begin_inset Formula $BV(\ast)=\left\{ \right\} $
+\end_inset
+
+ is the empty set.
 \end_layout
 
 \begin_layout Standard
@@ -789,6 +816,11 @@ Here
 \end_inset
 
  denotes the set theoretic union.
+ Also 
+\begin_inset Formula $BV\left(\left\langle a,b\right\rangle \right)=BV(a)\cup BV(b)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -807,6 +839,10 @@ Here
 
 \begin_layout Standard
 \begin_inset Formula $FV(\text{fst}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{fst}(p))=BV(p).$
 \end_inset
 
 
@@ -828,6 +864,10 @@ Here
 
 \begin_layout Standard
 \begin_inset Formula $FV(\text{snd}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{snd}(p))=BV(p).$
 \end_inset
 
 
@@ -871,7 +911,11 @@ key "harper"
 \begin_inset Formula $FV(\text{abort}_{A}(e))=FV(e)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{abort}_{A}(e))=BV(e)$
+\end_inset
 
+ 
 \end_layout
 
 \begin_layout Standard
@@ -896,6 +940,10 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $FV(\text{inl}_{A+B}(a))=FV(a)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{inl}_{A+B}(a))=BV(a)$
+\end_inset
+
 
 \end_layout
 
@@ -917,7 +965,11 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $FV(\text{inr}_{A+B}(b))=FV(b)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{inr}_{A+B}(b))=BV(b)$
+\end_inset
 
+ 
 \end_layout
 
 \begin_layout Standard
@@ -950,7 +1002,11 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $B.$
 \end_inset
 
- 
+ Also 
+\begin_inset Formula $BV\left(\text{match}\left(s,x.u,y.v\right)\right)=BV(s)\cup BV(u)\cup BV(v)\cup\left\{ x\right\} \cup\left\{ y\right\} .$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1011,6 +1067,10 @@ We describe functions as negative types.
 \begin_inset Formula $FV\left(\left(\lambda x:A\right).b\right)=FV(b)-\left\{ x\right\} .$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV\left(\left(\lambda x:A\right).b\right)=BV(b)\cup\left\{ x\right\} .$
+\end_inset
+
 
 \end_layout
 
@@ -1042,6 +1102,10 @@ Here the variable
 
 \begin_layout Standard
 \begin_inset Formula $FV(f(a))=FV(f)\cup FV(a).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(f(a))=BV(f)\cup BV(a).$
 \end_inset
 
 
@@ -1245,15 +1309,7 @@ key "mclarty"
 
 \end_inset
 
-, if no free variables of 
-\begin_inset Formula $a$
-\end_inset
-
- become bound in 
-\begin_inset Formula $u\left[a/x\right]$
-\end_inset
-
- then we say 
+, we say that 
 \begin_inset Formula $a$
 \end_inset
 
@@ -1262,10 +1318,32 @@ key "mclarty"
 \end_inset
 
  in 
-\begin_inset Formula $u.$
+\begin_inset Formula $u$
 \end_inset
 
+ if and only if no free variables of 
+\begin_inset Formula $a$
+\end_inset
 
+ become bound in 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ (in other words, if the intersection of 
+\begin_inset Formula $FV(a)$
+\end_inset
+
+ and 
+\begin_inset Formula $BV(u\left[a/x\right])$
+\end_inset
+
+ is empty).
+ Recall that the possible bindings that happen in our system just consist
+ of three cases (1) 
+\begin_inset Formula $(\lambda x:A).u$
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1703,7 +1781,27 @@ It would be good to show that we can prove all the categorical machinery
 \end_layout
 
 \begin_layout Enumerate
+If we code up the above theory, we just seem to have to keep track of dependenci
+es (like how 
+\begin_inset Formula $\left\langle a,b\right\rangle $
+\end_inset
 
+ depends on 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+), and some label, and the lists of free and bound variables, and which
+ type a term has.
+ We could imagine all this as part of the data structure of the term, and
+ then terms start to look a lot more like objects in a category of presheaves,
+ or like algebras (W types).
+ This suggests we could abstract this theory, and open up the possibility
+ of categorical analysis of the meta theory.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -1722,19 +1820,7 @@ We may want to add equalizers, subobject classifiers and reference to monomorphi
 sms, so we can do topos theory.
 \end_layout
 
-\begin_layout Standard
-It may help to add natural number objects.
- Representing terms as W types (keep track of free variables and dependencies).
- The terms can be tracked, by just recording their names, their parent types,
- their dependencies (<a,b> depends on a and b), and their lists of free
- variables.
- Hence the terms could probably be modeled by some kinds of presheafs or
- algebras, opening up the possibility of categorical analysis of the meta
- theory.
- 
-\end_layout
-
-\begin_layout Standard
+\begin_layout Enumerate
 The theory above allows us to model any bicartesian closed category 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1743,9 +1829,7 @@ key "lambdasums"
 \end_inset
 
 .
- By adding equalizers and subobject classifiers to the above framework,
- we can model toposes.
- Also, we can model 
+ We can model 
 \begin_inset Formula $\textbf{Cat}$
 \end_inset
 

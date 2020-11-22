@@ -84,8 +84,8 @@ Introduction
 
 \begin_layout Standard
 In this document we describe typed lambda calculus with sums, except that
- we explicity keep track of contexts and all other parts of the theory using
- inference rules.
+ we explicitly keep track of contexts and all other parts of the theory
+ using inference rules.
  This is the simple type theory described in 
 \begin_inset CommandInset citation
 LatexCommand cite
