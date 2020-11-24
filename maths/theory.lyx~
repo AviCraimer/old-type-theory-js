@@ -726,6 +726,26 @@ The following picture shows how we derive the rule
 The Other Typing Rules
 \end_layout
 
+\begin_layout Standard
+We write 
+\begin_inset Formula $FV(t)$
+\end_inset
+
+ to denote the set of free variables of a term 
+\begin_inset Formula $t.$
+\end_inset
+
+ We also write 
+\begin_inset Formula $BV(t)$
+\end_inset
+
+ to denote the set of bound variables of a term 
+\begin_inset Formula $t$
+\end_inset
+
+ (the meaning of which will become clear later).
+\end_layout
+
 \begin_layout Subsection
 Products
 \end_layout
@@ -765,6 +785,11 @@ Here
 \end_inset
 
  of free variables.
+ Also 
+\begin_inset Formula $BV(\ast)=\left\{ \right\} $
+\end_inset
+
+ is the empty set.
 \end_layout
 
 \begin_layout Standard
@@ -791,6 +816,11 @@ Here
 \end_inset
 
  denotes the set theoretic union.
+ Also 
+\begin_inset Formula $BV\left(\left\langle a,b\right\rangle \right)=BV(a)\cup BV(b)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -809,6 +839,10 @@ Here
 
 \begin_layout Standard
 \begin_inset Formula $FV(\text{fst}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{fst}(p))=BV(p).$
 \end_inset
 
 
@@ -830,6 +864,10 @@ Here
 
 \begin_layout Standard
 \begin_inset Formula $FV(\text{snd}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{snd}(p))=BV(p).$
 \end_inset
 
 
@@ -873,7 +911,11 @@ key "harper"
 \begin_inset Formula $FV(\text{abort}_{A}(e))=FV(e)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{abort}_{A}(e))=BV(e)$
+\end_inset
 
+ 
 \end_layout
 
 \begin_layout Standard
@@ -898,6 +940,10 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $FV(\text{inl}_{A+B}(a))=FV(a)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{inl}_{A+B}(a))=BV(a)$
+\end_inset
+
 
 \end_layout
 
@@ -919,7 +965,11 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $FV(\text{inr}_{A+B}(b))=FV(b)$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV(\text{inr}_{A+B}(b))=BV(b)$
+\end_inset
 
+ 
 \end_layout
 
 \begin_layout Standard
@@ -952,7 +1002,11 @@ Next, we have introduction rules for sum types
 \begin_inset Formula $B.$
 \end_inset
 
- 
+ Also 
+\begin_inset Formula $BV\left(\text{match}\left(s,x.u,y.v\right)\right)=BV(s)\cup BV(u)\cup BV(v)\cup\left\{ x\right\} \cup\left\{ y\right\} .$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1013,6 +1067,10 @@ We describe functions as negative types.
 \begin_inset Formula $FV\left(\left(\lambda x:A\right).b\right)=FV(b)-\left\{ x\right\} .$
 \end_inset
 
+ Also 
+\begin_inset Formula $BV\left(\left(\lambda x:A\right).b\right)=BV(b)\cup\left\{ x\right\} .$
+\end_inset
+
 
 \end_layout
 
@@ -1044,6 +1102,10 @@ Here the variable
 
 \begin_layout Standard
 \begin_inset Formula $FV(f(a))=FV(f)\cup FV(a).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(f(a))=BV(f)\cup BV(a).$
 \end_inset
 
 
@@ -1247,15 +1309,7 @@ key "mclarty"
 
 \end_inset
 
-, if no free variables of 
-\begin_inset Formula $a$
-\end_inset
-
- become bound in 
-\begin_inset Formula $u\left[a/x\right]$
-\end_inset
-
- then we say 
+, we say that 
 \begin_inset Formula $a$
 \end_inset
 
@@ -1264,10 +1318,68 @@ key "mclarty"
 \end_inset
 
  in 
-\begin_inset Formula $u.$
+\begin_inset Formula $u$
 \end_inset
 
+ if and only if no free variables of 
+\begin_inset Formula $a$
+\end_inset
 
+ become bound in 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ (in other words, if the intersection of 
+\begin_inset Formula $FV(a)$
+\end_inset
+
+ and 
+\begin_inset Formula $BV(u\left[a/x\right])$
+\end_inset
+
+ is empty).
+ Recall that the possible bindings that happen in our system just consist
+ of three cases (1) in 
+\begin_inset Formula $(\lambda x:A).t$
+\end_inset
+
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in term 
+\begin_inset Formula $t$
+\end_inset
+
+ binds to 
+\begin_inset Formula $\lambda,$
+\end_inset
+
+ and (2) in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ becomes bound, and (3) we have that in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we we have that each variable 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v$
+\end_inset
+
+ becomes bound, 
 \end_layout
 
 \begin_layout Subsection

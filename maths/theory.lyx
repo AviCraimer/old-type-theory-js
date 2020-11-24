@@ -1379,7 +1379,57 @@ key "mclarty"
 \begin_inset Formula $v$
 \end_inset
 
- becomes bound, 
+ becomes bound.
+\end_layout
+
+\begin_layout Standard
+To keep track of what is required within a computer, rather than just doing
+ 
+\begin_inset Formula $(FV(m),FV(n))\mapsto FV(m)\cup FV(n)$
+\end_inset
+
+ etc.
+ when terms are combined, we can form an expression tree for a term.
+ We can also form corresponding expression trees for the free and bound
+ variables, and when we construct 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ we replace the leaf 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ with the tree for 
+\begin_inset Formula $a.$
+\end_inset
+
+ Also, when we have binding operators, they `color' the corresponding variables
+ which might appear within the appropriate places deeper within the expression
+ tree, and and we should make sure that after substitution, so we want to
+ gaurd against previously free variables of the appropriate names, from
+ 
+\begin_inset Formula $a$
+\end_inset
+
+, being there , when we replace 
+\begin_inset Formula $x$
+\end_inset
+
+ with 
+\begin_inset Formula $a$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ so that the newly added subtree ends up lying within a colored region,
+ involving new bindings of said variables.
+ 
 \end_layout
 
 \begin_layout Subsection

@@ -1339,11 +1339,82 @@ key "mclarty"
 
  is empty).
  Recall that the possible bindings that happen in our system just consist
- of three cases (1) 
-\begin_inset Formula $(\lambda x:A).u$
+ of three cases (1) in 
+\begin_inset Formula $(\lambda x:A).t$
 \end_inset
 
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in term 
+\begin_inset Formula $t$
+\end_inset
+
+ binds to 
+\begin_inset Formula $\lambda,$
+\end_inset
+
+ and (2) in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ becomes bound, and (3) we have that in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we we have that each variable 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v$
+\end_inset
+
+ becomes bound.
+\end_layout
+
+\begin_layout Standard
+To keep track of what is required within a computer, rather than just doing
  
+\begin_inset Formula $(FV(m),FV(n))\mapsto FV(m)\cup FV(n)$
+\end_inset
+
+ etc.
+ when terms are combined, we can form an expression tree for a term.
+ We can also form corresponding expression trees for the free and bound
+ variables, and when we construct 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ we replace the leaf 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ with the tree for 
+\begin_inset Formula $a.$
+\end_inset
+
+ Also, when we have binding operators, they `color' the corresponding variables
+ which might appear within the appropriate places deeper within the expression
+ tree, and and we should make sure that after substitution, so previously
+ free variables of the appropriate names, from 
+\begin_inset Formula $a$
+\end_inset
+
+, 
 \end_layout
 
 \begin_layout Subsection
