@@ -664,7 +664,7 @@ key "Taylor"
 \begin_layout Standard
 \begin_inset Graphics
 	filename iden.JPG
-	scale 10
+	scale 50
 
 \end_inset
 
@@ -909,7 +909,7 @@ The way the cut rule can be vizualized in terms of category theory as pictured
 \begin_layout Standard
 \begin_inset Graphics
 	filename cut.JPG
-	scale 10
+	scale 50
 
 \end_inset
 
@@ -981,7 +981,7 @@ The picture below should how to think of contract categorically (discounting
 \begin_layout Standard
 \begin_inset Graphics
 	filename contract.JPG
-	scale 10
+	scale 50
 
 \end_inset
 
@@ -2055,6 +2055,11 @@ prove exponential properties
 \begin_layout Standard
 Maybe we should use De-Brujin Notation.
  !!!
+\end_layout
+
+\begin_layout Standard
+Should we also add the idea that equal things can replace reach other, like
+ we can get from Mclarty/Bell ?
 \end_layout
 
 \begin_layout Bibliography

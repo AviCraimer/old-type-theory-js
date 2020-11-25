@@ -1967,6 +1967,28 @@ provided
 \end_layout
 
 \begin_layout Section
+Replacement of equals
+\end_layout
+
+\begin_layout Standard
+I propose that the following additional rule be added 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma:a\equiv a':A}\\
+\Gamma\vdash a':A
+\end{array}\text{Equality Usage}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Further Directions
 \end_layout
 
@@ -2055,6 +2077,11 @@ prove exponential properties
 \begin_layout Standard
 Maybe we should use De-Brujin Notation.
  !!!
+\end_layout
+
+\begin_layout Standard
+Should we also add the idea that equal things can replace reach other, like
+ we can get from Mclarty/Bell ?
 \end_layout
 
 \begin_layout Bibliography
