@@ -1,0 +1,2206 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Simple Type Theory (Simplified)
+\end_layout
+
+\begin_layout Author
+Richard Southwell
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+In this document we describe typed lambda calculus with sums, except that
+ we explicitly keep track of contexts and all other parts of the theory
+ using inference rules.
+ This is the simple type theory described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "harper"
+
+\end_inset
+
+.
+ This is a formalization of the type theory described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+, but so that well formed contexts and types are generated following explicit
+ inference rules, like in the appendix A2 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HoTT book"
+
+\end_inset
+
+.
+ The terminology is mostly taken from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ncatlab1"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Basics
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+term
+\series default
+ is a value of a 
+\series bold
+type
+\series default
+.
+ Some terms are 
+\series bold
+variables
+\series default
+ (as we explain later).
+ Each term 
+\begin_inset Formula $t$
+\end_inset
+
+ has a set 
+\begin_inset Formula $FV(t)$
+\end_inset
+
+ of 
+\series bold
+free variables
+\series default
+ (as we explain later).
+ 
+\end_layout
+
+\begin_layout Standard
+There are six kinds of expressions:
+\end_layout
+
+\begin_layout Enumerate
+A 
+\series bold
+typing declaration
+\series default
+ 
+\begin_inset Formula $x:A$
+\end_inset
+
+ says that 
+\begin_inset Formula $x$
+\end_inset
+
+ is a term of type 
+\begin_inset Formula $A.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A 
+\series bold
+universal declaration
+\series default
+ 
+\begin_inset Formula $A\_\text{type}$
+\end_inset
+
+ says that 
+\begin_inset Formula $A$
+\end_inset
+
+ is a type.
+ 
+\end_layout
+
+\begin_layout Enumerate
+An 
+\series bold
+equality declaration
+\series default
+ 
+\begin_inset Formula $x\equiv y:A$
+\end_inset
+
+ says values 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ of type 
+\begin_inset Formula $A$
+\end_inset
+
+ are equal.
+\end_layout
+
+\begin_layout Enumerate
+A 
+\series bold
+context
+\series default
+ 
+\begin_inset Formula $\Gamma$
+\end_inset
+
+ is a list of typing declarations.
+ We write 
+\begin_inset Formula $\Gamma::\Delta$
+\end_inset
+
+ to denote the concatenation (joining) of lists.
+ 
+\end_layout
+
+\begin_layout Enumerate
+A
+\series bold
+ context declaration
+\series default
+ 
+\begin_inset Formula $\Gamma\hspace{1em}\text{ctx}$
+\end_inset
+
+ is a declaration that the context 
+\begin_inset Formula $\Gamma$
+\end_inset
+
+ is 
+\begin_inset Quotes eld
+\end_inset
+
+well formed
+\begin_inset Quotes erd
+\end_inset
+
+ (the meaning will be clear later from the rules).
+\end_layout
+
+\begin_layout Enumerate
+A 
+\series bold
+judgment
+\series default
+ is something of the form 
+\begin_inset Formula $\Gamma\vdash d$
+\end_inset
+
+ where 
+\begin_inset Formula $\Gamma$
+\end_inset
+
+ is a context, and 
+\begin_inset Formula $d$
+\end_inset
+
+ is either a typing declaration or a universal declaration or an equality
+ declaration.
+ Sometimes we call 
+\begin_inset Formula $d$
+\end_inset
+
+ the 
+\series bold
+declaration
+\series default
+ of the judgment 
+\begin_inset Formula $\Gamma\vdash d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+rule
+\series default
+ is something of the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\underline{J_{1}\hspace{1em}J_{2}\hspace{1em}\dots\hspace{1em}J_{n}}\\
+K
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $J_{1},J_{2},\dots,J_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $K$
+\end_inset
+
+ are all judgments.
+ The meaning of the rule is that if each judgment in 
+\begin_inset Formula $J_{1},J_{2},\dots,J_{n}$
+\end_inset
+
+ can be derived in the type theory then judgment 
+\begin_inset Formula $K$
+\end_inset
+
+ may also be derived.
+ Judgments can be stacked to make proof trees.
+ An axiom is a rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\underline{\hspace{1em}}\\
+K
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with no prerequisites.
+ 
+\end_layout
+
+\begin_layout Standard
+In addition to the assumed rules (which we name)
+\end_layout
+
+\begin_layout Section
+Forming base types
+\end_layout
+
+\begin_layout Standard
+We write 
+\begin_inset Formula $.$
+\end_inset
+
+ to denote the empty context.
+ The fact that the empty context is well formed is formalized by the rule:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\\
+\overline{.\hspace{1em}\text{ctx}}
+\end{array}\text{Empty Context}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The next rule allows a well formed context to be extended by introducing
+ a
+\series bold
+ base type 
+\begin_inset Formula $A$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash A\_\text{type}}
+\end{array}\text{Base Type Formation }
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The base type 
+\begin_inset Formula $A$
+\end_inset
+
+ must not appear in the context 
+\begin_inset Formula $\Gamma.$
+\end_inset
+
+ Here we assume we have some list of base types 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+.
+ If we are trying to model a particular system we may have specific base
+ types ready, but for now let us just think of base types as variable types
+ (although in this document we reserve the phrase 
+\begin_inset Quotes eld
+\end_inset
+
+variable
+\begin_inset Quotes erd
+\end_inset
+
+ for terms).
+ So it is fine for 
+\begin_inset Formula $A$
+\end_inset
+
+ to be any type new to the context.
+\end_layout
+
+\begin_layout Section
+Forming Other Types
+\end_layout
+
+\begin_layout Standard
+This rule lets us form the unit type
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash1\_\text{type}}
+\end{array}\text{Unit Formation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, product types 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash B\_\text{type}}\\
+\Gamma\vdash A\times B\_\text{type}
+\end{array}\text{Product Formation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next the empty type
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash0\_\text{type}}
+\end{array}\text{Empty Formation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, sum types
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash B\_\text{type}}\\
+\Gamma\vdash A+B\_\text{type}
+\end{array}\text{Sum Formation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next function types
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash B\_\text{type}}\\
+\Gamma\vdash A\rightarrow B\_\text{type}
+\end{array}\text{Function Formation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Forming Variables
+\end_layout
+
+\begin_layout Standard
+We make a variable 
+\begin_inset Formula $x$
+\end_inset
+
+ of type 
+\begin_inset Formula $A$
+\end_inset
+
+ using the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash A\_\text{type}\\
+\overline{\Gamma::(x:A)\hspace{1em}\text{ctx}}
+\end{array}\text{Context Extension}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the variable 
+\begin_inset Formula $x$
+\end_inset
+
+ must not appear in the context 
+\begin_inset Formula $\Gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The set of free variables of this newly made 
+\begin_inset Formula $x$
+\end_inset
+
+ is 
+\begin_inset Formula $FV(x)=\left\{ x\right\} .$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(x)=\left\{ \right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $BV(t)$
+\end_inset
+
+ denotes the set of bound variables of a term 
+\begin_inset Formula $t,$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ \right\} $
+\end_inset
+
+ denotes the empty set.
+\end_layout
+
+\begin_layout Standard
+Judgments about variables can be formed with the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::(x:A)::\Delta\hspace{1em}\text{ctx}\\
+\overline{\Gamma::(x:A)::\Delta\vdash x:A}
+\end{array}\text{Memory}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Memory rule appears as Vble1 on page 554 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HoTT book"
+
+\end_inset
+
+.
+ The rule also appears in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+.
+ However 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Taylor"
+
+\end_inset
+
+ uses a different rule which they call the identity rule instead.
+ However, we may derive said identity rule as follows: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename iden.JPG
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In category theory Memory could be thought of as projection.
+\end_layout
+
+\begin_layout Subsection
+About Substitution
+\end_layout
+
+\begin_layout Standard
+For a term 
+\begin_inset Formula $u$
+\end_inset
+
+ and a variable 
+\begin_inset Formula $x$
+\end_inset
+
+ and a term 
+\begin_inset Formula $a$
+\end_inset
+
+ of the same type as 
+\begin_inset Formula $x$
+\end_inset
+
+ we write 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ to denote the result of taking term 
+\begin_inset Formula $u$
+\end_inset
+
+ and replacing all free occurrences of 
+\begin_inset Formula $x$
+\end_inset
+
+ with term 
+\begin_inset Formula $a.$
+\end_inset
+
+ In such a case 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mclarty"
+
+\end_inset
+
+, we say that 
+\begin_inset Formula $a$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ if and only if no free variables of 
+\begin_inset Formula $a$
+\end_inset
+
+ become bound in 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ (in other words, if the intersection of 
+\begin_inset Formula $FV(a)$
+\end_inset
+
+ and 
+\begin_inset Formula $BV(u\left[a/x\right])$
+\end_inset
+
+ is empty).
+ Recall that the possible bindings that happen in our system just consist
+ of three cases (1) in 
+\begin_inset Formula $(\lambda x:A).t$
+\end_inset
+
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in term 
+\begin_inset Formula $t$
+\end_inset
+
+ binds to 
+\begin_inset Formula $\lambda,$
+\end_inset
+
+ and (2) in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we have that each variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ becomes bound, and (3) we have that in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ we we have that each variable 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v$
+\end_inset
+
+ becomes bound.
+\end_layout
+
+\begin_layout Standard
+To keep track of what is required within a computer, rather than just doing
+ 
+\begin_inset Formula $(FV(m),FV(n))\mapsto FV(m)\cup FV(n)$
+\end_inset
+
+ etc.
+ when terms are combined, we can form an expression tree for a term.
+ We can also form corresponding expression trees for the free and bound
+ variables, and when we construct 
+\begin_inset Formula $u\left[a/x\right]$
+\end_inset
+
+ we replace the leaf 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ with the tree for 
+\begin_inset Formula $a.$
+\end_inset
+
+ Also, when we have binding operators, they `color' the corresponding variables
+ which might appear within the appropriate places deeper within the expression
+ tree, and and we should make sure that after substitution, so we want to
+ gaurd against previously free variables of the appropriate names, from
+ 
+\begin_inset Formula $a$
+\end_inset
+
+, being there , when we replace 
+\begin_inset Formula $x$
+\end_inset
+
+ with 
+\begin_inset Formula $a$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ so that the newly added subtree ends up lying within a colored region,
+ involving new bindings of said variables.
+ 
+\end_layout
+
+\begin_layout Standard
+Maybe we should use De-Brujin Notation.
+ !!!
+\end_layout
+
+\begin_layout Section
+Other Structural Rules
+\end_layout
+
+\begin_layout Standard
+Our next rules are taken from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Taylor"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma::(x:A)::\Delta\vdash b:B}\\
+\Gamma::\Delta\vdash b[a/x]:B
+\end{array}\text{Cut}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x$
+\end_inset
+
+ is free for 
+\begin_inset Formula $a$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ (is this required ? need to check about variables of chapter 1 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Taylor"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+The way the cut rule can be vizualized in terms of category theory as pictured
+ below
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename cut.JPG
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our next rule is weakening
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::\Delta\vdash b:B\hspace{1em}\Gamma\vdash A\_\text{type}}\\
+\Gamma::\left(x:A\right)::\Delta\vdash b:B
+\end{array}\text{Weakening}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In terms of category theory, this just corresponds to doing the product
+ of the source arrow with some other arrow, and then doing a projection
+ before composing with the arrow.
+ Note after the weakening rule has been applied, some may consider the variable
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ to occur within 
+\begin_inset Formula $b$
+\end_inset
+
+ invisably.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::(x:A,y:A)::\Delta\vdash b:B}\\
+\Gamma::\left(x:A\right)::\Delta\vdash b[x/y]:B
+\end{array}\text{Contract}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The picture below should how to think of contract categorically (discounting
+ 
+\begin_inset Formula $\Gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename contract.JPG
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our final structural rule is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::(x:A,y:A)::\Delta\vdash b:B}\\
+\Gamma::(y:A,x:A)::\Delta\vdash b:B
+\end{array}\text{Exchange}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This allows us to think of the context as a set.
+ Categorically exchange can be thought of as corresponding to permuting
+ the order of objects in a product.
+\end_layout
+
+\begin_layout Standard
+I wonder if cut and exchange are required.
+\end_layout
+
+\begin_layout Section
+The Other Typing Rules
+\end_layout
+
+\begin_layout Standard
+We write 
+\begin_inset Formula $FV(t)$
+\end_inset
+
+ to denote the set of free variables of a term 
+\begin_inset Formula $t.$
+\end_inset
+
+ We also write 
+\begin_inset Formula $BV(t)$
+\end_inset
+
+ to denote the set of bound variables of a term 
+\begin_inset Formula $t$
+\end_inset
+
+ (the meaning of which will become clear later).
+\end_layout
+
+\begin_layout Subsection
+Products
+\end_layout
+
+\begin_layout Standard
+We describe products as negative types 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ncatprod"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\hspace{1em}\text{ctx}\\
+\overline{\Gamma\vdash\ast:1}
+\end{array}\text{Unit-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $\ast$
+\end_inset
+
+ has the empty set 
+\begin_inset Formula $FV(\ast)=\left\{ \right\} $
+\end_inset
+
+ of free variables.
+ Also 
+\begin_inset Formula $BV(\ast)=\left\{ \right\} $
+\end_inset
+
+ is the empty set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B}\\
+\Gamma\vdash\left\langle a,b\right\rangle :A\times B
+\end{array}\text{Product-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $FV\left(\left\langle a,b\right\rangle \right)=FV(a)\cup FV(b)$
+\end_inset
+
+ where 
+\begin_inset Formula $\cup$
+\end_inset
+
+ denotes the set theoretic union.
+ Also 
+\begin_inset Formula $BV\left(\left\langle a,b\right\rangle \right)=BV(a)\cup BV(b)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash p:A\times B}\\
+\Gamma\vdash\text{fst}(p):A
+\end{array}\text{Product-Elim1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{fst}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{fst}(p))=BV(p).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash p:A\times B}\\
+\Gamma\vdash\text{snd}(p):B
+\end{array}\text{Product-Elim2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{snd}(p))=FV(p).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{snd}(p))=BV(p).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sums
+\end_layout
+
+\begin_layout Standard
+We describe sums as positive types.
+\end_layout
+
+\begin_layout Standard
+The following elimination rule for the empty type is like that described
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "harper"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash e:0}\\
+\Gamma\vdash\text{abort}_{A}(e):A
+\end{array}\text{Empty-Elim}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{abort}_{A}(e))=FV(e)$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{abort}_{A}(e))=BV(e)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Next, we have introduction rules for sum types
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a:A\hspace{1em}\Gamma\vdash B\_\text{type}\\
+\overline{\Gamma\vdash\text{inl}_{A+B}(a):A+B}
+\end{array}\text{Sum-Intro1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{inl}_{A+B}(a))=FV(a)$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{inl}_{A+B}(a))=BV(a)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash b:B\\
+\overline{\Gamma\vdash\text{inr}_{A+B}(b):A+B}
+\end{array}\text{Sum-Intro2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(\text{inr}_{A+B}(b))=FV(b)$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(\text{inr}_{A+B}(b))=BV(b)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma,x:A\vdash u:C\hspace{1em}\Gamma,y:B\vdash v:C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right):C
+\end{array}\text{Sum-Elim}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV\left(\text{match}\left(s,x.u,y.v\right)\right)=FV(s)\cup FV(u)\cup FV(v)-\left[\left\{ x\right\} \cup\left\{ y\right\} \right]$
+\end_inset
+
+ where 
+\begin_inset Formula $L-R$
+\end_inset
+
+ denotes the set of members of set 
+\begin_inset Formula $A$
+\end_inset
+
+ that are not in set 
+\begin_inset Formula $B.$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV\left(\text{match}\left(s,x.u,y.v\right)\right)=BV(s)\cup BV(u)\cup BV(v)\cup\left\{ x\right\} \cup\left\{ y\right\} .$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $x.u$
+\end_inset
+
+ denotes that variable 
+\begin_inset Formula $x$
+\end_inset
+
+ is bound to 
+\begin_inset Formula $u$
+\end_inset
+
+ in 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right).$
+\end_inset
+
+ And so 
+\begin_inset Formula $\text{match}\left(s,x.u,y.v\right)$
+\end_inset
+
+ binds free occurrences of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Functions
+\end_layout
+
+\begin_layout Standard
+We describe functions as negative types.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash b:B\\
+\overline{\Gamma\vdash\left(\lambda x:A\right).b:A\rightarrow B}
+\end{array}\text{Function-Intro}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV\left(\left(\lambda x:A\right).b\right)=FV(b)-\left\{ x\right\} .$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV\left(\left(\lambda x:A\right).b\right)=BV(b)\cup\left\{ x\right\} .$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the variable 
+\begin_inset Formula $x$
+\end_inset
+
+ is to bound in 
+\begin_inset Formula $\left(\lambda x:A\right).b.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma\vdash a:A}\\
+\Gamma\vdash f(a):B
+\end{array}\text{Function-Elim}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $FV(f(a))=FV(f)\cup FV(a).$
+\end_inset
+
+ Also 
+\begin_inset Formula $BV(f(a))=BV(f)\cup BV(a).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equational Theory
+\end_layout
+
+\begin_layout Standard
+In this section we give the rules for making equality declarations
+\end_layout
+
+\begin_layout Subsection
+Equivalence Relation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a:A\\
+\overline{\Gamma\vdash a\equiv a:A}
+\end{array}\text{Reflexive}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a\equiv a':A\\
+\overline{\Gamma\vdash a'\equiv a:A}
+\end{array}\text{Symmetric}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a\equiv a':A\hspace{1em}a'\equiv a'':A}\\
+\Gamma\vdash a\equiv a'':A
+\end{array}\text{Transitive}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Products
+\end_layout
+
+\begin_layout Standard
+The uniqueness principle (
+\begin_inset Formula $\eta$
+\end_inset
+
+ conversion rule) for the unit type is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash v:1\\
+\overline{\Gamma\vdash v\equiv\ast:1}
+\end{array}\text{Unit-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The computation rules (
+\begin_inset Formula $\beta$
+\end_inset
+
+ reduction rules) for the product type are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B}\\
+\Gamma\vdash\text{fst}\left(\left\langle a,b\right\rangle \right)\equiv a
+\end{array}\text{Product-Computation}1
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B}\\
+\Gamma\vdash\text{snd}\left(\left\langle a,b\right\rangle \right)\equiv b
+\end{array}\text{Product-Computation}2
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The uniqueness principle (
+\begin_inset Formula $\eta$
+\end_inset
+
+ conversion rule) for the product types is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash p:A\times B\\
+\overline{\Gamma\vdash p\equiv\left\langle \text{fst}(p),\text{snd}(p)\right\rangle :A\times B}
+\end{array}\text{Product-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sums
+\end_layout
+
+\begin_layout Standard
+The uniqueness principle (
+\begin_inset Formula $\eta$
+\end_inset
+
+ conversion rule) of the empty type 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stack exchange"
+
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash e:0\hspace{1em}\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma\vdash x:A}\\
+\Gamma\vdash\text{abort}_{A}(e)\equiv x:A
+\end{array}\text{Empty-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The computation rules (
+\begin_inset Formula $\beta$
+\end_inset
+
+ reduction rules) for sum types are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a:A\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\\
+\overline{\Gamma\vdash\text{match}\left(\text{inl}_{A+B}(a),x.u,y.v\right)\equiv u\left[a/x\right]:C}
+\end{array}\text{Sum-Computation}1
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $a$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash b:B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\\
+\overline{\Gamma\vdash\text{match}\left(\text{inr}_{A+B}(b),x.u,y.v\right)\equiv v\left[b/y\right]:C}
+\end{array}\text{Sum-Computation2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $b$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(I am guessing these 
+\begin_inset Quotes eld
+\end_inset
+
+freeness
+\begin_inset Quotes erd
+\end_inset
+
+ conditions are required in each rule involving substitution, just like
+ as in the internal language of a topos, described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mclarty"
+
+\end_inset
+
+.
+ Different variables can be used within the substitution if there are problems,
+ as discussed in Bell's book on Local Set Theory).
+\end_layout
+
+\begin_layout Standard
+The uniqueness principle (
+\begin_inset Formula $\eta$
+\end_inset
+
+ conversion rule) for the sum types is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash s:A+B\hspace{1em}\Gamma,h:A+B\vdash m:C\\
+\overline{\Gamma\vdash\text{match}\left(s,x.m\left[\text{inl}_{A+B}(x)/h\right],y.m\left[\text{inr}_{A+B}(y)/h\right]\right)\equiv m\left[s/h\right]:C}
+\end{array}\text{Sum-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $s,\text{inl}_{A+B}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{inr}_{A+B}(y)$
+\end_inset
+
+ all each free for 
+\begin_inset Formula $h$
+\end_inset
+
+ in 
+\begin_inset Formula $m.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Functions
+\end_layout
+
+\begin_layout Standard
+The computation rule (
+\begin_inset Formula $\beta$
+\end_inset
+
+ reduction rule) for function types is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash m:C\hspace{1em}\Gamma\vdash a:A\\
+\overline{\Gamma\vdash\left(\left(\lambda x:A\right).m\right)\left(a\right)\equiv m\left[a/x\right]:C}
+\end{array}\text{Function-Computation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $a$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The uniqueness rule (
+\begin_inset Formula $\eta$
+\end_inset
+
+ conversion rule) for function types is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash f:A\rightarrow B\\
+\overline{\Gamma\vdash f\equiv\left(\lambda x:A\right).\left(f(x)\right):A\rightarrow B}
+\end{array}\text{Function-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Provided that 
+\begin_inset Formula $x$
+\end_inset
+
+ is not a free variable of 
+\begin_inset Formula $f$
+\end_inset
+
+ (that is, provided 
+\begin_inset Formula $x\notin FV(f)$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+We also require that the same function operating on equal inputs gives equal
+ outputs, that is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma\vdash a\equiv a':A}\\
+\Gamma\vdash f(a)\equiv f(a'):B
+\end{array}\text{Function-Similar Inputs}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We also require that operating equal functions on the same input give equal
+ outputs, that is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash b\equiv b':B\\
+\overline{\Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda x:A\right).b':A\rightarrow B}
+\end{array}\text{Function-Similar Functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, if there is an 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ conversion from 
+\begin_inset Formula $\left(\lambda x:A\right).b$
+\end_inset
+
+ to 
+\begin_inset Formula $\left(\lambda y:A\right).b'$
+\end_inset
+
+ then we consider 
+\begin_inset Formula $\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b',$
+\end_inset
+
+ however 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ conversion is somewhat technical to implement, and I presume there is no
+ need for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ conversion if the variable names are chosen well.
+ I guess the official rule for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ conversion is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::\left(x:A\right)\vdash b:B\hspace{1em}\Gamma::\left(y:A\right)\vdash b':B\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
+\Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $y$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b.$
+\end_inset
+
+ But I am not sure this rule properly defines alpha conversion (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "alpha"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+I guess the 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ conversion rules corresponding to the sum type are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right):C
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided 
+\begin_inset Formula $x'$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $u.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v':C}\\
+\Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right):C
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+provided 
+\begin_inset Formula $y'$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $v.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Further Directions
+\end_layout
+
+\begin_layout Enumerate
+It would be good to show that we can prove all the categorical machinery
+ (terminal object, products, initial object, coproducts, exponential objects)
+ can be produced, and that rules expressing their universal properties can
+ be derived.
+\end_layout
+
+\begin_layout Enumerate
+If we code up the above theory, we just seem to have to keep track of dependenci
+es (like how 
+\begin_inset Formula $\left\langle a,b\right\rangle $
+\end_inset
+
+ depends on 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+), and some label, and the lists of free and bound variables, and which
+ type a term has.
+ We could imagine all this as part of the data structure of the term, and
+ then terms start to look a lot more like objects in a category of presheaves,
+ or like algebras (W types).
+ This suggests we could abstract this theory, and open up the possibility
+ of categorical analysis of the meta theory.
+ 
+\end_layout
+
+\begin_layout Enumerate
+We may want to add natural number types, like in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lambek"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+We may want to add equalizers, subobject classifiers and reference to monomorphi
+sms, so we can do topos theory.
+\end_layout
+
+\begin_layout Enumerate
+The theory above allows us to model any bicartesian closed category 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lambdasums"
+
+\end_inset
+
+.
+ We can model 
+\begin_inset Formula $\textbf{Cat}$
+\end_inset
+
+ by adding appropriate axioms, as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mclarty"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Do example of making an element of 1 times A
+\end_layout
+
+\begin_layout Standard
+read how substitution is treated
+\end_layout
+
+\begin_layout Standard
+prove exponential properties
+\end_layout
+
+\begin_layout Standard
+Maybe we should use De-Brujin Notation.
+ !!!
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "lambdasums"
+
+\end_inset
+
+
+\emph on
+Extensional Normalisation and Type-Directed Partial Evaluation for Typed
+ Lambda Calculus with Sums
+\emph default
+ Vincent Balat, Roberto Di Cosmo, Marcelo Fiore
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "HoTT book"
+
+\end_inset
+
+Homotopy Type Theory Book
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "ncatlab1"
+
+\end_inset
+
+ncatlab type theory page 
+\begin_inset CommandInset href
+LatexCommand href
+name "ncatlab type theory"
+target "https://ncatlab.org/nlab/show/type+theory"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "harper"
+
+\end_inset
+
+Video 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.youtube.com/watch?v=KHteAK7GSRY"
+target "YouTube"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "mclarty"
+
+\end_inset
+
+
+\emph on
+Elementary categories, elementary toposes
+\emph default
+ Colin McLarty
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "stack exchange"
+
+\end_inset
+
+stack exchange website 
+\begin_inset CommandInset href
+LatexCommand href
+name "math stack exchange"
+target "https://math.stackexchange.com/questions/3915482/type-theory-rules-for-the-empty-type/3915535#3915535"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "ncatprod"
+
+\end_inset
+
+ncatlab products 
+\begin_inset CommandInset href
+LatexCommand href
+name "product types"
+target "https://ncatlab.org/nlab/show/product+type"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "alpha"
+
+\end_inset
+
+FUNCTIONAL PEARLS alpha-conversion is easy THORSTEN ALTENKIRCH
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Lambek"
+
+\end_inset
+
+
+\emph on
+Introduction to higher order categorical logic 
+\emph default
+Lambek and Scott
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "Taylor"
+
+\end_inset
+
+Practical Foundations of Mathematics, Chapter 2, Paul Taylor
+\end_layout
+
+\end_body
+\end_document
