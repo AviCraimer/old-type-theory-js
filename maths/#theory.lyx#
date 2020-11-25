@@ -1124,7 +1124,50 @@ key "HoTT book"
 
 \end_inset
 
-, but at the moment I don't think they are required.
+.
+ In our system these rules correspond to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}\hspace{1em}\Gamma::\Delta\vdash b:B}\\
+\Gamma::(x:A)::\Delta\vdash b:B
+\end{array}\text{Wkg1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\Delta\vdash b:B\\
+\overline{\Gamma::(K\_\text{type})::\Delta\vdash b:B}
+\end{array}\text{Wkg2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma::(x:A)\Delta\vdash b:B}\\
+\Gamma\vdash
+\end{array}\text{Function-Elim}
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1409,12 +1452,27 @@ To keep track of what is required within a computer, rather than just doing
 
  Also, when we have binding operators, they `color' the corresponding variables
  which might appear within the appropriate places deeper within the expression
- tree, and and we should make sure that after substitution, so previously
- free variables of the appropriate names, from 
+ tree, and and we should make sure that after substitution, so we want to
+ gaurd against previously free variables of the appropriate names, from
+ 
 \begin_inset Formula $a$
 \end_inset
 
-, 
+, being there , when we replace 
+\begin_inset Formula $x$
+\end_inset
+
+ with 
+\begin_inset Formula $a$
+\end_inset
+
+ in 
+\begin_inset Formula $u$
+\end_inset
+
+ so that the newly added subtree ends up lying within a colored region,
+ involving new bindings of said variables.
+ 
 \end_layout
 
 \begin_layout Subsection
