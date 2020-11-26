@@ -1818,7 +1818,7 @@ We also require that operating equal functions on the same input give equal
 \begin{array}{c}
 \Gamma::\left(x:A\right)\vdash b\equiv b':B\\
 \overline{\Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda x:A\right).b':A\rightarrow B}
-\end{array}\text{Function-Similar Functions}
+\end{array}\text{Function-Similar Functions 1}
 \end{equation}
 
 \end_inset
@@ -1967,6 +1967,198 @@ provided
 \end_layout
 
 \begin_layout Section
+Equality implies type declaration
+\end_layout
+
+\begin_layout Standard
+I propose that the following additional rule be added 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a\equiv a':A}\\
+\Gamma\vdash a:A
+\end{array}\text{Equal Existence}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This rule does not seem required, but does seem to make such as Similarity
+ simpler (which without this, would have to include 
+\begin_inset Formula $\Gamma\vdash a:A$
+\end_inset
+
+ and 
+\begin_inset Formula $\Gamma\vdash a':A$
+\end_inset
+
+ above the horizontal line)
+\end_layout
+
+\begin_layout Standard
+Maybe this can be derived from Equal Inputs, using the identity function
+\end_layout
+
+\begin_layout Section
+Consequences 
+\end_layout
+
+\begin_layout Subsection
+Similarity
+\end_layout
+
+\begin_layout Standard
+Using Equal Existence (to simplify) we may derive the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma:a\equiv a':A\hspace{1em}\Gamma,x:A\vdash b:B}\\
+\Gamma\vdash b[a/x]\equiv b[a'/x]:B
+\end{array}\text{Similarity}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x$
+\end_inset
+
+ is free for 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $a'$
+\end_inset
+
+ in 
+\begin_inset Formula $b.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+The Similarity rule can be proved as follows ***
+\end_layout
+
+\begin_layout Standard
+***
+\end_layout
+
+\begin_layout Standard
+Using the Similarity rule one may derive the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash f\equiv g:A\rightarrow B\hspace{1em}\Gamma\vdash a:A}\\
+\Gamma\vdash f(a)\equiv g(a):B
+\end{array}\text{Function-Similar Functions 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+as follows
+\end_layout
+
+\begin_layout Standard
+***
+\end_layout
+
+\begin_layout Subsection
+Transposition With Function Types
+\end_layout
+
+\begin_layout Standard
+j
+\end_layout
+
+\begin_layout Standard
+Using 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Similar Functions 2 (and other previous results)
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ we can now obtain the follows two important results about how function
+ types work
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma,x:A\vdash p\equiv f(x):B}\\
+\Gamma\vdash f\equiv\left(\lambda x:A\right).p:A\rightarrow B
+\end{array}\text{Curry}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof of this result is as follows ***
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,x:A\vdash p:B\hspace{1em}\Gamma\vdash f\equiv\left(\lambda x:A\right).p:A\rightarrow B}\\
+\Gamma,x:A\vdash p\equiv f(x):B
+\end{array}\text{Uncurry}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof of this result is as follows ***
+\end_layout
+
+\begin_layout Section
 Further Directions
 \end_layout
 
@@ -2060,6 +2252,26 @@ Maybe we should use De-Brujin Notation.
 \begin_layout Standard
 Should we also add the idea that equal things can replace reach other, like
  we can get from Mclarty/Bell ?
+\end_layout
+
+\begin_layout Standard
+Await answer
+\end_layout
+
+\begin_layout Standard
+Add proofs
+\end_layout
+
+\begin_layout Standard
+Finish exponentials
+\end_layout
+
+\begin_layout Standard
+Note cut seems optional
+\end_layout
+
+\begin_layout Standard
+Add equalizer game
 \end_layout
 
 \begin_layout Bibliography
