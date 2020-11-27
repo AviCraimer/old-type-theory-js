@@ -1989,20 +1989,17 @@ I propose that the following additional rule be added
 \end_layout
 
 \begin_layout Standard
-This rule does not seem required, but does seem to make such as Similarity
- simpler (which without this, would have to include 
-\begin_inset Formula $\Gamma\vdash a:A$
+This rule seems to make sense.
+ Note that now we could simplify the type theory by replacing 
+\begin_inset Formula $a:A$
 \end_inset
 
- and 
-\begin_inset Formula $\Gamma\vdash a':A$
+ with 
+\begin_inset Formula $a\equiv a:A$
 \end_inset
 
- above the horizontal line)
-\end_layout
-
-\begin_layout Standard
-Maybe this can be derived from Equal Inputs, using the identity function
+ throughout the theory if we want.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2052,11 +2049,17 @@ where
 \end_layout
 
 \begin_layout Standard
-The Similarity rule can be proved as follows:
+The Similarity rule can be proved as follows 
 \end_layout
 
 \begin_layout Standard
-***
+\begin_inset Graphics
+	filename similarity.JPG
+	scale 50
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2082,7 +2085,13 @@ as follows
 \end_layout
 
 \begin_layout Standard
-***
+\begin_inset Graphics
+	filename simfun2.JPG
+	scale 50
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2126,7 +2135,7 @@ Similar Functions 2 (and other previous results)
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma,x:A\vdash p\equiv f(x):B}\\
+\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma::\left(x:A\right)\vdash p\equiv f(x):B}\\
 \Gamma\vdash f\equiv\left(\lambda x:A\right).p:A\rightarrow B
 \end{array}\text{Curry}
 \end{equation}
@@ -2137,17 +2146,115 @@ Similar Functions 2 (and other previous results)
 \end_layout
 
 \begin_layout Standard
+The proof of this result is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename curry.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma,x:A\vdash p:B\hspace{1em}\Gamma\vdash f\equiv\left(\lambda x:A\right).p:A\rightarrow B}\\
-\Gamma,x:A\vdash p\equiv f(x):B
+\underline{\Gamma::\left(x:A\right)\vdash p:B\hspace{1em}\Gamma\vdash f\equiv\left(\lambda x:A\right).p:A\rightarrow B}\\
+\Gamma::\left(x:A\right)\vdash p\equiv f(x):B
 \end{array}\text{Uncurry}
 \end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The proof of this result is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename uncurry.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Componentwise equal terms in products
+\end_layout
+
+\begin_layout Standard
+We propose
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash p:A\times B\hspace{1em}\Gamma\vdash a\equiv\text{fst}(p):A\hspace{1em}\Gamma\vdash b\equiv\text{snd}(p):B}\\
+\Gamma\vdash\left\langle a,b\right\rangle \equiv p:A\times B
+\end{array}\text{Equal pair}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof is as follows ***
+\end_layout
+
+\begin_layout Standard
+We also propose 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B\hspace{1em}\Gamma\vdash\left\langle a,b\right\rangle \equiv p:A\times B}\\
+\Gamma\vdash a\equiv\text{fst}(p):A
+\end{array}\text{Equal first}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof is as follows ***
+\end_layout
+
+\begin_layout Standard
+We also propose
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A\hspace{1em}\Gamma\vdash b:B\hspace{1em}\Gamma\vdash\left\langle a,b\right\rangle \equiv p:A\times B}\\
+\Gamma\vdash b\equiv\text{snd}(p):B
+\end{array}\text{Equal second}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof of this is si
 \end_layout
 
 \begin_layout Section
@@ -2244,6 +2351,34 @@ Maybe we should use De-Brujin Notation.
 \begin_layout Standard
 Should we also add the idea that equal things can replace reach other, like
  we can get from Mclarty/Bell ?
+\end_layout
+
+\begin_layout Standard
+Await answer
+\end_layout
+
+\begin_layout Standard
+Add proofs
+\end_layout
+
+\begin_layout Standard
+Finish exponentials
+\end_layout
+
+\begin_layout Standard
+Note cut seems optional
+\end_layout
+
+\begin_layout Standard
+Add equalizer game
+\end_layout
+
+\begin_layout Standard
+Show product universality
+\end_layout
+
+\begin_layout Standard
+Show exponential universality 
 \end_layout
 
 \begin_layout Bibliography
