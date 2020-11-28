@@ -2113,6 +2113,48 @@ These rules can be expressed more concisely by using Mclarty's double line
  notation.
 \end_layout
 
+\begin_layout Standard
+The following optional rule may be useful in some circumstances (similar
+ rules could be introducted to extract parts of terms involved in products
+ and sums).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash\left(\lambda x:A\right).b:A\rightarrow B}\\
+\Gamma\vdash b:B
+\end{array}\text{Function Extract}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I am not sure if the above rule can be derived in this theory.
+\end_layout
+
+\begin_layout Standard
+In a similar way we may also wish to include the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A}\\
+\Gamma\hspace{1em}\text{ctx}
+\end{array}\text{Context Extract}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Consequences 
 \end_layout
@@ -2471,8 +2513,8 @@ We can form the product
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma\vdash f:A\rightarrow A'\hspace{1em}\Gamma\vdash g:B\rightarrow B'}\\
-\Gamma,p:A\times B\vdash\left\langle f\right\rangle 
+\Gamma\vdash f:A\rightarrow A'\hspace{1em}\Gamma\vdash g:B\rightarrow B'\\
+\overline{\Gamma,p:A\times B\vdash\left\langle f\left(\text{fst}(p)\right),g\left(\text{snd}(p)\right)\right\rangle :A'\times B'}
 \end{array}\text{Multiply functions}
 \end{equation}
 
@@ -2482,7 +2524,153 @@ We can form the product
 \end_layout
 
 \begin_layout Standard
-which can be proved as follows ***
+which can be proved as follows 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename multiplyArrows.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The Many Forms of Judgements
+\end_layout
+
+\begin_layout Standard
+The notation 
+\begin_inset Formula $x_{1}:A_{1},x_{2}:A_{2},\dots,x_{n}:A_{n}\vdash d:D$
+\end_inset
+
+ can always be considered to have several equivalent meanings.
+ We illustraite this with the following rules for the 
+\begin_inset Formula $n=2$
+\end_inset
+
+ case:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma,x:A,y:B\vdash d:D\\
+\overline{\Gamma\vdash\left(\lambda x:A\right)\left[\left(\lambda y:B\right).d\right]:A\rightarrow(B\rightarrow D)}
+\end{array}\text{Judgement to functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename judgementToFunctions.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash k:A\rightarrow(B\rightarrow D)\\
+\overline{\Gamma,x:A,y:B\vdash\left(k(x)\right)(y):D}
+\end{array}\text{Functions to judgements}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename functionsToJudgement.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash k:A\rightarrow(B\rightarrow D)\\
+\overline{\Gamma,z:A\times B\vdash\left(k\left[\text{fst}(z)\right]\right)(\text{snd}(z)):D}
+\end{array}\text{Functions to pair function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename functionsToPairFunction.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma,z:A\times B\vdash d:D\\
+\overline{\Gamma\vdash\left(\lambda x:A\right).\left[\left(\lambda y:B\right).\left[\left(\left(\lambda z:A\times B\right).d\right)\left(\left\langle x,y\right\rangle \right)\right]\right]:A\rightarrow\left(B\rightarrow D\right)}
+\end{array}\text{Pair function to functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+***
+\end_layout
+
+\begin_layout Standard
+Note that many of these conversions could also be performed by inline functions
+ (for example the isomorphism from 
+\begin_inset Formula $\left(D^{B}\right)^{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $D^{A\times B}$
+\end_inset
+
+ ).
 \end_layout
 
 \begin_layout Subsection
@@ -2490,7 +2678,19 @@ Properties of Functions
 \end_layout
 
 \begin_layout Standard
+***
+\end_layout
+
+\begin_layout Standard
+The proofs are as follows***
+\end_layout
+
+\begin_layout Standard
 Identity function
+\end_layout
+
+\begin_layout Standard
+Identity law
 \end_layout
 
 \begin_layout Standard
@@ -2519,6 +2719,19 @@ Universality of function types
 
 \begin_layout Standard
 univerality of initial, terminal and coproduct
+\end_layout
+
+\begin_layout Standard
+points.
+ terminal objects and elements
+\end_layout
+
+\begin_layout Standard
+raising arrows to powers
+\end_layout
+
+\begin_layout Standard
+Lawvere's lambda
 \end_layout
 
 \begin_layout Section
