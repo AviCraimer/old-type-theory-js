@@ -2003,6 +2003,117 @@ This rule seems to make sense.
 \end_layout
 
 \begin_layout Section
+Simplified Handling of Types
+\end_layout
+
+\begin_layout Standard
+Adding the following rules seems sensible to simplify statements of theorems
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a:A\\
+\overline{\Gamma\vdash A\_\text{type}}
+\end{array}\text{Has Type}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\times B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Product 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\times B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Product 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A+B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Sum 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A+B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Sum 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\rightarrow B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Function 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\rightarrow B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Function 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These rules can be expressed more concisely by using Mclarty's double line
+ notation.
+\end_layout
+
+\begin_layout Section
 Consequences 
 \end_layout
 
@@ -2275,6 +2386,153 @@ We also propose
 
 \begin_layout Standard
 The proof of this is similar to that of Equal first.
+\end_layout
+
+\begin_layout Subsection
+Universality of Product
+\end_layout
+
+\begin_layout Standard
+The first projection arrows is given by using product elimination rule 1
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename projectionFunction1.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the second projection arrow is given similarly.
+\end_layout
+
+\begin_layout Standard
+The notion that pairing and projection undo each other to make the red part
+ of the diagram commute can be obtained by using product computation rules
+ 1 and 2 with 
+\begin_inset Formula $\Gamma=\left(z:H\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename productUniversality.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The uniqueness of 
+\begin_inset Formula $\left\langle a,b\right\rangle $
+\end_inset
+
+ (that is, the fact that any 
+\begin_inset Formula $H\overset{p}{\rightarrow}A\times B$
+\end_inset
+
+ such that 
+\begin_inset Formula $\text{fst}\circ p=a$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{snd}\circ p=b$
+\end_inset
+
+ must be 
+\begin_inset Formula $p=\left\langle a,b\right\rangle $
+\end_inset
+
+) can be established using Equal Pair with 
+\begin_inset Formula $\Gamma=\left(z:H\right).$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+We can form the product 
+\begin_inset Formula $(f\times g):A\times B\rightarrow A'\times B'$
+\end_inset
+
+ using the rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash f:A\rightarrow A'\hspace{1em}\Gamma\vdash g:B\rightarrow B'\\
+\overline{\Gamma,p:A\times B\vdash\left\langle f\left(\text{fst}(p)\right),g\left(\text{snd}(p)\right)\right\rangle :A'\times B'}
+\end{array}\text{Multiply functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which can be proved as follows 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename multiplyArrows.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Properties of Functions
+\end_layout
+
+\begin_layout Standard
+Identity function
+\end_layout
+
+\begin_layout Standard
+Identity law
+\end_layout
+
+\begin_layout Standard
+An alternative interpretation of entailment notation
+\end_layout
+
+\begin_layout Standard
+Function Composition
+\end_layout
+
+\begin_layout Standard
+Converting between 
+\begin_inset Formula $A\rightarrow(B\rightarrow C)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Universality of function types
+\end_layout
+
+\begin_layout Standard
+univerality of initial, terminal and coproduct
 \end_layout
 
 \begin_layout Section
