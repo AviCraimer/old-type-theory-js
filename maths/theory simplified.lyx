@@ -2700,7 +2700,59 @@ Note that many of these conversions could also be performed by inline functions
 \end_layout
 
 \begin_layout Subsection
-Properties of Functions
+Composition
+\end_layout
+
+\begin_layout Standard
+One way to express arrow composition is via the rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,x:A\vdash b:B\hspace{1em}\Gamma,y:B\vdash\gamma:C}\\
+\Gamma,x:A\vdash\gamma[b/y]:C
+\end{array}\text{Composition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $b$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $\gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename composition.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Functions
 \end_layout
 
 \begin_layout Standard

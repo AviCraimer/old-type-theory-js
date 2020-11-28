@@ -2700,7 +2700,15 @@ Note that many of these conversions could also be performed by inline functions
 \end_layout
 
 \begin_layout Subsection
-Properties of Functions
+Composition
+\end_layout
+
+\begin_layout Standard
+One way to ex
+\end_layout
+
+\begin_layout Subsection
+Universality of Functions
 \end_layout
 
 \begin_layout Standard
@@ -2727,6 +2735,20 @@ Note
 \overline{\Gamma,f:B\rightarrow C,x:B\vdash f(x):C}
 \end{array}\text{Evaluation}
 \end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exp.JPG
+	scale 50
 
 \end_inset
 
