@@ -2629,7 +2629,13 @@ proof
 \end_layout
 
 \begin_layout Standard
-***
+\begin_inset Graphics
+	filename functionsToPairFunction.JPG
+	scale 50
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2651,7 +2657,13 @@ proof
 \end_layout
 
 \begin_layout Standard
-***
+\begin_inset Graphics
+	filename pairFunctionToFunctions.JPG
+	scale 50
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
