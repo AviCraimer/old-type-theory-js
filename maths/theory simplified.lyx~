@@ -2832,10 +2832,6 @@ Hence we can see that
 
 \end_layout
 
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Subsection
 Universality of Functions
 \end_layout
@@ -3176,11 +3172,7 @@ The fact that
 \end_layout
 
 \begin_layout Standard
-Identity function
-\end_layout
-
-\begin_layout Standard
-Identity law
+Distributivity
 \end_layout
 
 \begin_layout Standard
