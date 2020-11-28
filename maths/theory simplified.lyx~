@@ -2700,7 +2700,144 @@ Note that many of these conversions could also be performed by inline functions
 \end_layout
 
 \begin_layout Subsection
-Properties of Functions
+Composition
+\end_layout
+
+\begin_layout Standard
+One way to express arrow composition is via the rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,x:A\vdash b:B\hspace{1em}\Gamma,y:B\vdash\gamma:C}\\
+\Gamma,x:A\vdash\gamma[b/y]:C
+\end{array}\text{Composition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $b$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $\gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename composition.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So essentially the composition 
+\begin_inset Formula $A\overset{b}{\rightarrow}B\overset{\gamma}{\rightarrow}C$
+\end_inset
+
+ (that is, 
+\begin_inset Formula $\gamma\circ b$
+\end_inset
+
+) corresponds to 
+\begin_inset Formula $\Gamma,x:A\vdash\gamma[b/y]:C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distributivity of composition can be established by considering how
+ substitution works.
+ 
+\end_layout
+
+\begin_layout Standard
+The identity arrow of 
+\begin_inset Formula $B$
+\end_inset
+
+ is 
+\begin_inset Formula $y:B\vdash y:B.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Hence we can see that 
+\begin_inset Formula $1_{B}$
+\end_inset
+
+ after 
+\begin_inset Formula $A\overset{b}{\rightarrow}B$
+\end_inset
+
+ is 
+\begin_inset Formula $b$
+\end_inset
+
+ by noting that 
+\begin_inset Formula $\Gamma,x:A\vdash y[b/y]:B$
+\end_inset
+
+ is 
+\begin_inset Formula $\Gamma,x:A\vdash b:B.$
+\end_inset
+
+ Moreover, we can see that 
+\begin_inset Formula $B\overset{\gamma}{\rightarrow}C$
+\end_inset
+
+ after 
+\begin_inset Formula $1_{B}$
+\end_inset
+
+ is 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ by noting that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma,y:B\vdash\gamma[y/y]:C$
+\end_inset
+
+ is 
+\begin_inset Formula $\Gamma,y:B\vdash\gamma:C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Functions
 \end_layout
 
 \begin_layout Standard
@@ -2724,7 +2861,7 @@ Note
 \begin{equation}
 \begin{array}{c}
 \Gamma\vdash B\_\text{type\hspace{1em}\Gamma\vdash C\_type}\\
-\overline{\Gamma,f:B\rightarrow C,x:B\vdash f(x):C}
+\overline{\Gamma::\left(f:B\rightarrow C,x:B\right)\vdash f(x):C}
 \end{array}\text{Evaluation}
 \end{equation}
 
@@ -2748,11 +2885,294 @@ proof
 \end_layout
 
 \begin_layout Standard
-***
+Formation of the transpose 
+\begin_inset Formula $A\overset{\overline{m}}{\rightarrow}C^{B}$
+\end_inset
+
+ corresponds with the following special case of function introduction:
 \end_layout
 
 \begin_layout Standard
-The proofs are as follows***
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A,y:B\right)\vdash m:C\\
+\overline{\Gamma::\left(x:A\right)\vdash\left(\lambda y:B\right).m:B\rightarrow C}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In other words 
+\begin_inset Formula $A\times B\overset{m}{\rightarrow}C$
+\end_inset
+
+ is represented as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A,y:B\right)\vdash m:C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the transpose 
+\begin_inset Formula $A\overset{\overline{m}}{\rightarrow}C^{B}$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A\right)\vdash\left(\lambda y:B\right).m:B\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moreover 
+\begin_inset Formula $A\overset{q}{\rightarrow}B^{C}$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A\right)\vdash q:B\rightarrow C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the evaluation of the composition 
+\begin_inset Formula $A\times B\overset{e(q\times1_{B})}{\longrightarrow}C$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A,y:B\right)\vdash q(y):C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that the diagram 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename expTri.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+commutes is established as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename triCom.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that any 
+\begin_inset Formula $A\overset{q}{\rightarrow}B^{C}$
+\end_inset
+
+ such that 
+\begin_inset Formula $e\circ(q\times1_{B})=m$
+\end_inset
+
+ must be 
+\begin_inset Formula $q=\overline{m}$
+\end_inset
+
+ is established using the following special case of the Curry rule:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::\left(x:A\right)\vdash q:B\rightarrow C\hspace{1em}\Gamma::\left(x:A,y:B\right)\vdash m\equiv q(y):C}\\
+\Gamma::\left(x:A\right)\vdash q\equiv\left(\lambda y:B\right).m:B\rightarrow C
+\end{array}\text{}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And so this shows the universality of function types.
+\end_layout
+
+\begin_layout Subsection
+Universality of Unit Types
+\end_layout
+
+\begin_layout Standard
+The arrow 
+\begin_inset Formula $A\overset{!_{A}}{\rightarrow}1$
+\end_inset
+
+ can be established using unit introduction as follows
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\hspace{1em}\text{ctx}}\\
+\Gamma\vdash\ast:1\\
+\overline{\Gamma::\left(x:A\right)\vdash\ast:1}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $!_{A}$
+\end_inset
+
+ is the only arrow from 
+\begin_inset Formula $A$
+\end_inset
+
+ to 
+\begin_inset Formula $1$
+\end_inset
+
+ can be established using Unit Uniqueness as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash v:1\\
+\overline{\Gamma::\left(x:A\right)\vdash v\equiv\ast:1}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Empty Types
+\end_layout
+
+\begin_layout Standard
+The presence of a function from the empty type, 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $A$
+\end_inset
+
+ can be established by the following usage of the Empty Elimination Rule:
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,e:0\vdash A\_\text{type}\hspace{1em}\overline{\Gamma,e:0\vdash e:0}}\\
+\Gamma,e:0\vdash\text{abort}_{A}(e):A
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that this arrow is unique is shown by the following application
+ of the Empty Uniqueness Rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\overline{\Gamma,e:\vdash e:0}\hspace{1em}\Gamma,e:0\vdash A\_\text{type}\hspace{1em}\Gamma,e:0\vdash a:A}\\
+\Gamma,e:0\vdash\text{abort}_{A}(e)\equiv a:A
+\end{array}\text{Empty-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Sum types
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $A+B\overset{\text{match}}{\longrightarrow}C$
+\end_inset
+
+ makes the following diagram commute is established by Sum Computation 1
+ and Sum Computation 2.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename sum.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $A+B\overset{\text{match}}{\longrightarrow}C$
+\end_inset
+
+ is the unique arrow from 
+\begin_inset Formula $A+B$
+\end_inset
+
+ to 
+\begin_inset Formula $C$
+\end_inset
+
+ with this property is established by Sum Uniqueness.
 \end_layout
 
 \begin_layout Standard
