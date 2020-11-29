@@ -649,7 +649,10 @@ key "lambdasums"
 
 \end_inset
 
-.
+ as 
+\begin_inset Formula $\overline{\Gamma::(x:A)::\Delta\vdash x:A}$
+\end_inset
+
  However 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -657,7 +660,7 @@ key "Taylor"
 
 \end_inset
 
- uses a different rule which they call the identity rule instead.
+ uses a different rule which they call the identity rule instead (page 84).
  However, we may derive said identity rule as follows: 
 \end_layout
 

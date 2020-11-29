@@ -999,8 +999,8 @@ Our final structural rule is
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma::(x:A,y:A)::\Delta\vdash b:B}\\
-\Gamma::(y:A,x:A)::\Delta\vdash b:B
+\underline{\Gamma::(x:A,y:B)::\Delta\vdash c:C}\\
+\Gamma::(y:B,x:A)::\Delta\vdash c:C
 \end{array}\text{Exchange}
 \end{equation}
 
