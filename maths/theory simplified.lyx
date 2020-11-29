@@ -882,11 +882,11 @@ key "Taylor"
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
+\begin_inset Formula $a$
 \end_inset
 
  is free for 
-\begin_inset Formula $a$
+\begin_inset Formula $x$
 \end_inset
 
  in 
@@ -2206,15 +2206,15 @@ Using Equal Existence (to simplify) we may derive the following rule
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
-\end_inset
-
- is free for 
 \begin_inset Formula $a$
 \end_inset
 
  and 
 \begin_inset Formula $a'$
+\end_inset
+
+ are both is free for 
+\begin_inset Formula $x$
 \end_inset
 
  in 
