@@ -823,7 +823,7 @@ To keep track of what is required within a computer, rather than just doing
  Also, when we have binding operators, they `color' the corresponding variables
  which might appear within the appropriate places deeper within the expression
  tree, and and we should make sure that after substitution, so we want to
- gaurd against previously free variables of the appropriate names, from
+ guard against previously free variables of the appropriate names, from
  
 \begin_inset Formula $a$
 \end_inset
@@ -840,7 +840,7 @@ To keep track of what is required within a computer, rather than just doing
 \begin_inset Formula $u$
 \end_inset
 
- so that the newly added subtree ends up lying within a colored region,
+ so that the newly added sub-tree ends up lying within a colored region,
  involving new bindings of said variables.
  
 \end_layout
@@ -905,7 +905,7 @@ key "Taylor"
 \end_layout
 
 \begin_layout Standard
-The way the cut rule can be vizualized in terms of category theory as pictured
+The way the cut rule can be visualized in terms of category theory as pictured
  below
 \end_layout
 
@@ -950,7 +950,7 @@ In terms of category theory, this just corresponds to doing the product
 \begin_inset Formula $b$
 \end_inset
 
- invisably.
+ invisibly.
  
 \end_layout
 
@@ -2118,7 +2118,7 @@ These rules can be expressed more concisely by using Mclarty's double line
 
 \begin_layout Standard
 The following optional rule may be useful in some circumstances (similar
- rules could be introducted to extract parts of terms involved in products
+ rules could be introduced to extract parts of terms involved in products
  and sums).
 \end_layout
 
@@ -2364,7 +2364,7 @@ The proof of this result is as follows:
 \end_layout
 
 \begin_layout Subsection
-Componentwise equal terms in products
+Component-wise equal terms in products
 \end_layout
 
 \begin_layout Standard
@@ -2561,7 +2561,7 @@ which can be proved as follows
 \end_layout
 
 \begin_layout Subsection
-The Many Forms of Judgements
+The Many Forms of Judgments
 \end_layout
 
 \begin_layout Standard
@@ -2570,7 +2570,7 @@ The notation
 \end_inset
 
  can always be considered to have several equivalent meanings.
- We illustraite this with the following rules for the 
+ We illustrate this with the following rules for the 
 \begin_inset Formula $n=2$
 \end_inset
 
@@ -3172,51 +3172,9 @@ The fact that
 \end_inset
 
  with this property is established by Sum Uniqueness.
-\end_layout
-
-\begin_layout Standard
-Distributivity
-\end_layout
-
-\begin_layout Standard
-An alternative interpretation of entailment notation
-\end_layout
-
-\begin_layout Standard
-Function Composition
-\end_layout
-
-\begin_layout Standard
-Converting between 
-\begin_inset Formula $A\rightarrow(B\rightarrow C)$
-\end_inset
-
- and 
-\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Universality of function types
-\end_layout
-
-\begin_layout Standard
-univerality of initial, terminal and coproduct
-\end_layout
-
-\begin_layout Standard
-points.
- terminal objects and elements
-\end_layout
-
-\begin_layout Standard
-raising arrows to powers
-\end_layout
-
-\begin_layout Standard
-Lawvere's lambda
+ In particular, the fact can be established by using the alpha conversion
+ principle of sum types, together with the uniqueness principal with sum
+ types, as I discuss in my video Foundations: Simple Type Theory.
 \end_layout
 
 \begin_layout Section
@@ -3291,6 +3249,68 @@ key "mclarty"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Enumerate
+If equalizers can be included, we can represent monomorphisms, by the property
+ that pulling them back along themselves gives the identity, and hence we
+ can include rules for subobject classifiers, and we can model topos theory.
+ We could also add the rule about point-wise equal arrows being equal to
+ model 
+\begin_inset Formula $\textbf{Set}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are some extra notes about things I want to elaborate on, in this simple
+ type theory:
+\end_layout
+
+\begin_layout Standard
+Distributivity
+\end_layout
+
+\begin_layout Standard
+An alternative interpretation of entailment notation
+\end_layout
+
+\begin_layout Standard
+Function Composition
+\end_layout
+
+\begin_layout Standard
+Converting between 
+\begin_inset Formula $A\rightarrow(B\rightarrow C)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Universality of function types
+\end_layout
+
+\begin_layout Standard
+universality of initial, terminal and coproduct
+\end_layout
+
+\begin_layout Standard
+points.
+ terminal objects and elements
+\end_layout
+
+\begin_layout Standard
+raising arrows to powers
+\end_layout
+
+\begin_layout Standard
+Lawvere's lambda
 \end_layout
 
 \begin_layout Standard

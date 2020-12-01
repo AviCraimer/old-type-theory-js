@@ -649,7 +649,10 @@ key "lambdasums"
 
 \end_inset
 
-.
+ as 
+\begin_inset Formula $\overline{\Gamma::(x:A)::\Delta\vdash x:A}$
+\end_inset
+
  However 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -657,7 +660,7 @@ key "Taylor"
 
 \end_inset
 
- uses a different rule which they call the identity rule instead.
+ uses a different rule which they call the identity rule instead (page 84).
  However, we may derive said identity rule as follows: 
 \end_layout
 
@@ -879,11 +882,11 @@ key "Taylor"
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
+\begin_inset Formula $a$
 \end_inset
 
  is free for 
-\begin_inset Formula $a$
+\begin_inset Formula $x$
 \end_inset
 
  in 
@@ -996,8 +999,8 @@ Our final structural rule is
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma::(x:A,y:A)::\Delta\vdash b:B}\\
-\Gamma::(y:A,x:A)::\Delta\vdash b:B
+\underline{\Gamma::(x:A,y:B)::\Delta\vdash c:C}\\
+\Gamma::(y:B,x:A)::\Delta\vdash c:C
 \end{array}\text{Exchange}
 \end{equation}
 
@@ -2203,15 +2206,15 @@ Using Equal Existence (to simplify) we may derive the following rule
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
-\end_inset
-
- is free for 
 \begin_inset Formula $a$
 \end_inset
 
  and 
 \begin_inset Formula $a'$
+\end_inset
+
+ are both is free for 
+\begin_inset Formula $x$
 \end_inset
 
  in 
@@ -2822,7 +2825,11 @@ Hence we can see that
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\Gamma,y:B\\o$
+\begin_inset Formula $\Gamma,y:B\vdash\gamma[y/y]:C$
+\end_inset
+
+ is 
+\begin_inset Formula $\Gamma,y:B\vdash\gamma:C.$
 \end_inset
 
 
@@ -3165,55 +3172,9 @@ The fact that
 \end_inset
 
  with this property is established by Sum Uniqueness.
-\end_layout
-
-\begin_layout Standard
-Identity function
-\end_layout
-
-\begin_layout Standard
-Identity law
-\end_layout
-
-\begin_layout Standard
-An alternative interpretation of entailment notation
-\end_layout
-
-\begin_layout Standard
-Function Composition
-\end_layout
-
-\begin_layout Standard
-Converting between 
-\begin_inset Formula $A\rightarrow(B\rightarrow C)$
-\end_inset
-
- and 
-\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Universality of function types
-\end_layout
-
-\begin_layout Standard
-univerality of initial, terminal and coproduct
-\end_layout
-
-\begin_layout Standard
-points.
- terminal objects and elements
-\end_layout
-
-\begin_layout Standard
-raising arrows to powers
-\end_layout
-
-\begin_layout Standard
-Lawvere's lambda
+ In particular, the fact can be established by using the alpha conversion
+ principle of sum types, together with the uniqueness principal with sum
+ types, as I discuss in my video Foundations: Simple Type Theory.
 \end_layout
 
 \begin_layout Section
@@ -3288,6 +3249,58 @@ key "mclarty"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Enumerate
+If equalizers can be included, we can represent monomorphisms, by the property
+ that pulling them back along themslves gives the identity, and hence we
+ can include rules for subobject classifiers, and we can model topos theory.
+ We could also add the 
+\end_layout
+
+\begin_layout Standard
+Distributivity
+\end_layout
+
+\begin_layout Standard
+An alternative interpretation of entailment notation
+\end_layout
+
+\begin_layout Standard
+Function Composition
+\end_layout
+
+\begin_layout Standard
+Converting between 
+\begin_inset Formula $A\rightarrow(B\rightarrow C)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Universality of function types
+\end_layout
+
+\begin_layout Standard
+univerality of initial, terminal and coproduct
+\end_layout
+
+\begin_layout Standard
+points.
+ terminal objects and elements
+\end_layout
+
+\begin_layout Standard
+raising arrows to powers
+\end_layout
+
+\begin_layout Standard
+Lawvere's lambda
 \end_layout
 
 \begin_layout Standard
