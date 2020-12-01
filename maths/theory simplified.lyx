@@ -649,7 +649,10 @@ key "lambdasums"
 
 \end_inset
 
-.
+ as 
+\begin_inset Formula $\overline{\Gamma::(x:A)::\Delta\vdash x:A}$
+\end_inset
+
  However 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -657,7 +660,7 @@ key "Taylor"
 
 \end_inset
 
- uses a different rule which they call the identity rule instead.
+ uses a different rule which they call the identity rule instead (page 84).
  However, we may derive said identity rule as follows: 
 \end_layout
 
@@ -820,7 +823,7 @@ To keep track of what is required within a computer, rather than just doing
  Also, when we have binding operators, they `color' the corresponding variables
  which might appear within the appropriate places deeper within the expression
  tree, and and we should make sure that after substitution, so we want to
- gaurd against previously free variables of the appropriate names, from
+ guard against previously free variables of the appropriate names, from
  
 \begin_inset Formula $a$
 \end_inset
@@ -837,7 +840,7 @@ To keep track of what is required within a computer, rather than just doing
 \begin_inset Formula $u$
 \end_inset
 
- so that the newly added subtree ends up lying within a colored region,
+ so that the newly added sub-tree ends up lying within a colored region,
  involving new bindings of said variables.
  
 \end_layout
@@ -879,11 +882,11 @@ key "Taylor"
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
+\begin_inset Formula $a$
 \end_inset
 
  is free for 
-\begin_inset Formula $a$
+\begin_inset Formula $x$
 \end_inset
 
  in 
@@ -902,7 +905,7 @@ key "Taylor"
 \end_layout
 
 \begin_layout Standard
-The way the cut rule can be vizualized in terms of category theory as pictured
+The way the cut rule can be visualized in terms of category theory as pictured
  below
 \end_layout
 
@@ -947,7 +950,7 @@ In terms of category theory, this just corresponds to doing the product
 \begin_inset Formula $b$
 \end_inset
 
- invisably.
+ invisibly.
  
 \end_layout
 
@@ -996,8 +999,8 @@ Our final structural rule is
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\underline{\Gamma::(x:A,y:A)::\Delta\vdash b:B}\\
-\Gamma::(y:A,x:A)::\Delta\vdash b:B
+\underline{\Gamma::(x:A,y:B)::\Delta\vdash c:C}\\
+\Gamma::(y:B,x:A)::\Delta\vdash c:C
 \end{array}\text{Exchange}
 \end{equation}
 
@@ -2003,6 +2006,179 @@ This rule seems to make sense.
 \end_layout
 
 \begin_layout Section
+Simplified Handling of Types
+\end_layout
+
+\begin_layout Standard
+Adding the following rules seems sensible to simplify statements of theorems
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash a:A\\
+\overline{\Gamma\vdash A\_\text{type}}
+\end{array}\text{Has Type}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\times B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Product 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\times B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Product 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A+B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Sum 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A+B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Sum 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\rightarrow B\_\text{type}}\\
+\Gamma\vdash A\_\text{type}
+\end{array}\text{Unform Function 1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\rightarrow B\_\text{type}}\\
+\Gamma\vdash B\_\text{type}
+\end{array}\text{Unform Function 2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These rules can be expressed more concisely by using Mclarty's double line
+ notation.
+\end_layout
+
+\begin_layout Standard
+The following optional rule may be useful in some circumstances (similar
+ rules could be introduced to extract parts of terms involved in products
+ and sums).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash\left(\lambda x:A\right).b:A\rightarrow B}\\
+\Gamma\vdash b:B
+\end{array}\text{Function Extract}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I am not sure if the above rule can be derived in this theory.
+\end_layout
+
+\begin_layout Standard
+In a similar way we may also wish to include the following rules
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash a:A}\\
+\Gamma\hspace{1em}\text{ctx}
+\end{array}\text{Context Extract}1
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash A\_\text{type}}\\
+\Gamma\hspace{1em}\text{ctx}
+\end{array}\text{Context Extract}2
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Context Extract 1 can be derived using Has Type followed by Context Extract
+ 2.
+\end_layout
+
+\begin_layout Standard
+Maybe there is no need for Context Extract 2 because we have Context Extension.
+\end_layout
+
+\begin_layout Section
 Consequences 
 \end_layout
 
@@ -2030,15 +2206,15 @@ Using Equal Existence (to simplify) we may derive the following rule
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x$
-\end_inset
-
- is free for 
 \begin_inset Formula $a$
 \end_inset
 
  and 
 \begin_inset Formula $a'$
+\end_inset
+
+ are both is free for 
+\begin_inset Formula $x$
 \end_inset
 
  in 
@@ -2188,7 +2364,7 @@ The proof of this result is as follows:
 \end_layout
 
 \begin_layout Subsection
-Componentwise equal terms in products
+Component-wise equal terms in products
 \end_layout
 
 \begin_layout Standard
@@ -2277,6 +2453,730 @@ We also propose
 The proof of this is similar to that of Equal first.
 \end_layout
 
+\begin_layout Subsection
+Universality of Product
+\end_layout
+
+\begin_layout Standard
+The first projection arrows is given by using product elimination rule 1
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename projectionFunction1.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the second projection arrow is given similarly.
+\end_layout
+
+\begin_layout Standard
+The notion that pairing and projection undo each other to make the red part
+ of the diagram commute can be obtained by using product computation rules
+ 1 and 2 with 
+\begin_inset Formula $\Gamma=\left(z:H\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename productUniversality.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The uniqueness of 
+\begin_inset Formula $\left\langle a,b\right\rangle $
+\end_inset
+
+ (that is, the fact that any 
+\begin_inset Formula $H\overset{p}{\rightarrow}A\times B$
+\end_inset
+
+ such that 
+\begin_inset Formula $\text{fst}\circ p=a$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{snd}\circ p=b$
+\end_inset
+
+ must be 
+\begin_inset Formula $p=\left\langle a,b\right\rangle $
+\end_inset
+
+) can be established using Equal Pair with 
+\begin_inset Formula $\Gamma=\left(z:H\right).$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+We can form the product 
+\begin_inset Formula $(f\times g):A\times B\rightarrow A'\times B'$
+\end_inset
+
+ using the rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash f:A\rightarrow A'\hspace{1em}\Gamma\vdash g:B\rightarrow B'\\
+\overline{\Gamma,p:A\times B\vdash\left\langle f\left(\text{fst}(p)\right),g\left(\text{snd}(p)\right)\right\rangle :A'\times B'}
+\end{array}\text{Multiply functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which can be proved as follows 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename multiplyArrows.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The Many Forms of Judgments
+\end_layout
+
+\begin_layout Standard
+The notation 
+\begin_inset Formula $x_{1}:A_{1},x_{2}:A_{2},\dots,x_{n}:A_{n}\vdash d:D$
+\end_inset
+
+ can always be considered to have several equivalent meanings.
+ We illustrate this with the following rules for the 
+\begin_inset Formula $n=2$
+\end_inset
+
+ case:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma,x:A,y:B\vdash d:D\\
+\overline{\Gamma\vdash\left(\lambda x:A\right)\left[\left(\lambda y:B\right).d\right]:A\rightarrow(B\rightarrow D)}
+\end{array}\text{Judgement to functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename judgementToFunctions.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash k:A\rightarrow(B\rightarrow D)\\
+\overline{\Gamma,x:A,y:B\vdash\left(k(x)\right)(y):D}
+\end{array}\text{Functions to judgements}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename functionsToJudgement.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash k:A\rightarrow(B\rightarrow D)\\
+\overline{\Gamma,z:A\times B\vdash\left(k\left[\text{fst}(z)\right]\right)(\text{snd}(z)):D}
+\end{array}\text{Functions to pair function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename functionsToPairFunction.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma,z:A\times B\vdash d:D\\
+\overline{\Gamma\vdash\left(\lambda x:A\right).\left[\left(\lambda y:B\right).\left[\left(\left(\lambda z:A\times B\right).d\right)\left(\left\langle x,y\right\rangle \right)\right]\right]:A\rightarrow\left(B\rightarrow D\right)}
+\end{array}\text{Pair function to functions}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pairFunctionToFunctions.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that many of these conversions could also be performed by inline functions
+ (for example the isomorphism from 
+\begin_inset Formula $\left(D^{B}\right)^{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $D^{A\times B}$
+\end_inset
+
+ ).
+\end_layout
+
+\begin_layout Subsection
+Composition
+\end_layout
+
+\begin_layout Standard
+One way to express arrow composition is via the rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,x:A\vdash b:B\hspace{1em}\Gamma,y:B\vdash\gamma:C}\\
+\Gamma,x:A\vdash\gamma[b/y]:C
+\end{array}\text{Composition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $b$
+\end_inset
+
+ is free for 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $\gamma.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename composition.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So essentially the composition 
+\begin_inset Formula $A\overset{b}{\rightarrow}B\overset{\gamma}{\rightarrow}C$
+\end_inset
+
+ (that is, 
+\begin_inset Formula $\gamma\circ b$
+\end_inset
+
+) corresponds to 
+\begin_inset Formula $\Gamma,x:A\vdash\gamma[b/y]:C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distributivity of composition can be established by considering how
+ substitution works.
+ 
+\end_layout
+
+\begin_layout Standard
+The identity arrow of 
+\begin_inset Formula $B$
+\end_inset
+
+ is 
+\begin_inset Formula $y:B\vdash y:B.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Hence we can see that 
+\begin_inset Formula $1_{B}$
+\end_inset
+
+ after 
+\begin_inset Formula $A\overset{b}{\rightarrow}B$
+\end_inset
+
+ is 
+\begin_inset Formula $b$
+\end_inset
+
+ by noting that 
+\begin_inset Formula $\Gamma,x:A\vdash y[b/y]:B$
+\end_inset
+
+ is 
+\begin_inset Formula $\Gamma,x:A\vdash b:B.$
+\end_inset
+
+ Moreover, we can see that 
+\begin_inset Formula $B\overset{\gamma}{\rightarrow}C$
+\end_inset
+
+ after 
+\begin_inset Formula $1_{B}$
+\end_inset
+
+ is 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ by noting that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma,y:B\vdash\gamma[y/y]:C$
+\end_inset
+
+ is 
+\begin_inset Formula $\Gamma,y:B\vdash\gamma:C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Functions
+\end_layout
+
+\begin_layout Standard
+Note 
+\begin_inset Formula $B\rightarrow C$
+\end_inset
+
+ can also be written as 
+\begin_inset Formula $C^{B}.$
+\end_inset
+
+ The evaluation arrow 
+\begin_inset Formula $C^{B}\times B\overset{e}{\rightarrow}C$
+\end_inset
+
+ can be expressed via the rule 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash B\_\text{type\hspace{1em}\Gamma\vdash C\_type}\\
+\overline{\Gamma::\left(f:B\rightarrow C,x:B\right)\vdash f(x):C}
+\end{array}\text{Evaluation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename exp.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Formation of the transpose 
+\begin_inset Formula $A\overset{\overline{m}}{\rightarrow}C^{B}$
+\end_inset
+
+ corresponds with the following special case of function introduction:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A,y:B\right)\vdash m:C\\
+\overline{\Gamma::\left(x:A\right)\vdash\left(\lambda y:B\right).m:B\rightarrow C}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In other words 
+\begin_inset Formula $A\times B\overset{m}{\rightarrow}C$
+\end_inset
+
+ is represented as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A,y:B\right)\vdash m:C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the transpose 
+\begin_inset Formula $A\overset{\overline{m}}{\rightarrow}C^{B}$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A\right)\vdash\left(\lambda y:B\right).m:B\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moreover 
+\begin_inset Formula $A\overset{q}{\rightarrow}B^{C}$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A\right)\vdash q:B\rightarrow C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the evaluation of the composition 
+\begin_inset Formula $A\times B\overset{e(q\times1_{B})}{\longrightarrow}C$
+\end_inset
+
+ is represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Gamma::\left(x:A,y:B\right)\vdash q(y):C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that the diagram 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename expTri.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+commutes is established as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename triCom.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that any 
+\begin_inset Formula $A\overset{q}{\rightarrow}B^{C}$
+\end_inset
+
+ such that 
+\begin_inset Formula $e\circ(q\times1_{B})=m$
+\end_inset
+
+ must be 
+\begin_inset Formula $q=\overline{m}$
+\end_inset
+
+ is established using the following special case of the Curry rule:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::\left(x:A\right)\vdash q:B\rightarrow C\hspace{1em}\Gamma::\left(x:A,y:B\right)\vdash m\equiv q(y):C}\\
+\Gamma::\left(x:A\right)\vdash q\equiv\left(\lambda y:B\right).m:B\rightarrow C
+\end{array}\text{}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And so this shows the universality of function types.
+\end_layout
+
+\begin_layout Subsection
+Universality of Unit Types
+\end_layout
+
+\begin_layout Standard
+The arrow 
+\begin_inset Formula $A\overset{!_{A}}{\rightarrow}1$
+\end_inset
+
+ can be established using unit introduction as follows
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\hspace{1em}\text{ctx}}\\
+\Gamma\vdash\ast:1\\
+\overline{\Gamma::\left(x:A\right)\vdash\ast:1}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $!_{A}$
+\end_inset
+
+ is the only arrow from 
+\begin_inset Formula $A$
+\end_inset
+
+ to 
+\begin_inset Formula $1$
+\end_inset
+
+ can be established using Unit Uniqueness as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash v:1\\
+\overline{\Gamma::\left(x:A\right)\vdash v\equiv\ast:1}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Empty Types
+\end_layout
+
+\begin_layout Standard
+The presence of a function from the empty type, 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $A$
+\end_inset
+
+ can be established by the following usage of the Empty Elimination Rule:
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma,e:0\vdash A\_\text{type}\hspace{1em}\overline{\Gamma,e:0\vdash e:0}}\\
+\Gamma,e:0\vdash\text{abort}_{A}(e):A
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that this arrow is unique is shown by the following application
+ of the Empty Uniqueness Rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\overline{\Gamma,e:\vdash e:0}\hspace{1em}\Gamma,e:0\vdash A\_\text{type}\hspace{1em}\Gamma,e:0\vdash a:A}\\
+\Gamma,e:0\vdash\text{abort}_{A}(e)\equiv a:A
+\end{array}\text{Empty-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Universality of Sum types
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $A+B\overset{\text{match}}{\longrightarrow}C$
+\end_inset
+
+ makes the following diagram commute is established by Sum Computation 1
+ and Sum Computation 2.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename sum.JPG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fact that 
+\begin_inset Formula $A+B\overset{\text{match}}{\longrightarrow}C$
+\end_inset
+
+ is the unique arrow from 
+\begin_inset Formula $A+B$
+\end_inset
+
+ to 
+\begin_inset Formula $C$
+\end_inset
+
+ with this property is established by Sum Uniqueness.
+ In particular, the fact can be established by using the alpha conversion
+ principle of sum types, together with the uniqueness principal with sum
+ types, as I discuss in my video Foundations: Simple Type Theory.
+\end_layout
+
 \begin_layout Section
 Further Directions
 \end_layout
@@ -2349,6 +3249,68 @@ key "mclarty"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Enumerate
+If equalizers can be included, we can represent monomorphisms, by the property
+ that pulling them back along themselves gives the identity, and hence we
+ can include rules for subobject classifiers, and we can model topos theory.
+ We could also add the rule about point-wise equal arrows being equal to
+ model 
+\begin_inset Formula $\textbf{Set}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are some extra notes about things I want to elaborate on, in this simple
+ type theory:
+\end_layout
+
+\begin_layout Standard
+Distributivity
+\end_layout
+
+\begin_layout Standard
+An alternative interpretation of entailment notation
+\end_layout
+
+\begin_layout Standard
+Function Composition
+\end_layout
+
+\begin_layout Standard
+Converting between 
+\begin_inset Formula $A\rightarrow(B\rightarrow C)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(A\times B\right)\rightarrow C.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Universality of function types
+\end_layout
+
+\begin_layout Standard
+universality of initial, terminal and coproduct
+\end_layout
+
+\begin_layout Standard
+points.
+ terminal objects and elements
+\end_layout
+
+\begin_layout Standard
+raising arrows to powers
+\end_layout
+
+\begin_layout Standard
+Lawvere's lambda
 \end_layout
 
 \begin_layout Standard
