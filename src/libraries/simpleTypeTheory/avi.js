@@ -50,9 +50,12 @@ avi.makeVariable = (name, typeVar) => {
 
     return  {
         name: name,
+
+        //Square bracket syntax used for computed keys
         [expressionKey]: expressionKinds.variable,
         toString: () => name
     }
+
 }
 
 //Produces a variable and judges it to be a type
@@ -69,7 +72,7 @@ avi.typeJudgement = (expression) => {
     }
 
     return  {
-        expression,
+        expression: expression,
         judgement: judgementKinds.type,
         toString: () => expression.toString() + " type"
     }

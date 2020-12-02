@@ -21,7 +21,8 @@
     "start": "yarn run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev",
     "start-prod": "yarn run build && node express.js",
-    "test": "jest --watchAll --coverage --config=configs/jest.json"
+    "test": "jest --watchAll --coverage --config=configs/jest.json",
+    "jest": "jest --coverage=false --config=configs/jest.json  --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
