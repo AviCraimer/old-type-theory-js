@@ -1,10 +1,5 @@
 const avi = {}
 
-avi.basicKinds = {
-    expression: Symbol("Is an expression"),
-    judgement: Symbol("Is a judgement")
-}
-
 
 //A symbol is like a string, but it is guarenteed to be unique
 avi.expressionKinds = {
@@ -12,70 +7,76 @@ avi.expressionKinds = {
     product: Symbol("a product"),
     coproduct: Symbol("a coproduct")
 }
-
+const expressionKey = Symbol("Is an expression of kind: ")
 
 avi.judgementKinds = {
+    type: Symbol("Judgement that this variable is a type"),
     context: Symbol("Judgement that this variable is a context"),
     membership: Symbol("Judgment that a variable is a term in a type"),
-    equality: Symbol("Judgment that two terms of the same type are equal"),
-    hypothetical: Symbol("Judgement that a context entails some judgement")
+    equality: Symbol("Judgment that two terms of the same type are equal")
 }
 
-const {basicKinds, judgementKinds, expressionKinds} = avi;
+const {judgementKinds, expressionKinds} = avi;
 
 avi.bracketedExpressionString = (expression) => {
-    if (! basicKinds.expression in expression) {
+    if (! expressionKey in expression) {
         throw new Error("Not an expression");
     }
 
-    if (expression[basicKinds.expression] === expressionKinds.variable) {
+    if (expression[expressionKey] === expressionKinds.variable) {
         return expression.toString();
     } else {
         return `(${expression.toString()})`
     }
 }
 
-const variableNames = {
-    term: {
-        letter: "x",
-        counter: 0,
-    },
-    type: {
-        letter: "T",
-        0counter: ,
-    },
-    universe: {
-        letter: "U",
-        counter: 0
-    }
-}
+//No to be called directly
+let  termVariableCounter = 0;
+let  typeVariableCounter = 0;
+avi.makeVariable = (name, typeVar) => {
+    if (!name) {
+        if (typeVar === true) {
+            name = "T_" + typeVariableCounter;
 
-avi.makeVariable = (whichVariable = "term", nameOveride) => {
-    let name;
+            //Increment the type variable counter
+            typeVariableCounter++;
+        } else {
+            name = "x_" + termVariableCounter;
 
-    if (nameOverride) {
-        name = nameOverride;
-    } else {
-        const variableName = variableNames[whichVariable];
-
-        name = variableName.letter + "_" + variableName.counter;
-
-        //Increment the variable counter
-        variableName.counter = variableName.counter + 1;
+            //Increment the term variable counter
+            termVariableCounter++;
+        }
     }
 
     return  {
         name: name,
-        [basicKinds.expression]: expressionKinds.variable,
+        [expressionKey]: expressionKinds.variable,
         toString: () => name
     }
 }
 
+//Produces a variable and judges it to be a type
+//I'm doing it this way since we haven't introduced universes yet
+avi.typeJudgement = (expression) => {
 
-//NOte: I need to think this through. I don't want to creat a new type or universe everything I attribute membership. I need to look at the rules of the type theory.
-avi.membershipJudgement = (firstVarName = "term", secondVarName = "type") => {
-    const firstVar = avi.makeVariable(firstVarName);
-    const secondVar = avi.makeVariable(firstVarName);
+    //If expression is falsey, form a new atomic type variable
+    if (!expression) {
+        expression = avi.makeVariable("", true)
+
+    } //If expression is truthy check that it is an expression
+    else if (!expressionKey in expression) {
+        throw new Error("Type judgements need an expression, or no argument");
+    }
+
+    return  {
+        expression,
+        judgement: judgementKinds.type,
+        toString: () => expression.toString() + " type"
+    }
+}
+
+avi.membershipJudgement = (typeJudgement) => {
+    const termExpression = avi.makeVariable()
 
     if (!typeJudgement.judgement === judgementKinds.type ) {
         throw new Error("Membership judgement was called without a type Judgement.\n Instead " + typeJudgement + "was provided");
@@ -88,29 +89,6 @@ avi.membershipJudgement = (firstVarName = "term", secondVarName = "type") => {
         toString: () => `${termExpression.toString()} : ${typeJudgement.expression.toString()}`
     }
 }
-
-
-//Produces a variable and judges it to be a type
-//I'm doing it this way since we haven't introduced universes yet
-avi.typeJudgement = (expression) => {
-
-    //If expression is falsey, form a new atomic type variable
-    if (!expression) {
-        expression = avi.makeVariable("", true)
-
-    } //If expression is truthy check that it is an expression
-    else if (!basicKinds.expression in expression) {
-        throw new Error("Type judgements need an expression, or no argument");
-    }
-
-    return  {
-        expression,
-        judgement: judgementKinds.type,
-        toString: () => expression.toString() + " type"
-    }
-}
-
-
 
 avi.equalityJudgement = (membershipJudgement1, membershipJudgement2) =>  {
     //Check that the two membership Judgements have different types
@@ -146,7 +124,7 @@ avi.productFormation = (typeJudgement1, typeJudgement2) => {
     const productExpression =  {
         first: typeJudgement1,
         second: typeJudgement2,
-        [basicKinds.expression]: expressionKinds.product,
+        [expressionKey]: expressionKinds.product,
         toString: () => `${avi.bracketedExpressionString(typeJudgement1.expression)} x ${avi.bracketedExpressionString(typeJudgement2.expression)}`,
     }
 
@@ -154,17 +132,6 @@ avi.productFormation = (typeJudgement1, typeJudgement2) => {
 
 
 }
-
-
-//Public
-const {public} = avi;
-
-public.emptyContext = {
-    [basicKinds.judgement]: judgementKinds.context,
-    entries: []
-}
-
-
 
 
 
