@@ -8,7 +8,6 @@ export const basicSymbols = [
     expressionSym.type.primitive,
     expressionSym.type.empty,
     expressionSym.type.unit,
-    expressionSym.context.empty
 ]
 
 export const bracketedExpressionString = (expression) => {

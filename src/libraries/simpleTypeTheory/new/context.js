@@ -1,0 +1,51 @@
+import symbols from "./symbols";
+const {context: contextSym} = symbols;
+
+
+const isContext = possibleContext => {
+    if (contextSym.key in possibleContext) {
+        return true;
+    }
+    return false;
+};
+
+export const makeContext = (list = []) => ( {
+    [contextSym.key]: (list.length > 0) ? contextSym.nonEmpty : contextSym.empty,
+    list: [...list],
+    isContext,
+    add(membershipDeclaration) {
+        if (!membershipDeclaration[symbols.declarations.key] ===   symbols.declarations.membership) {
+            console.error("Attempt to add to context failed, not a membership declaration")
+        } else {
+            this.list.push(membershipDeclaration);
+
+            //Since it has one or more members, ensure it is marked as non-empty
+            this[contextSym.key] = contextSym.nonEmpty;
+        }
+        return this;
+    },
+    concat(otherContext) {
+        if (this.isContext(otherContext)) {
+            this.list = [...this.list, otherContext.list];
+            if (this.list.length > 0) {
+                this[contextSym.key] = contextSym.nonEmpty;
+            }
+        } else {
+            console.error("context concatenation could not be purformed with a non-context\n", otherContext);
+        }
+        return this;
+    },
+
+    eq(otherContext) {
+        if(this.isContext(otherContext) && this.list.length === otherContext.list.length ) {
+            let answer = true;
+            this.list.forEach( (m,i) => {
+                //If it any membership declaration in the list is not equal, set answer to false
+                //Set answer only if it is true
+                answer = (answer === true) ? m.eq(otherContext.list[i]) : answer;
+            });
+            return answer;
+        }
+        return false;
+    }
+});

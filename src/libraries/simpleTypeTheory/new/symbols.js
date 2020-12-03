@@ -13,12 +13,13 @@ export const symbols = {
             product: Symbol("A product type"),
             sum: Symbol("A sum type also known as coproduct type.")
         },
-        context: {
-            empty: Symbol("The empty context"),
-            nonEmpty: Symbol("A non-empty context")
-        }
     },
-    declarations: {
+    context: {
+        key: Symbol("A context"),
+        empty: Symbol("The empty context"),
+        nonEmpty: Symbol("A non-empty context")
+    },
+    declaration: {
         key: Symbol("This is a declaration."),
         typeForming: Symbol("Declaration that this is a valid type."),
         membership: Symbol("A declaration that a term (either concrete or variable) inhabits some type"),

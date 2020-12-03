@@ -1,7 +1,7 @@
-import {makeVariable, makeConcreteTerm, makePrimitiveType}  from "../new/factories";
+import {makeVariable, makeConcreteTerm, makePrimitiveType}  from "../new/expressionFactories";
 import symbols from "../new/symbols";
 
-describe("Factory function tests", () => {
+describe("Expression factory function tests", () => {
     it("makeVariable names", () => {
         let vars = [1,1,1,1,1].map(x => makeVariable() )
         const [x,y,z,var_4, var_5] = vars;
