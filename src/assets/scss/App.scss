@@ -1,9 +1,17 @@
-.app {
-  font-family: helvetica, arial, sans-serif;
-  padding: 2em;
-  border: 5px solid red;
+@import "./setup";
 
-  p {
-    background-color: yellow;
-  }
+
+body, h1, h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    background-color: #d1dfe0;
 }
+
+h1 {
+    font-size: 2.4rem;
+}
+
+.app {
+    padding: 20px;
+}
+
+@import "./typeDisplay";

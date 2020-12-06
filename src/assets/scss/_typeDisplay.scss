@@ -1,0 +1,20 @@
+
+.typeDisplay {
+    height: 200px;
+    background: #1f1f1f;
+    font-family: 'Oxygen Mono', monospace;
+    border: 1px solid #1f1f1f;
+    padding: 0px 15px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    scrollbar-color: #00ff80 #444;
+
+
+    &__statement {
+        color: #00ff80;
+        font-size: 2rem;
+        &__lineNum {
+            padding-right: 30px;
+        }
+    }
+}
