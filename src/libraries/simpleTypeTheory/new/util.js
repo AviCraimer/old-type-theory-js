@@ -5,7 +5,7 @@ const { expression: expressionSym} = symbols;
 export const basicSymbols = [
     expressionSym.term.variable,
     expressionSym.term.concrete,
-    expressionSym.type.primitive,
+    expressionSym.type.base,
     expressionSym.type.empty,
     expressionSym.type.unit,
 ]

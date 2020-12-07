@@ -1,9 +1,11 @@
 import symbols from "./symbols";
-const {context: contextSym} = symbols;
+import {isEqual} from "lodash";
+const contextSym = symbols.context;
 
-
-const isContext = possibleContext => {
-    if (contextSym.key in possibleContext) {
+export const isContext = possibleContext => {
+    if (possibleContext
+        && typeof possibleContext === "object"
+        && contextSym.key in possibleContext) {
         return true;
     }
     return false;
@@ -37,15 +39,17 @@ export const makeContext = (list = []) => ( {
     },
 
     eq(otherContext) {
-        if(this.isContext(otherContext) && this.list.length === otherContext.list.length ) {
-            let answer = true;
-            this.list.forEach( (m,i) => {
-                //If it any membership declaration in the list is not equal, set answer to false
-                //Set answer only if it is true
-                answer = (answer === true) ? m.eq(otherContext.list[i]) : answer;
-            });
-            return answer;
-        }
-        return false;
+        return isEqual(this, otherContext);
+    //For now just use deep equality
+        // if(this.isContext(otherContext) && this.list.length === otherContext.list.length ) {
+        //     let answer = true;
+        //     this.list.forEach( (m,i) => {
+        //         //If it any membership declaration in the list is not equal, set answer to false
+        //         //Set answer only if it is true
+        //         answer = (answer === true) ? m.eq(otherContext.list[i]) : answer;
+        //     });
+        //     return answer;
+        // }
+        // return false;
     }
 });

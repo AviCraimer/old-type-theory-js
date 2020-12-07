@@ -10,9 +10,16 @@
     scrollbar-color: #00ff80 #444;
 
 
-    &__statement {
+    &__judgement {
         color: #00ff80;
         font-size: 2rem;
+
+        &--selected {
+            .typeDisplay__judgement__math {
+                background: #0d512f;
+            }
+        }
+
         &__lineNum {
             padding-right: 30px;
         }

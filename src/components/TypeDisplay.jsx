@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 
 
 const TypeDisplay = props => {
-    const {typeStatements = []} = props;
+    const {judgements = [], selectedJudgements, setSelectedJudgements} = props;
 
     //Scroll to the bottom each time the types are updated
     useEffect(() => {
@@ -12,13 +12,33 @@ const TypeDisplay = props => {
         }
     });
 
+
+    const getOnClick = judgement => () => {
+        let newSelection = new Set(selectedJudgements);
+        if (selectedJudgements.has(judgement)) {
+            newSelection.delete(judgement);
+        } else {
+            newSelection.add(judgement);
+        }
+        setSelectedJudgements(newSelection);
+    }
+
+
     return (
         <div className="typeDisplay">
-            {typeStatements.map((ts,i) => (
-                <p className="typeDisplay__statement" key={ts.toString() + "__" + i}>
-                    <span className="typeDisplay__statement__lineNum">{i+1}</span>
-                    <span className="typeDisplay__statement__expression">{ts.toString()}</span> </p>
-            ))}
+            {judgements.map((judgement,i) => {
+                const selected = selectedJudgements.has(judgement) ? "typeDisplay__judgement--selected" : "";
+
+                return (
+                <p
+                    className={`typeDisplay__judgement ${selected}`}
+                    key={judgement.toString() + "__" + i}
+                    onClick={getOnClick(judgement)}
+                >
+                    <span className="typeDisplay__judgement__lineNum">{i+1}</span>
+                    <span className="typeDisplay__judgement__math">{judgement.toString()}</span>
+                </p>)
+            })}
         </div>
     )
 }
