@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import RuleButton from "./RuleButton";
 import {_01_emptyContext,
     _02_baseTypeFormation,
@@ -17,17 +17,18 @@ const RuleButtonArea = props => {
 
     const [judgementToAdd, setJudgementToAdd] = useState(null);
 
-    if (judgementToAdd) {
-        addJudgement(judgementToAdd);
-        setJudgementToAdd(null);
-    }
-
+        {useEffect(() => {
+            if (judgementToAdd) {
+                addJudgement(judgementToAdd);
+                setJudgementToAdd(null);
+            }
+        })}
 
     return  (
         <div className="ruleButtonArea">
             {rules.map( rule => {
                 return (
-                <RuleButton  setJudgementToAdd={setJudgementToAdd} ruleFunction={rule} key={rule.displayName}>
+                <RuleButton  setJudgementToAdd={setJudgementToAdd} ruleFunction={rule} selectedJudgements={selectedJudgements} key={rule.displayName}>
                     {rule.displayName}
                 </RuleButton>)}
                 )

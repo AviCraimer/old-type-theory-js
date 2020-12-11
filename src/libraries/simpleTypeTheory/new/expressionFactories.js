@@ -48,7 +48,7 @@ export const makeVariable = () => {
 
 let  typeCounter = 0;
 export const makeBaseType = ( ) => {
-    const name = "Type_" + (typeCounter + 1);
+    const name = "T" + (typeCounter + 1);
 
     //Increment the type counter
     typeCounter++;
@@ -67,13 +67,16 @@ export const makeProductType = (typeExpression1, typeExpression2) => {
         first: typeExpression1,
         second: typeExpression2,
         toString () {
-            return `${bracketedExpressionString(this.first.toString())} x ${bracketedExpressionString(this.second.toString())})`
+            return `${bracketedExpressionString(this.first)} x ${bracketedExpressionString(this.second)}`
         }
     }
 }
 
 
 
-
+export const resetExpressionFactoryCounters = () => {
+    variableCounter = 0
+    typeCounter = 0
+}
 
 

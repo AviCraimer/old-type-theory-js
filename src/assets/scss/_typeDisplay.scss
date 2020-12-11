@@ -1,6 +1,6 @@
 
 .typeDisplay {
-    height: 200px;
+    height: 500px;
     background: #1f1f1f;
     font-family: 'Oxygen Mono', monospace;
     border: 1px solid #1f1f1f;
@@ -8,12 +8,33 @@
     overflow-y: scroll;
     scroll-behavior: smooth;
     scrollbar-color: #00ff80 #444;
+    position: relative;
 
+    &__closeBtn {
+        position: absolute;
+        padding: 20px;
+        right: 0;
+        top: 0;
+        background: none;
+        border: 1px solid transparent;
+        color:  #00ff80;
+        .MuiSvgIcon-root {
+            width: 40px;
+            height: 40px;
+        }
+        border: 1px solid transparent;
+        &:hover {
+            border: 1px dashed #00ff80;
+        }
+    }
 
     &__judgement {
         color: #00ff80;
         font-size: 2rem;
-
+        border: 1px solid transparent;
+        &:hover {
+            border: 1px dashed #00ff80;
+        }
         &--selected {
             .typeDisplay__judgement__math {
                 background: #0d512f;

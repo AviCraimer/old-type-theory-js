@@ -5,34 +5,41 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import {simpleTypeTheory} from "../libraries/simpleTypeTheory";
 import TypeDisplay from "./TypeDisplay";
 import RuleButtonArea from './RuleButtonArea';
-import {isSet} from "lodash";
+import ArgumentDisplay from "./ArgumentDisplay";
+import {resetExpressionFactoryCounters} from "../libraries/simpleTypeTheory/new/expressionFactories";
+
 
 window.simpleTypeTheory = simpleTypeTheory;
 window.avi = simpleTypeTheory.avi;
 window.richard = simpleTypeTheory.richard;
-
+window.initialRender = false;
 const testJudge =  {toString: ()=>"T type"}
 
+
+const initialState = {
+    judgements: [],
+    selectedJudgements: []
+}
 
 class App extends React.PureComponent {
 
     constructor () {
         super();
-        this.state = {
-            judgements: [
-                {toString: ()=>"T type"},
-                {toString: ()=>". context"},
-                {toString: ()=>"x : T"},{toString: ()=>"T type"},
-                {toString: ()=>"T type"},
-                {toString: ()=>"T type"},
-                {toString: ()=>"T type"},
-                {toString: ()=>"T type"},
-                testJudge],
-            selectedJudgements: new Set([testJudge])
-        }
+        this.state = initialState;
 
         this.addJudgement = this.addJudgement.bind(this);
         this.setSelectedJudgements = this.setSelectedJudgements.bind(this);
+        this.resetJudgements = this.resetJudgements.bind(this);
+    }
+
+    resetJudgements() {
+        this.setState(
+            {
+                judgements: initialState.judgements,
+                selectedJudgements: initialState.selectedJudgements
+            }
+        )
+        resetExpressionFactoryCounters();
     }
 
     addJudgement (judgement) {
@@ -40,23 +47,30 @@ class App extends React.PureComponent {
         return this.addJudgement;
     }
 
-    setSelectedJudgements (judgementSet) {
-        if (isSet(judgementSet)) {
-            const newSelection = new Set(this.state.selectedJudgements);
-            this.setState({selectedJudgements: newSelection});
+    setSelectedJudgements (judgementArr) {
+        if (Array.isArray(judgementArr)) {
+            this.setState({selectedJudgements: [...judgementArr]});
         }
+        return this.state.selectedJudgements;
     }
 
     render() {
-    console.log("Simple Type Theory Object: \n",  simpleTypeTheory);
-
-
+    if (!initialRender) {
+        console.log("Simple Type Theory Object: \n",  simpleTypeTheory);
+        window.initialRender = true;
+    }
 
     return (
       <BrowserRouter>
         <div className="app">
             <h1>Learn Type Theory</h1>
-            <TypeDisplay  judgements={this.state.judgements} selectedJudgements={this.state.selectedJudgements}  setSelectedJudgements={this.setSelectedJudgements}/>
+            <TypeDisplay
+                judgements={this.state.judgements}
+                selectedJudgements={this.state.selectedJudgements}
+                setSelectedJudgements={this.setSelectedJudgements}
+                resetJudgements={this.resetJudgements}
+            />
+            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements} />
             <RuleButtonArea selectedJudgements={this.state.selectedJudgements}  addJudgement={this.addJudgement} />
         </div>
       </BrowserRouter>

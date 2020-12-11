@@ -1,0 +1,38 @@
+.argumentDisplay {
+
+    background: #b2dbd2;
+    padding: 10px;
+    position: relative;
+    &__selectedJudgements {
+        width: calc(100% - 20px);
+        display: flex;
+        flex-wrap: wrap;
+        &__judgement {
+            display: block;
+            padding: 10px 14px;
+            background: #00ff80;
+            font-size: 2rem;
+            margin: 3px 5px;
+            margin-left: 0;
+
+        }
+    }
+
+    &__clearBtn {
+        position: absolute;
+        padding: 10px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: 1px solid transparent;
+
+        .MuiSvgIcon-root {
+            width: 40px;
+            height: 40px;
+        }
+        &:hover {
+            border: 1px dashed black;
+        }
+    }
+}

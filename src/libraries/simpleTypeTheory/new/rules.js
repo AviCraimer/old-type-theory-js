@@ -1,19 +1,35 @@
 import {makeContext, isContext} from "./context";
-import {makeJudgement, isJudgement} from "./judgement";
+import {makeJudgement, isJudgement, isContextJudgement} from "./judgement";
 import {makeVariable, makeBaseType, makeProductType} from "./expressionFactories";
 import {equalityDeclaration, membershipDeclaration, typeFormingDeclaration} from "./declarationFactories";
 import symbols from "./symbols";
+const symbolsExp = symbols.expression;
+
+const argumentFail = function (args, length) {
+    if (args.length === length) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 
-export const _01_emptyContext = ()  => {
+export const _01_emptyContext = function () {
+    if (argumentFail(arguments, 0)) {
+        return;
+    };
     return makeJudgement(makeContext());
 }
 _01_emptyContext.displayName = "Empty Context";
 
-export const _02_baseTypeFormation = (contextJudgement) => {
+export const _02_baseTypeFormation = function (contextJudgement) {
+    if (argumentFail(arguments, 1)) {
+        return;
+    };
+
     if (
-        isJudgement(contextJudgement)
-        && contextJudgement[symbols.judgement.key] === symbols.judgement.context) {
+        isContextJudgement(contextJudgement)
+        && contextJudgement[symbolsExp.key] === symbolsExp.context) {
         const T =  makeBaseType();
         const TDeclaration = typeFormingDeclaration(T);
         return makeJudgement(contextJudgement.context, TDeclaration);
@@ -28,10 +44,13 @@ const unitTypeExpression = {
     toString: () => "1"
 }
 
-export const _03_unitFormation = (context) => {
+export const _03_unitFormation = function (contextJudgement) {
+    if (argumentFail(arguments, 1)) {
+        return;
+    };
     if (
         isJudgement(contextJudgement)
-        && contextJudgement[symbols.judgement.key] === symbols.judgement.context) {
+        && contextJudgement[symbolsExp.key] === symbolsExp.context) {
         const TDeclaration = typeFormingDeclaration(unitTypeExpression);
         return makeJudgement(contextJudgement.context, TDeclaration);
     }
@@ -39,7 +58,10 @@ export const _03_unitFormation = (context) => {
 _03_unitFormation.displayName = "Unit Type Formation"
 
 
-export const _04_productFormation = ( typeFormationJudgement1, typeFormationJudgement2) => {
+export const _04_productFormation = function ( typeFormationJudgement1, typeFormationJudgement2) {
+    if (argumentFail(arguments, 2)) {
+        return;
+    };
     const isTypeFormationJudgement = (tj) => (
         isJudgement(tj)
         && tj.declaration

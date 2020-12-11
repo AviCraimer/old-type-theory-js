@@ -51,5 +51,11 @@ export const makeContext = (list = []) => ( {
         //     return answer;
         // }
         // return false;
+    },
+    toString() {
+        if (this.list.length === 0) {
+            return "."
+        }
+        return this.list.join(", ");
     }
 });
