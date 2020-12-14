@@ -125,7 +125,8 @@ Basics
 \end_layout
 
 \begin_layout Standard
-A 
+An expression is a term or a type.
+ A 
 \series bold
 term
 \series default
@@ -134,6 +135,7 @@ term
 type
 \series default
 .
+ A term could be a constant term, or a variable.
  Some terms are 
 \series bold
 variables
@@ -625,7 +627,7 @@ Judgments about variables can be formed with the following rule
 \begin{array}{c}
 \Gamma::(x:A)::\Delta\hspace{1em}\text{ctx}\\
 \overline{\Gamma::(x:A)::\Delta\vdash x:A}
-\end{array}\text{Memory}
+\end{array}\text{Memory/reiteration}
 \end{equation}
 
 \end_inset
@@ -3175,6 +3177,103 @@ The fact that
  In particular, the fact can be established by using the alpha conversion
  principle of sum types, together with the uniqueness principal with sum
  types, as I discuss in my video Foundations: Simple Type Theory.
+\end_layout
+
+\begin_layout Section
+Avoiding Bound Variable Clashes
+\end_layout
+
+\begin_layout Standard
+When we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+, and we wish to form 
+\begin_inset Formula $\lambda x.b$
+\end_inset
+
+ we should instead form 
+\begin_inset Formula $\lambda l.(b[l/x])$
+\end_inset
+
+ where 
+\begin_inset Formula $l$
+\end_inset
+
+ is a new variable.
+ Doing similar in the bound variables occuring in match (for sum types)
+ avoids the type of bound variable clashes that come from substitution.
+ 
+\end_layout
+
+\begin_layout Standard
+To see this, suppose we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+ and we wish to replace each free variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ with the term 
+\begin_inset Formula $a.$
+\end_inset
+
+ A bound variable clash will occur iff there is a variable 
+\begin_inset Formula $y$
+\end_inset
+
+ which is free in 
+\begin_inset Formula $a$
+\end_inset
+
+ but not free in 
+\begin_inset Formula $b[a/x].$
+\end_inset
+
+ But if each binding of variables in 
+\begin_inset Formula $b$
+\end_inset
+
+ refers to variables that have unique names which are not shared by any
+ free variables (such as those free variables in 
+\begin_inset Formula $a$
+\end_inset
+
+) then there is no way that free variables of 
+\begin_inset Formula $a$
+\end_inset
+
+ will share the same names as variables which are bound in 
+\begin_inset Formula $b$
+\end_inset
+
+ (since bound variables have distinct names from any free variables, because
+ bound variables are renamed at birth), and so this convention of giving
+ bound variables unique names upon their creation (and substituting in the
+ new names, into the terms used, when lambda abstracts etc.
+ are created), will avoid bound variable clashes.
+ This will let us avoid having to check that 
+\begin_inset Formula $a$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ when using rules involving 
+\begin_inset Formula $b[a/x]$
+\end_inset
+
+, and so on.
 \end_layout
 
 \begin_layout Section
