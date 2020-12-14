@@ -1,19 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import RuleButton from "./RuleButton";
-import {_01_emptyContext,
-    _02_baseTypeFormation,
-    _03_unitFormation,
-    _04_productFormation} from "../libraries/simpleTypeTheory/new/rules";
 
-const rules = [
-    _01_emptyContext,
-    _02_baseTypeFormation,
-    _03_unitFormation,
-    _04_productFormation
-]
 
 const RuleButtonArea = props => {
-    const {selectedJudgements, addJudgement, setSelectedJudgements} = props;
+    const {selectedJudgements, addJudgement, setSelectedJudgements, headingText, rules} = props;
 
     const [judgementToAdd, setJudgementToAdd] = useState(null);
 
@@ -26,6 +16,10 @@ const RuleButtonArea = props => {
 
     return  (
         <div className="ruleButtonArea">
+            {
+                headingText && <h2>{headingText}</h2>
+            }
+            <div className="ruleButtonArea__rules">
             {rules.map( rule => {
                 return (
                 <RuleButton
@@ -39,6 +33,8 @@ const RuleButtonArea = props => {
                 </RuleButton>)}
                 )
             }
+            </div>
+
         </div>
     )
 }

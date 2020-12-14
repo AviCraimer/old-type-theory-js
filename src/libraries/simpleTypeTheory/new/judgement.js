@@ -12,9 +12,14 @@ export const isJudgement  = possibleJudgement => {
 };
 
 export const isContextJudgement = possibleJudgement => {
-    console.log("in isContextJudgement",  possibleJudgement)
     return isJudgement(possibleJudgement) && possibleJudgement[symbolsExp.judgement.key] === symbolsExp.judgement.context
 }
+
+export const isTypeFormationJudgement = (possibleJudgement) => (
+    isJudgement(possibleJudgement)
+    && possibleJudgement.declaration
+    && possibleJudgement.declaration[symbols.declaration.key] === symbols.declaration.typeForming
+)
 
 export const makeJudgement = (context, optionalDeclaration) => {
     if (!optionalDeclaration ) {
