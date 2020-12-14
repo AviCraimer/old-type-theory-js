@@ -46,7 +46,7 @@ const TypeDisplay = props => {
                     key={judgement.toString() + "__" + i}
                     onClick={getOnClick(judgement)}
                 >
-                    <span className="typeDisplay__judgement__lineNum">{i+1}</span>
+                    {/* <span className="typeDisplay__judgement__lineNum">{i+1}</span> */}
                     <span className="typeDisplay__judgement__math">{judgement.toString()}</span>
                 </p>)
             })}

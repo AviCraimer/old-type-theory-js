@@ -70,8 +70,12 @@ class App extends React.PureComponent {
                 setSelectedJudgements={this.setSelectedJudgements}
                 resetJudgements={this.resetJudgements}
             />
-            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements} />
-            <RuleButtonArea selectedJudgements={this.state.selectedJudgements}  addJudgement={this.addJudgement} />
+            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements}/>
+            <RuleButtonArea
+                selectedJudgements={this.state.selectedJudgements}
+                addJudgement={this.addJudgement}
+                setSelectedJudgements={this.setSelectedJudgements}
+            />
         </div>
       </BrowserRouter>
     );

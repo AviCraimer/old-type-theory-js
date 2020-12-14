@@ -3,7 +3,7 @@ import {isJudgement} from "../libraries/simpleTypeTheory/new/judgement";
 
 
 const RuleButton = props => {
-    const {ruleFunction, setJudgementToAdd, selectedJudgements} = props;
+    const {ruleFunction, setJudgementToAdd, selectedJudgements, setSelectedJudgements} = props;
 
     const result = ruleFunction(...selectedJudgements);
     const validation = isJudgement (result);
@@ -11,6 +11,7 @@ const RuleButton = props => {
     const onClickHandler = () => {
         if (validation) {
             setJudgementToAdd(result);
+            setSelectedJudgements([]);
         }
     }
 

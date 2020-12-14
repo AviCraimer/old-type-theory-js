@@ -3,16 +3,9 @@ import {bracketedExpressionString} from "./util";
 
 const {expression: expressionSym} = symbols;
 
-let  variableCounter = 0;
+let  variableCounter = 1;
 export const makeVariable = () => {
-    const variableLetters = ["x","y","z"];
-    let name;
-
-    if (variableCounter < variableLetters.length) {
-        name = variableLetters[variableCounter];
-    } else {
-        name = "var_" + (variableCounter + 1);
-    }
+    let name =  "v_" + variableCounter;
     //Increment the variable counter
     variableCounter++;
 

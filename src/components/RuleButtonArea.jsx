@@ -13,7 +13,7 @@ const rules = [
 ]
 
 const RuleButtonArea = props => {
-    const {selectedJudgements, addJudgement} = props;
+    const {selectedJudgements, addJudgement, setSelectedJudgements} = props;
 
     const [judgementToAdd, setJudgementToAdd] = useState(null);
 
@@ -28,7 +28,13 @@ const RuleButtonArea = props => {
         <div className="ruleButtonArea">
             {rules.map( rule => {
                 return (
-                <RuleButton  setJudgementToAdd={setJudgementToAdd} ruleFunction={rule} selectedJudgements={selectedJudgements} key={rule.displayName}>
+                <RuleButton
+                    setJudgementToAdd={setJudgementToAdd}
+                    ruleFunction={rule}
+                    selectedJudgements={selectedJudgements}
+                    setSelectedJudgements={setSelectedJudgements}
+                    key={rule.displayName}
+                >
                     {rule.displayName}
                 </RuleButton>)}
                 )
