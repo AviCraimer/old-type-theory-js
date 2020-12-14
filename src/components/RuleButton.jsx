@@ -5,18 +5,18 @@ import {isJudgement} from "../libraries/simpleTypeTheory/new/judgement";
 const RuleButton = props => {
     const {ruleFunction, setJudgementToAdd, selectedJudgements} = props;
 
-    const onClickHandler = () => {
-        const result = ruleFunction(...selectedJudgements);
+    const result = ruleFunction(...selectedJudgements);
+    const validation = isJudgement (result);
 
-        console.log("result of onClick", result)
-        if (isJudgement (result)) {
-            console.log("Result string: ", result.toString())
+    const onClickHandler = () => {
+        if (validation) {
             setJudgementToAdd(result);
         }
     }
 
+    const classes = ["ruleButton", (validation) ? "ruleButton__valid": ""].join(" ");
 
-    return (<button onClick={onClickHandler} className="ruleButton">{ruleFunction.displayName}</button>  );
+    return (<button onClick={onClickHandler} className={classes}>{ruleFunction.displayName}</button>  );
 }
 
 export default RuleButton;

@@ -3,9 +3,9 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const ArgumentDisplay = props => {
     const {selectedJudgements, setSelectedJudgements} = props;
-    if (selectedJudgements.length === 0) {
-        return null;
-    }
+    // if (selectedJudgements.length === 0) {
+    //     return null;
+    // }
 
 
     return (
@@ -16,9 +16,11 @@ const ArgumentDisplay = props => {
 
             }
            </div>
+                {
+                selectedJudgements.length !== 0 && (
                 <button className="argumentDisplay__clearBtn">
                     <CloseIcon onClick={() => setSelectedJudgements([]) }/>
-                </button>
+                </button>)}
             </div>
       );
 }

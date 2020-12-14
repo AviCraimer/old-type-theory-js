@@ -1,3 +1,21 @@
 .ruleButton {
     padding: 10px 14px;
+    font-size: 1.6rem;
+    margin: 3px 5px;
+    margin-left: 0;
+    border: 2px solid #666;
+
+    background: #ccc;
+    color: #666;
+
+    &__valid {
+        background: white;
+        color: black;
+        border-color: black;
+        &:hover {
+            box-shadow: 1.5px 1.5px 1.5px #485C6D;
+            transform: translate(-1.5px, -1.5px);
+            transition: box-shadow .3s, transform .3s;
+        }
+    }
 }
