@@ -48,9 +48,7 @@ export const _03_unitFormation = function (contextJudgement) {
     if (argumentFail(arguments, 1)) {
         return;
     };
-    if (
-        isJudgement(contextJudgement)
-        && contextJudgement[symbolsExp.key] === symbolsExp.context) {
+    if (isContextJudgement(contextJudgement)) {
         const TDeclaration = typeFormingDeclaration(unitTypeExpression);
         return makeJudgement(contextJudgement.context, TDeclaration);
     }
@@ -59,9 +57,15 @@ _03_unitFormation.displayName = "Unit Type Formation"
 
 
 export const _04_productFormation = function ( typeFormationJudgement1, typeFormationJudgement2) {
-    if (argumentFail(arguments, 2)) {
+    //Takes one or two arguments
+    if (argumentFail(arguments, 1) && argumentFail(arguments, 2)) {
         return;
     };
+
+    //If there is only one argument, use the first type formation judgement twice.
+    if (!typeFormationJudgement2) {
+        typeFormationJudgement2 = typeFormationJudgement1;
+    }
     const isTypeFormationJudgement = (tj) => (
         isJudgement(tj)
         && tj.declaration

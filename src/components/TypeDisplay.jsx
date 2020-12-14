@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import CloseIcon from '@material-ui/icons/Close';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const TypeDisplay = props => {
     const {judgements = [], selectedJudgements, setSelectedJudgements, resetJudgements} = props;
@@ -33,8 +33,8 @@ const TypeDisplay = props => {
 
     return (
         <div className="typeDisplay">
-            <button className="typeDisplay__closeBtn" onClick={resetJudgements}>
-                <CloseIcon  />
+            <button className="typeDisplay__resetBtn" onClick={resetJudgements}>
+                <RefreshIcon  />
             </button>
 
             {judgements.map((judgement,i) => {
@@ -44,7 +44,7 @@ const TypeDisplay = props => {
                 <p
                     className={`typeDisplay__judgement ${selected}`}
                     key={judgement.toString() + "__" + i}
-                    onClick={getOnClick(judgement, i)}
+                    onClick={getOnClick(judgement)}
                 >
                     <span className="typeDisplay__judgement__lineNum">{i+1}</span>
                     <span className="typeDisplay__judgement__math">{judgement.toString()}</span>

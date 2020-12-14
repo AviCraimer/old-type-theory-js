@@ -1,0 +1,2 @@
+-- Product formation rule. Can't form a product with the same type. Should add +1 button to right side of judgements. This only shows up after you've selected a judgement and it allows you to add the same judgement twice.
+
