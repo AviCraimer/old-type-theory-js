@@ -125,7 +125,8 @@ Basics
 \end_layout
 
 \begin_layout Standard
-A 
+An expression is a term or a type.
+ A 
 \series bold
 term
 \series default
@@ -134,6 +135,7 @@ term
 type
 \series default
 .
+ A term could be a constant term, or a variable.
  Some terms are 
 \series bold
 variables
@@ -625,7 +627,7 @@ Judgments about variables can be formed with the following rule
 \begin{array}{c}
 \Gamma::(x:A)::\Delta\hspace{1em}\text{ctx}\\
 \overline{\Gamma::(x:A)::\Delta\vdash x:A}
-\end{array}\text{Memory}
+\end{array}\text{Memory/reiteration}
 \end{equation}
 
 \end_inset
@@ -823,7 +825,7 @@ To keep track of what is required within a computer, rather than just doing
  Also, when we have binding operators, they `color' the corresponding variables
  which might appear within the appropriate places deeper within the expression
  tree, and and we should make sure that after substitution, so we want to
- gaurd against previously free variables of the appropriate names, from
+ guard against previously free variables of the appropriate names, from
  
 \begin_inset Formula $a$
 \end_inset
@@ -840,7 +842,7 @@ To keep track of what is required within a computer, rather than just doing
 \begin_inset Formula $u$
 \end_inset
 
- so that the newly added subtree ends up lying within a colored region,
+ so that the newly added sub-tree ends up lying within a colored region,
  involving new bindings of said variables.
  
 \end_layout
@@ -905,7 +907,7 @@ key "Taylor"
 \end_layout
 
 \begin_layout Standard
-The way the cut rule can be vizualized in terms of category theory as pictured
+The way the cut rule can be visualized in terms of category theory as pictured
  below
 \end_layout
 
@@ -950,7 +952,7 @@ In terms of category theory, this just corresponds to doing the product
 \begin_inset Formula $b$
 \end_inset
 
- invisably.
+ invisibly.
  
 \end_layout
 
@@ -2118,7 +2120,7 @@ These rules can be expressed more concisely by using Mclarty's double line
 
 \begin_layout Standard
 The following optional rule may be useful in some circumstances (similar
- rules could be introducted to extract parts of terms involved in products
+ rules could be introduced to extract parts of terms involved in products
  and sums).
 \end_layout
 
@@ -2364,7 +2366,7 @@ The proof of this result is as follows:
 \end_layout
 
 \begin_layout Subsection
-Componentwise equal terms in products
+Component-wise equal terms in products
 \end_layout
 
 \begin_layout Standard
@@ -2561,7 +2563,7 @@ which can be proved as follows
 \end_layout
 
 \begin_layout Subsection
-The Many Forms of Judgements
+The Many Forms of Judgments
 \end_layout
 
 \begin_layout Standard
@@ -2570,7 +2572,7 @@ The notation
 \end_inset
 
  can always be considered to have several equivalent meanings.
- We illustraite this with the following rules for the 
+ We illustrate this with the following rules for the 
 \begin_inset Formula $n=2$
 \end_inset
 
@@ -3178,6 +3180,87 @@ The fact that
 \end_layout
 
 \begin_layout Section
+Avoiding Bound Variable Clashes
+\end_layout
+
+\begin_layout Standard
+When we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+, and we wish to form 
+\begin_inset Formula $\lambda x.b$
+\end_inset
+
+ we should instead form 
+\begin_inset Formula $\lambda l.(b[l/x])$
+\end_inset
+
+ where 
+\begin_inset Formula $l$
+\end_inset
+
+ is a new variable.
+ Doing similar in the bound variables occuring in match (for sum types)
+ avoids the type of bound variable clashes that come from substitution.
+ 
+\end_layout
+
+\begin_layout Standard
+To see this, suppose we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+ and we wish to replace each free variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ with the term 
+\begin_inset Formula $a.$
+\end_inset
+
+ A bound variable clash will occur iff there is a variable 
+\begin_inset Formula $y$
+\end_inset
+
+ which is free in 
+\begin_inset Formula $a$
+\end_inset
+
+ but not free in 
+\begin_inset Formula $b[a/x].$
+\end_inset
+
+ But if each binding of variables in 
+\begin_inset Formula $b$
+\end_inset
+
+ refers to variables that have unique names which are not shared by any
+ free variables (such as those free variables in 
+\begin_inset Formula $a$
+\end_inset
+
+) then there is no way that free variables of 
+\begin_inset Formula $a$
+\end_inset
+
+ will share the same names as variables which are bound in 
+\begin_inset Formula $b$
+\end_inset
+
+ (since bound variables have distinct names from any free variables, because
+ bound variables are renamed at birth), and so this convention of giving
+ bound variables unique names upon their creation (and substituting in the
+ new names, into the terms used, when lambda abstracts etc.
+ are created), will avoid bound variable clashes.
+ This will let us avoid having to check that 
+\end_layout
+
+\begin_layout Section
 Further Directions
 \end_layout
 
@@ -3253,9 +3336,19 @@ key "mclarty"
 
 \begin_layout Enumerate
 If equalizers can be included, we can represent monomorphisms, by the property
- that pulling them back along themslves gives the identity, and hence we
+ that pulling them back along themselves gives the identity, and hence we
  can include rules for subobject classifiers, and we can model topos theory.
- We could also add the 
+ We could also add the rule about point-wise equal arrows being equal to
+ model 
+\begin_inset Formula $\textbf{Set}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are some extra notes about things I want to elaborate on, in this simple
+ type theory:
 \end_layout
 
 \begin_layout Standard
@@ -3287,7 +3380,7 @@ Universality of function types
 \end_layout
 
 \begin_layout Standard
-univerality of initial, terminal and coproduct
+universality of initial, terminal and coproduct
 \end_layout
 
 \begin_layout Standard
