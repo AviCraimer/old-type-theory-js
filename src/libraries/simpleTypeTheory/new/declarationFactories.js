@@ -11,7 +11,7 @@ export const typeFormingDeclaration = (typeExpression) => {
     }
 }
 
-export const membershipDeclaration = (termExpression, typeFormingDeclaration) => {
+export const makeMembershipDeclaration = (termExpression, typeFormingDeclaration) => {
     //Add checks to ensure correct inputs
 
     return {

@@ -2,7 +2,7 @@ import {makeContext, isContext} from "./context";
 import {makeJudgement, isJudgement, isContextJudgement, isTypeFormationJudgement} from "./judgement";
 import {makeVariable, makeBaseType, makeProductType, makeSumType,
     makeFunctionType} from "./expressionFactories";
-import {equalityDeclaration, membershipDeclaration, typeFormingDeclaration} from "./declarationFactories";
+import {equalityDeclaration, makeMembershipDeclaration, typeFormingDeclaration} from "./declarationFactories";
 import symbols from "./symbols";
 const symbolsExp = symbols.expression;
 
@@ -35,9 +35,9 @@ export const contextExtension = function (typeFormationJudgement) {
     if (isTypeFormationJudgement(typeFormationJudgement)) {
         const typeDeclaration = typeFormationJudgement.declaration;
 
-        const membershipDec = membershipDeclaration(makeVariable(), typeDeclaration);
+        const membershipDeclaration = makeMembershipDeclaration(makeVariable(), typeDeclaration);
 
-        const extendedContext =  typeFormationJudgement.context.add(membershipDec);
+        const extendedContext =  typeFormationJudgement.context.add(membershipDeclaration);
 
         return  makeJudgement(extendedContext);
     }
@@ -142,6 +142,27 @@ export const functionFormation = twoTypeCombination(makeFunctionType);
 functionFormation.displayName = "Function Type";
 
 
+// Term Construction Rules
+
+//Rule 9 in PDF
+// Take a membership declaration from the context list only the right side with the same context
+export const reiteration = function (gammaContextJ, singletonContextJ, deltaContextJ) {
+    if (argumentFail(arguments, 3) || [...arguments].map(isContextJudgement).includes(false)) {//All arguments are contextJudgements
+        return;
+    };
+    if (singletonContextJ.context.list.length === 1) {
+        const combinedContext =   gammaContextJ.context
+            .concat(singletonContextJ.context)
+            .concat(deltaContextJ.context)
+
+        const [membershipDeclaration] =  singletonContextJ.context.list;
+
+        return makeJudgement(combinedContext, membershipDeclaration);
+    }
+}
+reiteration.displayName = "Reiteration"
+
+
 export const rules = {
     context: [emptyContext, contextExtension],
     typeFormation: [
@@ -152,5 +173,8 @@ export const rules = {
         sumFormation,
         functionFormation,
     ],
-    termConstruction: []
+    termConstruction: [
+        reiteration
+    ]
 }
+

@@ -25,14 +25,11 @@ export const makeContext = (list = []) => ( {
     },
     concat(otherContext) {
         if (this.isContext(otherContext)) {
-            this.list = [...this.list, otherContext.list];
-            if (this.list.length > 0) {
-                this[contextSym.key] = contextSym.nonEmpty;
-            }
+            const newList = [...this.list, ...otherContext.list];
+            return makeContext(newList);
         } else {
             console.error("context concatenation could not be purformed with a non-context\n", otherContext);
         }
-        return this;
     },
 
     eq(otherContext) {
@@ -53,6 +50,10 @@ export const makeContext = (list = []) => ( {
         if (this.list.length === 0) {
             return "."
         }
-        return this.list.join(", ");
+        if (this.list.length === 1) {
+            return this.list[0].toString();
+        } else {
+            return this.list.map(x=>x.toString()).join(", ");
+        }
     }
 });
