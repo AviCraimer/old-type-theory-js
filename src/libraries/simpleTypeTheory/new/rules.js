@@ -1,7 +1,7 @@
 import {makeContext, isContext} from "./context";
 import {makeJudgement, isJudgement, isContextJudgement, isTypeFormationJudgement} from "./judgement";
 import {makeVariable, makeBaseType, makeProductType, makeSumType,
-    makeLambdaType} from "./expressionFactories";
+    makeFunctionType} from "./expressionFactories";
 import {equalityDeclaration, membershipDeclaration, typeFormingDeclaration} from "./declarationFactories";
 import symbols from "./symbols";
 const symbolsExp = symbols.expression;
@@ -15,6 +15,9 @@ const argumentFail = function (args, length) {
 }
 
 
+// CONTEXT RULES
+
+//Rule 1 in pdf
 export const emptyContext = function () {
     if (argumentFail(arguments, 0)) {
         return;
@@ -23,6 +26,28 @@ export const emptyContext = function () {
 }
 emptyContext.displayName = "Empty Context";
 
+
+//Rule 8 in pdf
+export const contextExtension = function (typeFormationJudgement) {
+    if (argumentFail(arguments, 1)) {
+        return;
+    };
+    if (isTypeFormationJudgement(typeFormationJudgement)) {
+        const typeDeclaration = typeFormationJudgement.declaration;
+
+        const membershipDec = membershipDeclaration(makeVariable(), typeDeclaration);
+
+        const extendedContext =  typeFormationJudgement.context.add(membershipDec);
+
+        return  makeJudgement(extendedContext);
+    }
+
+}
+contextExtension.displayName = "Context Extension"
+
+//END OF CONTEXT RULES
+
+//Rule 2 in pdf
 export const genericTypeFormation = function (contextJudgement) {
     if (argumentFail(arguments, 1)) {
         return;
@@ -45,6 +70,7 @@ const unitTypeExpression = {
     toString: () => "1"
 }
 
+//Rule 3 in pdf
 export const unitFormation = function (contextJudgement) {
     if (argumentFail(arguments, 1)) {
         return;
@@ -55,6 +81,25 @@ export const unitFormation = function (contextJudgement) {
     }
 }
 unitFormation.displayName = "Unit Type"
+
+const emptyTypeExpression = {
+    name: "Empty Type",
+    [symbols.expression.key]: symbols.expression.type.empty,
+    toString: () => "0"
+}
+
+//Rule 5 in pdf
+export const emptyFormation = function (contextJudgement) {
+    if (argumentFail(arguments, 1)) {
+        return;
+    };
+    if (isContextJudgement(contextJudgement)) {
+        const TDeclaration = typeFormingDeclaration(emptyTypeExpression);
+        return makeJudgement(contextJudgement.context, TDeclaration);
+    }
+}
+emptyFormation.displayName = "Empty Type"
+
 
 //Common functionality for product type, sum type, and function type formation
 const twoTypeCombination = combinedTypeExpressionFunction => ( function ( typeFormationJudgement1, typeFormationJudgement2) {
@@ -83,35 +128,29 @@ const twoTypeCombination = combinedTypeExpressionFunction => ( function ( typeFo
     }
 })
 
+//Rule 4 in pdf
 export const productFormation = twoTypeCombination(makeProductType);
 productFormation.displayName = "Product Type";
 productFormation.description = "Get a product type from two entailment judgements with the same context on the left side, and a type declaration on the right side."
 
+//Rule 6 in pdf
 export const sumFormation = twoTypeCombination(makeSumType);
 sumFormation.displayName = "Sum Type";
 
-export const lambdaFormation = twoTypeCombination(makeLambdaType);
-lambdaFormation.displayName = "Function Type";
-
-// export const productFormation = function ( typeFormationJudgement1, typeFormationJudgement2) {
-
-//         const productTypeExpression =  makeProductType(typeFormationJudgement1.declaration.expression, typeFormationJudgement2.declaration.expression )
-
-//         const productTypeDeclaration = typeFormingDeclaration(productTypeExpression);
-
-//         return makeJudgement(typeFormationJudgement1.context, productTypeDeclaration);
-// }
-
+//Rule 7 in pdf
+export const functionFormation = twoTypeCombination(makeFunctionType);
+functionFormation.displayName = "Function Type";
 
 
 export const rules = {
-    context: [emptyContext],
+    context: [emptyContext, contextExtension],
     typeFormation: [
         genericTypeFormation,
         unitFormation,
+        emptyFormation,
         productFormation,
         sumFormation,
-        lambdaFormation,
+        functionFormation,
     ],
     termConstruction: []
 }

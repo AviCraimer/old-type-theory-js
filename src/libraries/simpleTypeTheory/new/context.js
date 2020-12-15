@@ -16,15 +16,12 @@ export const makeContext = (list = []) => ( {
     list: [...list],
     isContext,
     add(membershipDeclaration) {
-        if (!membershipDeclaration[symbols.declarations.key] ===   symbols.declarations.membership) {
+        if (!membershipDeclaration[symbols.declaration.key] ===   symbols.declaration.membership) {
             console.error("Attempt to add to context failed, not a membership declaration")
         } else {
-            this.list.push(membershipDeclaration);
-
-            //Since it has one or more members, ensure it is marked as non-empty
-            this[contextSym.key] = contextSym.nonEmpty;
+            //make a new context with the added membership declaration
+            return makeContext([...this.list, membershipDeclaration]);
         }
-        return this;
     },
     concat(otherContext) {
         if (this.isContext(otherContext)) {

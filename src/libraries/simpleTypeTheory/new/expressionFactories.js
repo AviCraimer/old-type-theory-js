@@ -5,7 +5,7 @@ const {expression: expressionSym} = symbols;
 
 let  variableCounter = 1;
 export const makeVariable = () => {
-    let name =  "v_" + variableCounter;
+    let name =  "x" + variableCounter;
     //Increment the variable counter
     variableCounter++;
 
@@ -46,7 +46,7 @@ export const makeProductType = (typeExpression1, typeExpression2) => {
 
 export const makeSumType = (typeExpression1, typeExpression2) => {
     return {
-        [expressionSym.key]: expressionSym.type.product,
+        [expressionSym.key]: expressionSym.type.sum,
         left: typeExpression1,
         right: typeExpression2,
         toString () {
@@ -55,9 +55,9 @@ export const makeSumType = (typeExpression1, typeExpression2) => {
     }
 }
 
-export const makeLambdaType = (typeExpression1, typeExpression2) => {
+export const makeFunctionType = (typeExpression1, typeExpression2) => {
     return {
-        [expressionSym.key]: expressionSym.type.product,
+        [expressionSym.key]: expressionSym.type.function,
         domain: typeExpression1,
         codomain: typeExpression2,
         toString () {
@@ -65,7 +65,6 @@ export const makeLambdaType = (typeExpression1, typeExpression2) => {
         }
     }
 }
-
 
 export const resetExpressionFactoryCounters = () => {
     variableCounter = 0

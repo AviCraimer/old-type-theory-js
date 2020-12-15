@@ -1,0 +1,1 @@
+export const nextLevel = Symbol('Go to next level')
