@@ -12,7 +12,7 @@ const ArgumentDisplay = props => {
         <div className="argumentDisplay">
            <div className="argumentDisplay__selectedJudgements">
            {
-                selectedJudgements.map(judgement => <p className="argumentDisplay__selectedJudgements__judgement">{judgement.toString()}</p>  )
+                selectedJudgements.map((judgement, i) => <p className="argumentDisplay__selectedJudgements__judgement" key={judgement.toString() + i } >{judgement.toString()}</p>  )
 
             }
            </div>

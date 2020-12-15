@@ -10,3 +10,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 html {
     font-size: 62.5%;
 }
+
+button {
+    &:focus {
+        outline: 2px dotted #ddd;
+    }
+}

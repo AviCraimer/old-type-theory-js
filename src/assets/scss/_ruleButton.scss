@@ -7,11 +7,15 @@
 
     background: #ccc;
     color: #666;
+    outline: none;
 
     &__valid {
+
         background: white;
         color: black;
         border-color: black;
+
+
         &:hover {
             box-shadow: 1.5px 1.5px 1.5px #485C6D;
             transform: translate(-1.5px, -1.5px);

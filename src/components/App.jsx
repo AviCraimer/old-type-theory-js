@@ -7,7 +7,7 @@ import TypeDisplay from "./TypeDisplay";
 import RuleButtonArea from './RuleButtonArea';
 import ArgumentDisplay from "./ArgumentDisplay";
 import {resetExpressionFactoryCounters} from "../libraries/simpleTypeTheory/new/expressionFactories";
-
+import {rules} from "../libraries/simpleTypeTheory/new/rules";
 
 window.simpleTypeTheory = simpleTypeTheory;
 window.avi = simpleTypeTheory.avi;
@@ -60,6 +60,13 @@ class App extends React.PureComponent {
         window.initialRender = true;
     }
 
+    const ruleButtonAreaBaseProps = {
+        selectedJudgements: this.state.selectedJudgements,
+        addJudgement: this.addJudgement,
+        setSelectedJudgements: this.setSelectedJudgements
+    }
+
+
     return (
       <BrowserRouter>
         <div className="app">
@@ -70,8 +77,22 @@ class App extends React.PureComponent {
                 setSelectedJudgements={this.setSelectedJudgements}
                 resetJudgements={this.resetJudgements}
             />
-            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements} />
-            <RuleButtonArea selectedJudgements={this.state.selectedJudgements}  addJudgement={this.addJudgement} />
+            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements}/>
+            <RuleButtonArea
+                {...ruleButtonAreaBaseProps}
+                headingText="Context Rules"
+                rules={rules.context}
+            />
+            <RuleButtonArea
+                {...ruleButtonAreaBaseProps}
+                headingText="Type Formation Rules"
+                rules={rules.typeFormation}
+            />
+            <RuleButtonArea
+                {...ruleButtonAreaBaseProps}
+                headingText="Term Construction Rules"
+                rules={rules.termConstruction}
+            />
         </div>
       </BrowserRouter>
     );
