@@ -1831,6 +1831,17 @@ We also require that operating equal functions on the same input give equal
 
 \end_layout
 
+\begin_layout Subsection
+Alpha Conversion
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Alpha-Conversion"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 Finally, if there is an 
 \begin_inset Formula $\alpha$
@@ -1871,7 +1882,7 @@ Finally, if there is an
 \begin{array}{c}
 \underline{\Gamma::\left(x:A\right)\vdash b:B\hspace{1em}\Gamma::\left(y:A\right)\vdash b':B\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
 \Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
-\end{array}
+\end{array}\text{Function alpha}
 \end{equation}
 
 \end_inset
@@ -1917,7 +1928,7 @@ I guess the
 \begin{array}{c}
 \underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(x':A\right)\vdash u':C\hspace{1em}\Gamma\vdash u\left[x'/x\right]\equiv u':C}\\
 \Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x'.u',y.v\right):C
-\end{array}
+\end{array}\text{Sum alpha 1}
 \end{equation}
 
 \end_inset
@@ -1947,7 +1958,7 @@ provided
 \begin{array}{c}
 \underline{\Gamma\vdash s:A+B\hspace{1em}\Gamma::\left(x:A\right)\vdash u:C\hspace{1em}\Gamma::\left(y:B\right)\vdash v:C\hspace{1em}\Gamma::\left(y':B\right)\vdash v':C\hspace{1em}\Gamma\vdash v\left[y'/y\right]\equiv v':C}\\
 \Gamma\vdash\text{match}\left(s,x.u,y.v\right)\equiv\text{match}\left(s,x.u,y'.v'\right):C
-\end{array}
+\end{array}\text{Sum alpha 2}
 \end{equation}
 
 \end_inset
@@ -3177,6 +3188,360 @@ The fact that
  In particular, the fact can be established by using the alpha conversion
  principle of sum types, together with the uniqueness principal with sum
  types, as I discuss in my video Foundations: Simple Type Theory.
+\end_layout
+
+\begin_layout Section
+Avoiding Bound Variable Clashes
+\end_layout
+
+\begin_layout Standard
+suppose we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+ and we wish to replace each free variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ with the term 
+\begin_inset Formula $a.$
+\end_inset
+
+ A bound variable clash will occur iff there is a variable 
+\begin_inset Formula $y$
+\end_inset
+
+ which is free in 
+\begin_inset Formula $a$
+\end_inset
+
+ but not free in 
+\begin_inset Formula $b[a/x].$
+\end_inset
+
+ Similar clashes can occur due to interactions with variables bound by match,
+ for some types.
+ An example of a bound variable clash would be when term 
+\begin_inset Formula $b$
+\end_inset
+
+ is 
+\begin_inset Formula $\left(\lambda y:A\right).\left\langle x,y\right\rangle $
+\end_inset
+
+ and term 
+\begin_inset Formula $a$
+\end_inset
+
+ is 
+\begin_inset Formula $y,$
+\end_inset
+
+ and the clash occurs when one considers 
+\begin_inset Formula $b[a/x].$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Bound variable clashes can be avoided by using the alpha conversion rules
+ of Subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Alpha-Conversion"
+
+\end_inset
+
+, to rename the variables becoming bound something new, immediately after
+ forming an expression with bound variables.
+ The new names assigned to these bound variables are then considered sacred
+ and cannot be used again.
+ Let us look at a practical example, using lambda abstraction (the cases
+ with match are similar).
+\end_layout
+
+\begin_layout Standard
+After apply the function introduction rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash b:B\\
+\overline{\Gamma\vdash\left(\lambda x:A\right).b:A\rightarrow B}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+we next note that we can apply the alpha conversion rule for functions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma::\left(x:A\right)\vdash b:B\hspace{1em}\Gamma::\left(y:A\right)\vdash b':B\hspace{1em}\Gamma\vdash b\left[y/x\right]\equiv b':B}\\
+\Gamma\vdash\left(\lambda x:A\right).b\equiv\left(\lambda y:A\right).b':A\rightarrow B
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+, and we wish to form 
+\begin_inset Formula $\lambda x.b$
+\end_inset
+
+ we should instead form 
+\begin_inset Formula $\lambda l.(b[l/x])$
+\end_inset
+
+ where 
+\begin_inset Formula $l$
+\end_inset
+
+ is a new variable.
+ Doing similar in the bound variables occuring in match (for sum types)
+ avoids the type of bound variable clashes that come from substitution.
+ ***
+\end_layout
+
+\begin_layout Standard
+To see this, suppose we have a term 
+\begin_inset Formula $b$
+\end_inset
+
+ and we wish to replace each free variable 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ with the term 
+\begin_inset Formula $a.$
+\end_inset
+
+ A bound variable clash will occur iff there is a variable 
+\begin_inset Formula $y$
+\end_inset
+
+ which is free in 
+\begin_inset Formula $a$
+\end_inset
+
+ but not free in 
+\begin_inset Formula $b[a/x].$
+\end_inset
+
+ But if each binding of variables in 
+\begin_inset Formula $b$
+\end_inset
+
+ refers to variables that have unique names which are not shared by any
+ free variables (such as those free variables in 
+\begin_inset Formula $a$
+\end_inset
+
+) then there is no way that free variables of 
+\begin_inset Formula $a$
+\end_inset
+
+ will share the same names as variables which are bound in 
+\begin_inset Formula $b$
+\end_inset
+
+ (since bound variables have distinct names from any free variables, because
+ bound variables are renamed at birth), and so this convention of giving
+ bound variables unique names upon their creation (and substituting in the
+ new names, into the terms used, when lambda abstracts etc.
+ are created), will avoid bound variable clashes.
+ This will let us avoid having to check that 
+\begin_inset Formula $a$
+\end_inset
+
+ is free for 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $b$
+\end_inset
+
+ when using rules involving 
+\begin_inset Formula $b[a/x]$
+\end_inset
+
+, and so on.
+\end_layout
+
+\begin_layout Section
+Clash Free Rules
+\end_layout
+
+\begin_layout Standard
+For a free variable 
+\begin_inset Formula $x$
+\end_inset
+
+ we write 
+\begin_inset Formula $x\_f$
+\end_inset
+
+ to denote the bound version of 
+\begin_inset Formula $x$
+\end_inset
+
+ in a lambda abstraction.
+ In this new notation, the new, 
+\begin_inset Quotes eld
+\end_inset
+
+clash free
+\begin_inset Quotes erd
+\end_inset
+
+ rules for function types are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash b:B\\
+\overline{\Gamma\vdash\left(\lambda x\_f:A\right).\left(b[x\_f/x]\right):A\rightarrow B}
+\end{array}\text{Function-Intro-new}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash b:B\\
+\overline{\Gamma\vdash\left(\lambda A\right).\left(b[(n_{b}+1)/x]\right):A\rightarrow B}
+\end{array}\text{Function-Intro-new}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $n_{b}$
+\end_inset
+
+ is the largest integer occuring in b (and 
+\begin_inset Formula $n_{b}$
+\end_inset
+
+ is considered 0, if no integer occurs in b).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma::\left(x:A\right)\vdash m:C\hspace{1em}\Gamma\vdash a:A\\
+\overline{\Gamma\vdash\left(\left(\lambda A\right).m\right)\left(a\right)\equiv m\left[a/x\right]:C}
+\end{array}\text{Function-Computation new}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\Gamma\vdash f:A\rightarrow B\\
+\overline{\Gamma\vdash f\equiv\left(\lambda A\right).\left(f(x)\right):A\rightarrow B}
+\end{array}\text{Function-Uniqueness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For any variable 
+\begin_inset Formula $x:A$
+\end_inset
+
+ not free in 
+\begin_inset Formula $f.$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Also
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $n_{b}>0$
+\end_inset
+
+ then 
+\begin_inset Formula $b(a)\equiv b[a/n_{b}]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(\lambda x:A).(\lambda y:B).(x+y+z)$
+\end_inset
+
+ becomes 
+\begin_inset Formula $(\lambda A).(\lambda B).(2+1+z)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\underline{\Gamma\vdash f:A\rightarrow B\hspace{1em}\Gamma\vdash a:A}\\
+\Gamma\vdash f(a):B
+\end{array}\text{Function-Elim-new}
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
