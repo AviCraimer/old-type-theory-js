@@ -21,6 +21,12 @@ export const isTypeFormationJudgement = (possibleJudgement) => (
     && possibleJudgement.declaration[symbols.declaration.key] === symbols.declaration.typeForming
 )
 
+export const isMembershipJudgement = (possibleJudgement) => (
+    isJudgement(possibleJudgement)
+    && possibleJudgement.declaration
+    && possibleJudgement.declaration[symbols.declaration.key] === symbols.declaration.membership
+)
+
 export const makeJudgement = (context, optionalDeclaration) => {
     if (!optionalDeclaration ) {
         return {

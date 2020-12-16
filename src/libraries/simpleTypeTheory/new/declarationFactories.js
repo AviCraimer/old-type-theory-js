@@ -1,7 +1,7 @@
 import symbols from "./symbols";
 const declarationSym = symbols.declaration;
 
-export const typeFormingDeclaration = (typeExpression) => {
+export const makeTypeFormingDeclaration = (typeExpression) => {
     return {
         [declarationSym.key]: declarationSym.typeForming,
         expression: typeExpression,

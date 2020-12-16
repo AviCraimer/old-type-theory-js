@@ -44,6 +44,18 @@ export const makeProductType = (typeExpression1, typeExpression2) => {
     }
 }
 
+export const makePairTerm = (termExpression1, termExpression2) => {
+    return {
+        [expressionSym.key]: expressionSym.term.pair,
+        first: termExpression1,
+        second: termExpression2,
+        toString() {
+            `<${this.first.toString()}, ${this.second.toString()}`
+        }
+    }
+
+}
+
 export const makeSumType = (typeExpression1, typeExpression2) => {
     return {
         [expressionSym.key]: expressionSym.type.sum,
