@@ -22,7 +22,7 @@ const intro =
 
 const firstJudgement =
 (<React.Fragment>
-<p>You will see the first judgement appear in the black displace.</p>
+<p>You will see the first judgement appear in the black display.</p>
 <p>But wait, what is a judgement? A judgement is how we say something in type theory.</p>
 <p>There are several kinds of judgements, the first rule gives you the first kind, a <strong>context judgment</strong></p>
 <p>

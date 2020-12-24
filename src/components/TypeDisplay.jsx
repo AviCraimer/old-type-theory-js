@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 const TypeDisplay = props => {
-    const {judgements = [], selectedJudgements, setSelectedJudgements, resetJudgements} = props;
+    const {judgements = [], selectedArguments, setSelectedArguments, resetJudgements} = props;
 
     //Scroll to the bottom each time the types are updated
     useEffect(() => {
@@ -14,20 +14,19 @@ const TypeDisplay = props => {
 
 
     const getOnClick = (judgement) => () => {
-        let newSelection = [...selectedJudgements];
+        let newSelection = [...selectedArguments];
 
-        const index = selectedJudgements.indexOf(judgement);
+        const index = selectedArguments.indexOf(judgement);
 
         if (index > -1) {
             newSelection.splice(index, 1);
-            console.log("removed judgement", newSelection)
         } else {
             newSelection.push(judgement);
-            console.log("added judgement", newSelection)
         }
 
-        setSelectedJudgements(newSelection);
+        setSelectedArguments(...newSelection);
     }
+    const selectedJustJudgements = selectedArguments.map(sj => sj.judgement);
 
 
 
@@ -38,7 +37,7 @@ const TypeDisplay = props => {
             </button>
 
             {judgements.map((judgement,i) => {
-                const selected = selectedJudgements.includes(judgement) ? "typeDisplay__judgement--selected" : "";
+                const selected = selectedJustJudgements.includes(judgement) ? "typeDisplay__judgement--selected" : "";
 
                 return (
                 <p

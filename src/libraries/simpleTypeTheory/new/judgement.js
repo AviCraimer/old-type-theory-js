@@ -1,36 +1,40 @@
 import symbols from "./symbols";
-
+import {
+    Judgement,
+    ContextJudgement,
+    MembershipJudgement,
+    TypeFormationJudgement,
+    EqualityJudgement,
+    TypeFormationDeclaration,
+    MembershipDeclaration,
+    EqualityDeclaration} from  "./typeSystemTypes";
+import { checkSubtypeInObject} from "./util";
 const symbolsExp = symbols.expression;
 
-export const isJudgement  = possibleJudgement => {
-    if (possibleJudgement
-        && typeof possibleJudgement === "object"
-        && symbolsExp.judgement.key in possibleJudgement) {
-        return true;
-    }
-    return false;
-};
 
-export const isContextJudgement = possibleJudgement => {
-    return isJudgement(possibleJudgement) && possibleJudgement[symbolsExp.judgement.key] === symbolsExp.judgement.context
-}
+export const isJudgement  = checkSubtypeInObject(Judgement);
+
+export const isContextJudgement = checkSubtypeInObject(ContextJudgement);
 
 export const isTypeFormationJudgement = (possibleJudgement) => (
     isJudgement(possibleJudgement)
     && possibleJudgement.declaration
-    && possibleJudgement.declaration[symbols.declaration.key] === symbols.declaration.typeForming
+    && checkSubtypeInObject( TypeFormationDeclaration, possibleJudgement.declaration.type)
 )
 
 export const isMembershipJudgement = (possibleJudgement) => (
     isJudgement(possibleJudgement)
     && possibleJudgement.declaration
-    && possibleJudgement.declaration[symbols.declaration.key] === symbols.declaration.membership
+    && checkSubtypeInObject( MembershipDeclaration, possibleJudgement.declaration.type)
 )
+
+
 
 export const makeJudgement = (context, optionalDeclaration) => {
     if (!optionalDeclaration ) {
         return {
             [symbolsExp.judgement.key]: symbolsExp.judgement.context,
+            type: ContextJudgement,
             context: context,
             declaration: null,
             toString(){
@@ -38,8 +42,26 @@ export const makeJudgement = (context, optionalDeclaration) => {
             }
         }
     } else {
+        const declarationType = optionalDeclaration.type;
+        let judgementType;
+        switch (declarationType) {
+            case MembershipDeclaration:
+                judgementType = MembershipJudgement;
+                break;
+            case TypeFormationDeclaration:
+                judgementType = TypeFormationJudgement;
+                break;
+            case EqualityDeclaration:
+                judgementType = EqualityJudgement;
+                break;
+            default:
+                break;
+        }
+
+
         return {
             [symbolsExp.judgement.key]: symbolsExp.judgement.entailment,
+            type: judgementType,
             context: context,
             declaration: optionalDeclaration,
             toString() {

@@ -4,7 +4,8 @@ export const symbols = {
         term: {
             concrete: Symbol("This is a concrete term expression standing for a specific value of a type"),  //e.g.,   * : 1
             variable: Symbol("This is a term variable expression, standing for a generic inhabitant of a type."), //e.g.,   x : T,
-            pair: Symbol("This is a pair term")
+            pair: Symbol("This is a pair term"),
+            function: Symbol("Function term")
         },
         type: {
             base: Symbol("An irreducible base type"),  // e.g., T

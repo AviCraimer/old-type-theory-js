@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import RuleButton from "./RuleButton";
+import {serializeArguments} from "../libraries/simpleTypeTheory/new/util";
 
 
 const RuleButtonArea = props => {
-    const {selectedJudgements, addJudgement, setSelectedJudgements, headingText, rules} = props;
-
+    const {selectedArguments, addJudgement, setSelectedArguments, headingText, rules} = props;
     const [judgementToAdd, setJudgementToAdd] = useState(null);
 
         {useEffect(() => {
@@ -14,22 +14,26 @@ const RuleButtonArea = props => {
             }
         })}
 
+    const serializedArguments = serializeArguments(selectedArguments);
+
     return  (
         <div className="ruleButtonArea">
             {
                 headingText && <h2>{headingText}</h2>
             }
             <div className="ruleButtonArea__rules">
-            {rules.map( rule => {
+            {rules.map( ruleFunction => {
+
+
                 return (
                 <RuleButton
                     setJudgementToAdd={setJudgementToAdd}
-                    ruleFunction={rule}
-                    selectedJudgements={selectedJudgements}
-                    setSelectedJudgements={setSelectedJudgements}
-                    key={rule.displayName}
+                    ruleFunction={ruleFunction}
+                    serializedArguments={serializedArguments}
+                    setSelectedArguments={setSelectedArguments}
+                    key={ruleFunction.displayName}
                 >
-                    {rule.displayName}
+                    {ruleFunction.displayName}
                 </RuleButton>)}
                 )
             }

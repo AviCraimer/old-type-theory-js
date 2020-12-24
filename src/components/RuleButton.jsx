@@ -1,21 +1,31 @@
 import React from 'react';
 import {isJudgement} from "../libraries/simpleTypeTheory/new/judgement";
-
+import {makeArgumentValidation} from "../libraries/simpleTypeTheory/new/argumentValidation";
 
 const RuleButton = props => {
-    const {ruleFunction, setJudgementToAdd, selectedJudgements, setSelectedJudgements} = props;
+    const {ruleFunction, setJudgementToAdd, serializedArguments, setSelectedArguments} = props;
 
-    const result = ruleFunction(...selectedJudgements);
-    const validation = isJudgement (result);
+    const validationFunction = (ruleFunction.validation) ?  makeArgumentValidation(ruleFunction.validation) : ()=>false;
+
+
+    const argumentValidation = validationFunction(serializedArguments);
+
+    let result;
+    if (argumentValidation === true) {
+        console.log(ruleFunction, serializedArguments)
+        result = ruleFunction(...serializedArguments);
+    }
+
+    const judgementValidation = isJudgement (result);
 
     const onClickHandler = () => {
-        if (validation) {
+        if (judgementValidation) {
             setJudgementToAdd(result);
-            setSelectedJudgements([]);
+            setSelectedArguments();
         }
     }
 
-    const classes = ["ruleButton", (validation) ? "ruleButton__valid": ""].join(" ");
+    const classes = ["ruleButton", (judgementValidation) ? "ruleButton__valid": ""].join(" ");
 
     return (<button onClick={onClickHandler} className={classes}>{ruleFunction.displayName}</button>  );
 }

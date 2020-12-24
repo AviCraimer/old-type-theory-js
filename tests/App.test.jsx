@@ -8,6 +8,6 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('App', () => {
   test('should render', () => {
     const app = mount(<App />);
-    expect(app.text()).toContain('Hello World!');
+    expect(app.text()).toContain('Type Theory');
   });
 });

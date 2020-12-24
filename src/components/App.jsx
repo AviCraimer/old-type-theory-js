@@ -18,7 +18,7 @@ const testJudge =  {toString: ()=>"T type"}
 
 const initialState = {
     judgements: [],
-    selectedJudgements: []
+    selectedArguments: []  // {judgement, selectedContextDeclarations: []  }
 }
 
 class App extends React.PureComponent {
@@ -28,7 +28,7 @@ class App extends React.PureComponent {
         this.state = initialState;
 
         this.addJudgement = this.addJudgement.bind(this);
-        this.setSelectedJudgements = this.setSelectedJudgements.bind(this);
+        this.setSelectedArguments = this.setSelectedArguments.bind(this);
         this.resetJudgements = this.resetJudgements.bind(this);
     }
 
@@ -36,7 +36,7 @@ class App extends React.PureComponent {
         this.setState(
             {
                 judgements: initialState.judgements,
-                selectedJudgements: initialState.selectedJudgements
+                selectedArguments: initialState.selectedArguments
             }
         )
         resetExpressionFactoryCounters();
@@ -47,23 +47,20 @@ class App extends React.PureComponent {
         return this.addJudgement;
     }
 
-    setSelectedJudgements (judgementArr) {
-        if (Array.isArray(judgementArr)) {
-            this.setState({selectedJudgements: [...judgementArr]});
-        }
-        return this.state.selectedJudgements;
+    setSelectedArguments (...judgements) {
+
+        this.setState({selectedArguments: [
+            ...judgements.map(judgement => ({judgement, selectedContextDeclarations: []}))
+        ]});
+
+        return this.state.selectedArguments;
     }
 
     render() {
-    if (!initialRender) {
-        console.log("Simple Type Theory Object: \n",  simpleTypeTheory);
-        window.initialRender = true;
-    }
-
     const ruleButtonAreaBaseProps = {
-        selectedJudgements: this.state.selectedJudgements,
+        selectedArguments: this.state.selectedArguments,
         addJudgement: this.addJudgement,
-        setSelectedJudgements: this.setSelectedJudgements
+        setSelectedArguments: this.setSelectedArguments
     }
 
 
@@ -73,11 +70,11 @@ class App extends React.PureComponent {
             <h1>Learn Type Theory</h1>
             <TypeDisplay
                 judgements={this.state.judgements}
-                selectedJudgements={this.state.selectedJudgements}
-                setSelectedJudgements={this.setSelectedJudgements}
+                selectedArguments={this.state.selectedArguments}
+                setSelectedArguments={this.setSelectedArguments}
                 resetJudgements={this.resetJudgements}
             />
-            <ArgumentDisplay selectedJudgements={this.state.selectedJudgements} setSelectedJudgements={this.setSelectedJudgements}/>
+            <ArgumentDisplay selectedArguments={this.state.selectedArguments} setSelectedArguments={this.setSelectedArguments}/>
             <RuleButtonArea
                 {...ruleButtonAreaBaseProps}
                 headingText="Context Rules"

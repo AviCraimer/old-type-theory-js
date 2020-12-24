@@ -1,6 +1,8 @@
 import symbols from "./symbols";
 import {isEqual} from "lodash";
+import {Context} from "./typeSystemTypes";
 const contextSym = symbols.context;
+
 
 export const isContext = possibleContext => {
     if (possibleContext
@@ -13,6 +15,7 @@ export const isContext = possibleContext => {
 
 export const makeContext = (list = []) => ( {
     [contextSym.key]: (list.length > 0) ? contextSym.nonEmpty : contextSym.empty,
+    type: Context,
     list: [...list],
     isContext,
     add(membershipDeclaration) {

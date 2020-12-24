@@ -1,10 +1,13 @@
 import {makeContext, isContext} from "./context";
 import {makeJudgement, isJudgement, isContextJudgement, isTypeFormationJudgement, isMembershipJudgement} from "./judgement";
-import {makeVariable, makeBaseType, makeProductType, makePairTerm, makeSumType,
+import {makeVariable, makeBaseType,unitTypeExpression, emptyTypeExpression,  makeProductType, unitTermExpression, makePairTerm, makeFunctionTerm, makeSumType,
     makeFunctionType} from "./expressionFactories";
 import {equalityDeclaration, makeMembershipDeclaration, makeTypeFormingDeclaration} from "./declarationFactories";
 import symbols from "./symbols";
+import * as TSTypes from "./typeSystemTypes";
 const symbolsExp = symbols.expression;
+
+
 
 const argumentFail = function (args, length) {
     if (args.length === length) {
@@ -17,121 +20,94 @@ const argumentFail = function (args, length) {
 
 // CONTEXT RULES
 
-//Rule 1 in pdf
+
+//EMPTY CONTEXT - Rule 1 in pdf
 export const emptyContext = function () {
-    if (argumentFail(arguments, 0)) {
-        return;
-    };
     return makeJudgement(makeContext());
 }
 emptyContext.displayName = "Empty Context";
+emptyContext.validation = {acceptedArgCount: [0]};
 
+//CONTEXT EXTENSION - Rule 8 in pdf
 
-//Rule 8 in pdf
-export const contextExtension = function (typeFormationJudgement) {
-    if (argumentFail(arguments, 1)) {
-        return;
-    };
-    if (isTypeFormationJudgement(typeFormationJudgement)) {
-        const typeDeclaration = typeFormationJudgement.declaration;
+export const contextExtension = function ({judgement}) {
+    const typeDeclaration = judgement.declaration;
 
-        const membershipDeclaration = makeMembershipDeclaration(makeVariable(), typeDeclaration);
+    const membershipDeclaration = makeMembershipDeclaration(makeVariable(), typeDeclaration);
 
-        const extendedContext =  typeFormationJudgement.context.add(membershipDeclaration);
+    const extendedContext =  judgement.context.add(membershipDeclaration);
 
-        return  makeJudgement(extendedContext);
-    }
-
+    return  makeJudgement(extendedContext);
 }
 contextExtension.displayName = "Context Extension"
+contextExtension.validation = {acceptedArgCount: [1], argumentTypes: [TSTypes.TypeFormationJudgement]}
 
 //END OF CONTEXT RULES
 
 //Rule 2 in pdf
-export const genericTypeFormation = function (contextJudgement) {
-    if (argumentFail(arguments, 1)) {
-        return;
-    };
-
-    if (
-        isContextJudgement(contextJudgement)
-        && contextJudgement[symbolsExp.key] === symbolsExp.context) {
-        const T =  makeBaseType();
-        const typeFormingDeclaration = makeTypeFormingDeclaration(T);
-        return makeJudgement(contextJudgement.context, typeFormingDeclaration);
-    }
+export const genericTypeFormation = function ({judgement}) {
+    console.log("Generic Type formation arguments\n", judgement);
+    const T =  makeBaseType();
+    const typeFormingDeclaration = makeTypeFormingDeclaration(T);
+    return makeJudgement(judgement.context, typeFormingDeclaration);
 }
 
 genericTypeFormation.displayName = "Generic Type"
+genericTypeFormation.validation = {acceptedArgCount: [1], argumentTypes: [TSTypes.ContextJudgement]}
 
-const unitTypeExpression = {
-    name: "Unit Type",
-    [symbols.expression.key]: symbols.expression.type.unit,
-    toString: () => "1"
-}
-const unitTypeFormingDeclaration = makeTypeFormingDeclaration(unitTypeExpression);
+
 
 //Rule 3 in pdf
-export const unitFormation = function (contextJudgement) {
-    if (argumentFail(arguments, 1)) {
-        return;
-    };
-    if (isContextJudgement(contextJudgement)) {
-
-        return makeJudgement(contextJudgement.context, unitTypeFormingDeclaration);
-    }
+const unitTypeFormingDeclaration = makeTypeFormingDeclaration(unitTypeExpression);
+export const unitFormation = function ({judgement}) {
+    return makeJudgement(judgement.context, unitTypeFormingDeclaration);
 }
 unitFormation.displayName = "Unit Type"
+unitFormation.validation = {acceptedArgCount: [1], argumentTypes: [TSTypes.ContextJudgement]}
 
-const emptyTypeExpression = {
-    name: "Empty Type",
-    [symbols.expression.key]: symbols.expression.type.empty,
-    toString: () => "0"
-}
+
 
 //Rule 5 in pdf
-export const emptyFormation = function (contextJudgement) {
-    if (argumentFail(arguments, 1)) {
-        return;
-    };
-    if (isContextJudgement(contextJudgement)) {
-        const typeFormingDeclaration = makeTypeFormingDeclaration(emptyTypeExpression);
-        return makeJudgement(contextJudgement.context, typeFormingDeclaration);
-    }
+const emptyTypeFormingDeclaration = makeTypeFormingDeclaration(emptyTypeExpression);
+export const emptyFormation = function ({judgement}) {
+    return makeJudgement(judgement.context, emptyTypeFormingDeclaration);
 }
 emptyFormation.displayName = "Empty Type"
-
+emptyFormation.validation = {acceptedArgCount: [1], argumentTypes: [TSTypes.ContextJudgement]};
 
 //Common functionality for product type, sum type, and function type formation
-const twoTypeCombination = combinedTypeExpressionFunction => ( function ( typeFormationJudgement1, typeFormationJudgement2) {
-    //Takes one or two arguments
-    if (argumentFail(arguments, 1) && argumentFail(arguments, 2)) {
-        return;
-    };
+const twoTypeCombination = combinedTypeExpressionFunction => {
+    let typeComboFunction = function ( arg1, arg2) {
 
-    //If there is only one argument, use the first type formation judgement twice.
-    if (!typeFormationJudgement2) {
-        typeFormationJudgement2 = typeFormationJudgement1;
+        //If there is only one argument, use the first type formation judgement twice.
+        if (!arg2) {
+            arg2 = arg1;
+        }
+
+        const typeFormationJudgement1 = arg1.judgement;
+        const typeFormationJudgement2 = arg2.judgement;
+
+        //NOTE: This is an additional validation function it should be moved to the validation object.
+        const contextsMatch = typeFormationJudgement1.context.eq(typeFormationJudgement2.context);
+
+        if (contextsMatch) {
+
+            //Use provided function to make a combined type expression (e.g., makeProductType)
+            const combinedTypeExpression = combinedTypeExpressionFunction(typeFormationJudgement1.declaration.expression, typeFormationJudgement2.declaration.expression)
+
+            const combinedTypeDeclaration = makeTypeFormingDeclaration(combinedTypeExpression);
+
+            return makeJudgement(typeFormationJudgement1.context, combinedTypeDeclaration);
+        }
     }
 
-    const bothAreTFJudgements = isTypeFormationJudgement(typeFormationJudgement1) && isTypeFormationJudgement(typeFormationJudgement2);
-
-    if (!bothAreTFJudgements) {
-        return;
-    }
-
-    const contextsMatch = typeFormationJudgement1.context.eq(typeFormationJudgement2.context);
-
-    if (contextsMatch) {
-
-        //Use provided function to make a combined type expression (e.g., makeProductType)
-        const combinedTypeExpression = combinedTypeExpressionFunction(typeFormationJudgement1.declaration.expression, typeFormationJudgement2.declaration.expression)
-
-        const combinedTypeDeclaration = makeTypeFormingDeclaration(combinedTypeExpression);
-
-        return makeJudgement(typeFormationJudgement1.context, combinedTypeDeclaration);
-    }
-})
+    typeComboFunction.validation = {
+        acceptedArgCount: [1],
+        argumentTypes: [
+            TSTypes.TypeFormationJudgement, TSTypes.TypeFormationJudgement
+        ]};
+    return typeComboFunction;
+}
 
 //Rule 4 in pdf
 export const productFormation = twoTypeCombination(makeProductType);
@@ -166,15 +142,9 @@ export const reiteration = function (gammaContextJ, singletonContextJ, deltaCont
 }
 reiteration.displayName = "Reiteration"
 
-const unitTermEpression = {
-    [symbols.expression.term.key]: symbols.expression.term.concrete,
-    name: "Singleton value",
-    toString() {
-        return "*"
-    }
-}
 
-const unitMembershipDeclaration = makeMembershipDeclaration(unitTermEpression, unitTypeFormingDeclaration )
+
+const unitMembershipDeclaration = makeMembershipDeclaration(unitTermExpression, unitTypeFormingDeclaration )
 
 //Rule 14
 export const unitIntro = function (contextJudgement) {
@@ -182,7 +152,7 @@ export const unitIntro = function (contextJudgement) {
         return;
     }
     if (isContextJudgement(contextJudgement)) {
-        return makeJudgement(contextJudgement, unitMembershipDeclaration  )
+        return makeJudgement(contextJudgement.context, unitMembershipDeclaration  )
     }
 }
 
@@ -200,6 +170,8 @@ export const productIntro = function (membershipJudgement1, membershipJudgement2
     }
 
     const contextMatch = membershipJudgement1.context.eq(membershipJudgement2.context);
+    console.log({contextMatch, context1: membershipJudgement1.context, context2: membershipJudgement2.context})
+
     if (contextMatch) {
         const newTerm = makePairTerm(membershipJudgement1.declaration.termExpression, membershipJudgement2.declaration.termExpression );
 
@@ -212,6 +184,8 @@ export const productIntro = function (membershipJudgement1, membershipJudgement2
     }
 
 }
+
+//Rule 15
 productIntro.displayName = "Product Intro"
 // export const rule = function () {
 
@@ -223,7 +197,41 @@ productIntro.displayName = "Product Intro"
 // rule.displayName = ""
 
 
-//Rule 15
+//Rule 22 - Function Introction - Not final version for export since it could lead to variable clashes
+export const simpleFunctionIntro = function (membershipJudgementWithOneDeclarationInContext  ) {
+    if (argumentFail(arguments, 1)) {
+        return null;
+    }
+
+    if (!isMembershipJudgement(membershipJudgementWithOneDeclarationInContext)) {
+        return null;
+    }
+
+    const {context} = membershipJudgementWithOneDeclarationInContext;
+
+    const hasSingleDeclaration = context.list.length === 1;
+
+    if (!hasSingleDeclaration) {
+        return null;
+    }
+
+    const domain = membershipJudgementWithOneDeclarationInContext.context.list[0]; // e.g., x:A
+    const codomain = membershipJudgementWithOneDeclarationInContext.declaration; // e.g., y:B
+
+    const fn = makeFunctionTerm(domain, codomain);
+
+    const tfJudgementDomain = makeJudgement( context, makeTypeFormingDeclaration( domain.typeExpression) )
+
+    const tfJudgementCodomain = makeJudgement( context, makeTypeFormingDeclaration( codomain.typeExpression) )
+
+    const fnTypeJudgement = functionFormation(tfJudgementDomain,  tfJudgementCodomain )
+
+    const fnMembershipDeclaration = makeMembershipDeclaration(fn,  fnTypeJudgement.declaration );
+
+    return makeJudgement( makeContext(), fnMembershipDeclaration);
+
+}
+simpleFunctionIntro.displayName = "Function Intro"
 
 export const rules = {
     context: [emptyContext, contextExtension],
@@ -236,8 +244,9 @@ export const rules = {
         functionFormation,
     ],
     termConstruction: [
-        reiteration,
-        unitIntro
+    //     reiteration,
+    //     unitIntro,
+    //     simpleFunctionIntro
     ]
 }
 
